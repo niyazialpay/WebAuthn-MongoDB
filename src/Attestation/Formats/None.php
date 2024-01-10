@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Laragear\WebAuthn\Attestation\Formats;
+namespace niyazialpay\WebAuthn\Attestation\Formats;
 
 /**
  * @internal

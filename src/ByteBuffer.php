@@ -1,6 +1,6 @@
 <?php
 
-namespace Laragear\WebAuthn;
+namespace niyazialpay\WebAuthn;
 
 use Illuminate\Contracts\Support\Jsonable;
 use InvalidArgumentException;
@@ -134,7 +134,7 @@ class ByteBuffer implements JsonSerializable, Jsonable, Stringable
     /**
      * Check if both Byte Buffers are equal using `hash_equals`.
      *
-     * @param  \Laragear\WebAuthn\ByteBuffer|string  $buffer
+     * @param  \niyazialpay\WebAuthn\ByteBuffer|string  $buffer
      * @return bool
      */
     public function hashEqual(self|string $buffer): bool
@@ -149,7 +149,7 @@ class ByteBuffer implements JsonSerializable, Jsonable, Stringable
     /**
      * Check if both Byte Buffers are not equal using `hash_equals`.
      *
-     * @param  \Laragear\WebAuthn\ByteBuffer|string  $buffer
+     * @param  \niyazialpay\WebAuthn\ByteBuffer|string  $buffer
      * @return bool
      */
     public function hashNotEqual(self|string $buffer): bool

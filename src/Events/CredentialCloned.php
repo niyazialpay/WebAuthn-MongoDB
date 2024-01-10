@@ -1,9 +1,9 @@
 <?php
 
-namespace Laragear\WebAuthn\Events;
+namespace niyazialpay\WebAuthn\Events;
 
 use Illuminate\Foundation\Events\Dispatchable;
-use Laragear\WebAuthn\Models\WebAuthnCredential;
+use niyazialpay\WebAuthn\Models\WebAuthnCredential;
 
 class CredentialCloned
 {
@@ -12,7 +12,7 @@ class CredentialCloned
     /**
      * Create a new event instance.
      *
-     * @param  \Laragear\WebAuthn\Models\WebAuthnCredential  $credential
+     * @param  \niyazialpay\WebAuthn\Models\WebAuthnCredential  $credential
      * @param  int  $reportedCount  The counter reported by the user authenticator.
      */
     public function __construct(public WebAuthnCredential $credential, public int $reportedCount)

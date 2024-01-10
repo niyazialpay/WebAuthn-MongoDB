@@ -1,9 +1,9 @@
 <?php
 
-namespace Laragear\WebAuthn\Exceptions;
+namespace niyazialpay\WebAuthn\Exceptions;
 
 use Illuminate\Validation\ValidationException;
-use Laragear\WebAuthn\Contracts\WebAuthnException;
+use niyazialpay\WebAuthn\Contracts\WebAuthnException;
 
 class AttestationException extends ValidationException implements WebAuthnException
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace Laragear\WebAuthn\Attestation\Creator\Pipes;
+namespace niyazialpay\WebAuthn\Attestation\Creator\Pipes;
 
 use Closure;
-use Laragear\WebAuthn\Attestation\Creator\AttestationCreation;
-use Laragear\WebAuthn\Contracts\WebAuthnAuthenticatable;
-use Laragear\WebAuthn\Models\WebAuthnCredential;
+use niyazialpay\WebAuthn\Attestation\Creator\AttestationCreation;
+use niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable;
+use niyazialpay\WebAuthn\Models\WebAuthnCredential;
 
 /**
  * @internal
@@ -15,7 +15,7 @@ class MayPreventDuplicateCredentials
     /**
      * Handle the Attestation creation
      *
-     * @param  \Laragear\WebAuthn\Attestation\Creator\AttestationCreation  $attestable
+     * @param  \niyazialpay\WebAuthn\Attestation\Creator\AttestationCreation  $attestable
      * @param  \Closure  $next
      * @return mixed
      */
@@ -31,7 +31,7 @@ class MayPreventDuplicateCredentials
     /**
      * Returns a collection of credentials ready to be inserted into the Attestable JSON.
      *
-     * @param  \Laragear\WebAuthn\Contracts\WebAuthnAuthenticatable  $user
+     * @param  \niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable  $user
      * @return array
      */
     protected function credentials(WebAuthnAuthenticatable $user): array

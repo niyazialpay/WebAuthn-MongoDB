@@ -3,9 +3,9 @@
 namespace Tests\Auth;
 
 use Illuminate\Support\Facades\Auth;
-use Laragear\WebAuthn\Assertion\Validator\AssertionValidator;
-use Laragear\WebAuthn\Exceptions\AssertionException;
-use Laragear\WebAuthn\Models\WebAuthnCredential;
+use niyazialpay\WebAuthn\Assertion\Validator\AssertionValidator;
+use niyazialpay\WebAuthn\Exceptions\AssertionException;
+use niyazialpay\WebAuthn\Models\WebAuthnCredential;
 use Mockery;
 use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\Uuid;

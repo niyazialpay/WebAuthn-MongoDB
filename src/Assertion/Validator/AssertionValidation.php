@@ -1,13 +1,13 @@
 <?php
 
-namespace Laragear\WebAuthn\Assertion\Validator;
+namespace niyazialpay\WebAuthn\Assertion\Validator;
 
 use Illuminate\Http\Request;
-use Laragear\WebAuthn\Attestation\AuthenticatorData;
-use Laragear\WebAuthn\Challenge;
-use Laragear\WebAuthn\ClientDataJson;
-use Laragear\WebAuthn\Contracts\WebAuthnAuthenticatable;
-use Laragear\WebAuthn\Models\WebAuthnCredential;
+use niyazialpay\WebAuthn\Attestation\AuthenticatorData;
+use niyazialpay\WebAuthn\Challenge;
+use niyazialpay\WebAuthn\ClientDataJson;
+use niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable;
+use niyazialpay\WebAuthn\Models\WebAuthnCredential;
 
 class AssertionValidation
 {
@@ -15,11 +15,11 @@ class AssertionValidation
      * Create a new Assertion Validation.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \Laragear\WebAuthn\Contracts\WebAuthnAuthenticatable|null  $user
-     * @param  \Laragear\WebAuthn\Challenge|null  $challenge
-     * @param  \Laragear\WebAuthn\Models\WebAuthnCredential|null  $credential
-     * @param  \Laragear\WebAuthn\ClientDataJson|null  $clientDataJson
-     * @param  \Laragear\WebAuthn\Attestation\AuthenticatorData|null  $authenticatorData
+     * @param  \niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable|null  $user
+     * @param  \niyazialpay\WebAuthn\Challenge|null  $challenge
+     * @param  \niyazialpay\WebAuthn\Models\WebAuthnCredential|null  $credential
+     * @param  \niyazialpay\WebAuthn\ClientDataJson|null  $clientDataJson
+     * @param  \niyazialpay\WebAuthn\Attestation\AuthenticatorData|null  $authenticatorData
      */
     public function __construct(
         public Request $request,

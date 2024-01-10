@@ -1,10 +1,10 @@
 <?php
 
-namespace Laragear\WebAuthn\Attestation;
+namespace niyazialpay\WebAuthn\Attestation;
 
-use Laragear\WebAuthn\ByteBuffer;
-use Laragear\WebAuthn\CborDecoder;
-use Laragear\WebAuthn\Exceptions\DataException;
+use niyazialpay\WebAuthn\ByteBuffer;
+use niyazialpay\WebAuthn\CborDecoder;
+use niyazialpay\WebAuthn\Exceptions\DataException;
 use function base64_encode;
 use function chr;
 use function chunk_split;
@@ -163,7 +163,7 @@ class AuthenticatorData
      * Returns the public key in PEM format.
      *
      * @return string
-     * @throws \Laragear\WebAuthn\Exceptions\DataException
+     * @throws \niyazialpay\WebAuthn\Exceptions\DataException
      */
     public function getPublicKeyPem(): string
     {
@@ -327,7 +327,7 @@ class AuthenticatorData
      *
      * @param  string  $binary
      * @return static
-     * @throws \Laragear\WebAuthn\Exceptions\DataException
+     * @throws \niyazialpay\WebAuthn\Exceptions\DataException
      * @codeCoverageIgnore
      */
     public static function fromBinary(string $binary): static
@@ -403,7 +403,7 @@ class AuthenticatorData
      * @param  string  $binary
      * @param  int  $endOffset
      * @return object{aaguid: int|bool, credentialId: string, credentialPublicKey: string}
-     * @throws \Laragear\WebAuthn\Exceptions\DataException
+     * @throws \niyazialpay\WebAuthn\Exceptions\DataException
      */
     protected static function readAttestData(string $binary, int &$endOffset): object
     {
@@ -431,7 +431,7 @@ class AuthenticatorData
      * @param  int  $offset
      * @param  int  $endOffset
      * @return object
-     * @throws \Laragear\WebAuthn\Exceptions\DataException
+     * @throws \niyazialpay\WebAuthn\Exceptions\DataException
      */
     protected static function readCredentialPublicKey(string $binary, int $offset, int &$endOffset): object
     {
@@ -461,7 +461,7 @@ class AuthenticatorData
      * @param  object  $publicKey
      * @param  array  $cose
      * @return object
-     * @throws \Laragear\WebAuthn\Exceptions\DataException
+     * @throws \niyazialpay\WebAuthn\Exceptions\DataException
      */
     protected static function readCredentialPublicKeyES256(object $publicKey, array $cose): object
     {
@@ -498,7 +498,7 @@ class AuthenticatorData
      * @param  object  $publicKey
      * @param  array  $enc
      * @return void
-     * @throws \Laragear\WebAuthn\Exceptions\DataException
+     * @throws \niyazialpay\WebAuthn\Exceptions\DataException
      */
     protected static function readCredentialPublicKeyRS256(object $publicKey, array $enc): void
     {
@@ -527,7 +527,7 @@ class AuthenticatorData
      *
      * @param  string  $binary
      * @return array<int, string>
-     * @throws \Laragear\WebAuthn\Exceptions\DataException
+     * @throws \niyazialpay\WebAuthn\Exceptions\DataException
      */
     protected static function readExtensionData(string $binary): array
     {

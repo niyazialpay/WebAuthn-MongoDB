@@ -1,10 +1,10 @@
 <?php
 
-namespace Laragear\WebAuthn\Attestation;
+namespace niyazialpay\WebAuthn\Attestation;
 
 use Illuminate\Http\Request;
-use Laragear\WebAuthn\Challenge;
-use Laragear\WebAuthn\WebAuthn;
+use niyazialpay\WebAuthn\Challenge;
+use niyazialpay\WebAuthn\WebAuthn;
 
 trait SessionChallenge
 {
@@ -14,7 +14,7 @@ trait SessionChallenge
      * @param  \Illuminate\Http\Request  $request
      * @param  string|null  $verify
      * @param  array  $options
-     * @return \Laragear\WebAuthn\Challenge
+     * @return \niyazialpay\WebAuthn\Challenge
      */
     protected function storeChallenge(Request $request, ?string $verify, array $options = []): Challenge
     {
@@ -30,7 +30,7 @@ trait SessionChallenge
      *
      * @param  string|null  $verify
      * @param  array  $options
-     * @return \Laragear\WebAuthn\Challenge
+     * @return \niyazialpay\WebAuthn\Challenge
      */
     protected function createChallenge(?string $verify, array $options = []): Challenge
     {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Laragear\WebAuthn\Attestation;
+namespace niyazialpay\WebAuthn\Attestation;
 
-use Laragear\WebAuthn\Attestation\Formats\Format;
+use niyazialpay\WebAuthn\Attestation\Formats\Format;
 
 /**
  * @internal
@@ -12,8 +12,8 @@ class AttestationObject
     /**
      * Create a new Attestation Object.
      *
-     * @param  \Laragear\WebAuthn\Attestation\AuthenticatorData  $authenticatorData
-     * @param  \Laragear\WebAuthn\Attestation\Formats\Format  $format
+     * @param  \niyazialpay\WebAuthn\Attestation\AuthenticatorData  $authenticatorData
+     * @param  \niyazialpay\WebAuthn\Attestation\Formats\Format  $format
      * @param  string  $formatName
      */
     public function __construct(

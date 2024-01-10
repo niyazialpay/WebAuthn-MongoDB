@@ -1,10 +1,10 @@
 <?php
 
-namespace Laragear\WebAuthn\Attestation\Validator\Pipes;
+namespace niyazialpay\WebAuthn\Attestation\Validator\Pipes;
 
 use Closure;
-use Laragear\WebAuthn\Attestation\Validator\AttestationValidation;
-use Laragear\WebAuthn\Exceptions\AttestationException;
+use niyazialpay\WebAuthn\Attestation\Validator\AttestationValidation;
+use niyazialpay\WebAuthn\Exceptions\AttestationException;
 
 /**
  * 7. Verify that the value of C.type is webauthn.create.
@@ -18,10 +18,10 @@ class AttestationIsForCreation
     /**
      * Handle the incoming Attestation Validation.
      *
-     * @param  \Laragear\WebAuthn\Attestation\Validator\AttestationValidation  $validation
+     * @param  \niyazialpay\WebAuthn\Attestation\Validator\AttestationValidation  $validation
      * @param  \Closure  $next
      * @return mixed
-     * @throws \Laragear\WebAuthn\Exceptions\AttestationException
+     * @throws \niyazialpay\WebAuthn\Exceptions\AttestationException
      */
     public function handle(AttestationValidation $validation, Closure $next): mixed
     {

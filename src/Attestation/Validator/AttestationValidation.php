@@ -1,25 +1,25 @@
 <?php
 
-namespace Laragear\WebAuthn\Attestation\Validator;
+namespace niyazialpay\WebAuthn\Attestation\Validator;
 
 use Illuminate\Http\Request;
-use Laragear\WebAuthn\Attestation\AttestationObject;
-use Laragear\WebAuthn\Challenge;
-use Laragear\WebAuthn\ClientDataJson;
-use Laragear\WebAuthn\Contracts\WebAuthnAuthenticatable;
-use Laragear\WebAuthn\Models\WebAuthnCredential;
+use niyazialpay\WebAuthn\Attestation\AttestationObject;
+use niyazialpay\WebAuthn\Challenge;
+use niyazialpay\WebAuthn\ClientDataJson;
+use niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable;
+use niyazialpay\WebAuthn\Models\WebAuthnCredential;
 
 class AttestationValidation
 {
     /**
      * Create a new Attestation Validation procedure
      *
-     * @param  \Laragear\WebAuthn\Contracts\WebAuthnAuthenticatable  $user
+     * @param  \niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable  $user
      * @param  \Illuminate\Http\Request  $request
-     * @param  \Laragear\WebAuthn\Challenge|null  $challenge
-     * @param  \Laragear\WebAuthn\Attestation\AttestationObject|null  $attestationObject
-     * @param  \Laragear\WebAuthn\ClientDataJson|null  $clientDataJson
-     * @param  \Laragear\WebAuthn\Models\WebAuthnCredential|null  $credential
+     * @param  \niyazialpay\WebAuthn\Challenge|null  $challenge
+     * @param  \niyazialpay\WebAuthn\Attestation\AttestationObject|null  $attestationObject
+     * @param  \niyazialpay\WebAuthn\ClientDataJson|null  $clientDataJson
+     * @param  \niyazialpay\WebAuthn\Models\WebAuthnCredential|null  $credential
      */
     public function __construct(
         public WebAuthnAuthenticatable $user,

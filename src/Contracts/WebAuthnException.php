@@ -1,6 +1,6 @@
 <?php
 
-namespace Laragear\WebAuthn\Contracts;
+namespace niyazialpay\WebAuthn\Contracts;
 
 interface WebAuthnException
 {

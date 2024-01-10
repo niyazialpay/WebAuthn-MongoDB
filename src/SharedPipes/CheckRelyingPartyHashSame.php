@@ -1,12 +1,12 @@
 <?php
 
-namespace Laragear\WebAuthn\SharedPipes;
+namespace niyazialpay\WebAuthn\SharedPipes;
 
 use Closure;
 use Illuminate\Contracts\Config\Repository;
-use Laragear\WebAuthn\Assertion\Validator\AssertionValidation;
-use Laragear\WebAuthn\Attestation\AuthenticatorData;
-use Laragear\WebAuthn\Attestation\Validator\AttestationValidation;
+use niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation;
+use niyazialpay\WebAuthn\Attestation\AuthenticatorData;
+use niyazialpay\WebAuthn\Attestation\Validator\AttestationValidation;
 use function parse_url;
 use const PHP_URL_HOST;
 
@@ -30,11 +30,11 @@ abstract class CheckRelyingPartyHashSame
     /**
      * Handle the incoming WebAuthn Ceremony Validation.
      *
-     * @param  \Laragear\WebAuthn\Attestation\Validator\AttestationValidation|\Laragear\WebAuthn\Assertion\Validator\AssertionValidation  $validation
+     * @param  \niyazialpay\WebAuthn\Attestation\Validator\AttestationValidation|\niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation  $validation
      * @param  \Closure  $next
      * @return mixed
-     * @throws \Laragear\WebAuthn\Exceptions\AssertionException
-     * @throws \Laragear\WebAuthn\Exceptions\AttestationException
+     * @throws \niyazialpay\WebAuthn\Exceptions\AssertionException
+     * @throws \niyazialpay\WebAuthn\Exceptions\AttestationException
      */
     public function handle(AttestationValidation|AssertionValidation $validation, Closure $next): mixed
     {
@@ -53,8 +53,8 @@ abstract class CheckRelyingPartyHashSame
     /**
      * Return the Attestation data to check the RP ID Hash.
      *
-     * @param  \Laragear\WebAuthn\Attestation\Validator\AttestationValidation|\Laragear\WebAuthn\Assertion\Validator\AssertionValidation  $validation
-     * @return \Laragear\WebAuthn\Attestation\AuthenticatorData
+     * @param  \niyazialpay\WebAuthn\Attestation\Validator\AttestationValidation|\niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation  $validation
+     * @return \niyazialpay\WebAuthn\Attestation\AuthenticatorData
      */
     abstract protected function authenticatorData(
         AttestationValidation|AssertionValidation $validation
@@ -63,7 +63,7 @@ abstract class CheckRelyingPartyHashSame
     /**
      * Return the Relying Party ID from the config or credential.
      *
-     * @param  \Laragear\WebAuthn\Assertion\Validator\AssertionValidation|\Laragear\WebAuthn\Attestation\Validator\AttestationValidation  $validation
+     * @param  \niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation|\niyazialpay\WebAuthn\Attestation\Validator\AttestationValidation  $validation
      * @return string
      */
     abstract protected function relyingPartyId(AssertionValidation|AttestationValidation $validation): string;

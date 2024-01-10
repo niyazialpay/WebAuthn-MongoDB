@@ -1,11 +1,11 @@
 <?php
 
-namespace Laragear\WebAuthn\Assertion\Validator\Pipes;
+namespace niyazialpay\WebAuthn\Assertion\Validator\Pipes;
 
 use Closure;
-use Laragear\WebAuthn\Assertion\Validator\AssertionValidation;
-use Laragear\WebAuthn\Events\CredentialCloned;
-use Laragear\WebAuthn\Exceptions\AssertionException;
+use niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation;
+use niyazialpay\WebAuthn\Events\CredentialCloned;
+use niyazialpay\WebAuthn\Exceptions\AssertionException;
 
 /**
  * 21. Let storedSignCount be the stored signature counter value associated with credential.id.
@@ -28,10 +28,10 @@ class CheckPublicKeyCounterCorrect
     /**
      * Handle the incoming Assertion Validation.
      *
-     * @param  \Laragear\WebAuthn\Assertion\Validator\AssertionValidation  $validation
+     * @param  \niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation  $validation
      * @param  \Closure  $next
      * @return mixed
-     * @throws \Laragear\WebAuthn\Exceptions\AssertionException
+     * @throws \niyazialpay\WebAuthn\Exceptions\AssertionException
      */
     public function handle(AssertionValidation $validation, Closure $next): mixed
     {
@@ -49,7 +49,7 @@ class CheckPublicKeyCounterCorrect
     /**
      * Check if the incoming credential or the stored credential have a counter.
      *
-     * @param  \Laragear\WebAuthn\Assertion\Validator\AssertionValidation  $validation
+     * @param  \niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation  $validation
      * @return bool
      */
     protected function hasCounter(AssertionValidation $validation): bool
@@ -61,7 +61,7 @@ class CheckPublicKeyCounterCorrect
     /**
      * Check if the credential counter is equal or higher than what the authenticator reports.
      *
-     * @param  \Laragear\WebAuthn\Assertion\Validator\AssertionValidation  $validation
+     * @param  \niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation  $validation
      * @return bool
      */
     protected function counterBelowStoredCredential(AssertionValidation $validation): bool

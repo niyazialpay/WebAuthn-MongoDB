@@ -1,18 +1,18 @@
 <?php
 
-namespace Laragear\WebAuthn\Assertion\Creator;
+namespace niyazialpay\WebAuthn\Assertion\Creator;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
-use Laragear\WebAuthn\Contracts\WebAuthnAuthenticatable;
-use Laragear\WebAuthn\JsonTransport;
+use niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable;
+use niyazialpay\WebAuthn\JsonTransport;
 
 class AssertionCreation
 {
     /**
      * The Json Transport helper to build the message.
      *
-     * @var \Laragear\WebAuthn\JsonTransport
+     * @var \niyazialpay\WebAuthn\JsonTransport
      */
     public JsonTransport $json;
 
@@ -20,7 +20,7 @@ class AssertionCreation
      * Create a new Assertion Creation instance.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \Laragear\WebAuthn\Contracts\WebAuthnAuthenticatable|null  $user
+     * @param  \niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable|null  $user
      * @param  \Illuminate\Database\Eloquent\Collection|null  $acceptedCredentials
      * @param  string|null  $userVerification
      */

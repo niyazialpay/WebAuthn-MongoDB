@@ -4,8 +4,8 @@ namespace Tests\Stubs;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User;
-use Laragear\WebAuthn\Contracts\WebAuthnAuthenticatable;
-use Laragear\WebAuthn\WebAuthnAuthentication;
+use niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable;
+use niyazialpay\WebAuthn\WebAuthnAuthentication;
 
 /**
  * @method static static forceCreate(array $attributes = [])

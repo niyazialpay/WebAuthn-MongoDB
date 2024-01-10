@@ -1,8 +1,8 @@
 <?php
 
-namespace Laragear\WebAuthn\Attestation\Validator\Pipes;
+namespace niyazialpay\WebAuthn\Attestation\Validator\Pipes;
 
-use Laragear\WebAuthn\SharedPipes\CheckChallengeSame as BaseCheckChallengeSame;
+use niyazialpay\WebAuthn\SharedPipes\CheckChallengeSame as BaseCheckChallengeSame;
 
 /**
  * 8. Verify that the value of C.challenge equals the base64url encoding of options.challenge.

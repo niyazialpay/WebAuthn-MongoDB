@@ -1,32 +1,32 @@
 <?php
 
-namespace Laragear\WebAuthn\Http\Requests;
+namespace niyazialpay\WebAuthn\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use JetBrains\PhpStorm\ArrayShape;
-use Laragear\WebAuthn\Attestation\Validator\AttestationValidation;
-use Laragear\WebAuthn\Attestation\Validator\AttestationValidator;
-use Laragear\WebAuthn\Contracts\WebAuthnAuthenticatable;
-use Laragear\WebAuthn\Events\CredentialCreated;
-use Laragear\WebAuthn\Models\WebAuthnCredential;
+use niyazialpay\WebAuthn\Attestation\Validator\AttestationValidation;
+use niyazialpay\WebAuthn\Attestation\Validator\AttestationValidator;
+use niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable;
+use niyazialpay\WebAuthn\Events\CredentialCreated;
+use niyazialpay\WebAuthn\Models\WebAuthnCredential;
 use function is_callable;
 
 /**
- * @method \Laragear\WebAuthn\Contracts\WebAuthnAuthenticatable user($guard = null)
+ * @method \niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable user($guard = null)
  */
 class AttestedRequest extends FormRequest
 {
     /**
      * The new credential instance.
      *
-     * @var \Laragear\WebAuthn\Models\WebAuthnCredential
+     * @var \niyazialpay\WebAuthn\Models\WebAuthnCredential
      */
     protected WebAuthnCredential $credential;
 
     /**
      * Determine if the user is authorized to make this request.
      *
-     * @param  \Laragear\WebAuthn\Contracts\WebAuthnAuthenticatable|null  $user
+     * @param  \niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable|null  $user
      * @return bool
      */
     public function authorize(?WebAuthnAuthenticatable $user): bool

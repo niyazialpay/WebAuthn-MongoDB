@@ -2,12 +2,12 @@
 
 namespace Tests\Http\Controllers;
 
-use Laragear\WebAuthn\Http\Requests\AssertedRequest;
-use Laragear\WebAuthn\Http\Requests\AssertionRequest;
-use Laragear\WebAuthn\Http\Requests\AttestationRequest;
-use Laragear\WebAuthn\Http\Requests\AttestedRequest;
-use Laragear\WebAuthn\JsonTransport;
-use Laragear\WebAuthn\WebAuthn;
+use niyazialpay\WebAuthn\Http\Requests\AssertedRequest;
+use niyazialpay\WebAuthn\Http\Requests\AssertionRequest;
+use niyazialpay\WebAuthn\Http\Requests\AttestationRequest;
+use niyazialpay\WebAuthn\Http\Requests\AttestedRequest;
+use niyazialpay\WebAuthn\JsonTransport;
+use niyazialpay\WebAuthn\WebAuthn;
 use Tests\Stubs\WebAuthnAuthenticatableUser;
 use Tests\TestCase;
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace Laragear\WebAuthn\Contracts;
+namespace niyazialpay\WebAuthn\Contracts;
 
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Laragear\WebAuthn\Models\WebAuthnCredential;
+use MongoDB\Laravel\Relations\MorphMany;
+use niyazialpay\WebAuthn\Models\WebAuthnCredential;
 
 interface WebAuthnAuthenticatable
 {
@@ -34,7 +34,7 @@ interface WebAuthnAuthenticatable
      * Makes an instance of a WebAuthn Credential attached to this user.
      *
      * @param  array  $properties
-     * @return \Laragear\WebAuthn\Models\WebAuthnCredential
+     * @return \niyazialpay\WebAuthn\Models\WebAuthnCredential
      */
     public function makeWebAuthnCredential(array $properties): WebAuthnCredential;
 
@@ -42,7 +42,7 @@ interface WebAuthnAuthenticatable
      * Returns a queryable relationship for its WebAuthn Credentials.
      *
      * @phpstan-ignore-next-line
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany|\Laragear\WebAuthn\Models\WebAuthnCredential
+     * @return \MongoDB\Laravel\Relations\MorphMany|\niyazialpay\WebAuthn\Models\WebAuthnCredential
      */
     public function webAuthnCredentials(): MorphMany;
 }

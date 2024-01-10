@@ -1,10 +1,10 @@
 <?php
 
-namespace Laragear\WebAuthn\SharedPipes;
+namespace niyazialpay\WebAuthn\SharedPipes;
 
 use Closure;
-use Laragear\WebAuthn\Assertion\Validator\AssertionValidation;
-use Laragear\WebAuthn\Attestation\Validator\AttestationValidation;
+use niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation;
+use niyazialpay\WebAuthn\Attestation\Validator\AttestationValidation;
 
 /**
  * @internal
@@ -16,11 +16,11 @@ abstract class CheckChallengeSame
     /**
      * Handle the incoming WebAuthn Ceremony Validation.
      *
-     * @param  \Laragear\WebAuthn\Attestation\Validator\AttestationValidation|\Laragear\WebAuthn\Assertion\Validator\AssertionValidation  $validation
+     * @param  \niyazialpay\WebAuthn\Attestation\Validator\AttestationValidation|\niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation  $validation
      * @param  \Closure  $next
      * @return mixed
-     * @throws \Laragear\WebAuthn\Exceptions\AssertionException
-     * @throws \Laragear\WebAuthn\Exceptions\AttestationException
+     * @throws \niyazialpay\WebAuthn\Exceptions\AssertionException
+     * @throws \niyazialpay\WebAuthn\Exceptions\AttestationException
      */
     public function handle(AttestationValidation|AssertionValidation $validation, Closure $next): mixed
     {

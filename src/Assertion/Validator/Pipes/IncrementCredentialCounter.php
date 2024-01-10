@@ -1,9 +1,9 @@
 <?php
 
-namespace Laragear\WebAuthn\Assertion\Validator\Pipes;
+namespace niyazialpay\WebAuthn\Assertion\Validator\Pipes;
 
 use Closure;
-use Laragear\WebAuthn\Assertion\Validator\AssertionValidation;
+use niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation;
 
 /**
  * 21. Let storedSignCount be the stored signature counter value associated with credential.id.
@@ -26,7 +26,7 @@ class IncrementCredentialCounter
     /**
      * Handle the incoming Assertion Validation.
      *
-     * @param  \Laragear\WebAuthn\Assertion\Validator\AssertionValidation  $validation
+     * @param  \niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation  $validation
      * @param  \Closure  $next
      * @return mixed
      */

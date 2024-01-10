@@ -1,10 +1,10 @@
 <?php
 
-namespace Laragear\WebAuthn\Assertion\Creator\Pipes;
+namespace niyazialpay\WebAuthn\Assertion\Creator\Pipes;
 
 use Closure;
 use Illuminate\Contracts\Config\Repository;
-use Laragear\WebAuthn\Assertion\Creator\AssertionCreation;
+use niyazialpay\WebAuthn\Assertion\Creator\AssertionCreation;
 
 class AddConfiguration
 {
@@ -21,7 +21,7 @@ class AddConfiguration
     /**
      * Handle the incoming Assertion.
      *
-     * @param  \Laragear\WebAuthn\Assertion\Creator\AssertionCreation  $assertion
+     * @param  \niyazialpay\WebAuthn\Assertion\Creator\AssertionCreation  $assertion
      * @param  \Closure  $next
      * @return mixed
      */

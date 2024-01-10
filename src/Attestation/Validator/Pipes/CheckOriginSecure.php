@@ -1,8 +1,8 @@
 <?php
 
-namespace Laragear\WebAuthn\Attestation\Validator\Pipes;
+namespace niyazialpay\WebAuthn\Attestation\Validator\Pipes;
 
-use Laragear\WebAuthn\SharedPipes\CheckOriginSecure as BaseCheckOriginSame;
+use niyazialpay\WebAuthn\SharedPipes\CheckOriginSecure as BaseCheckOriginSame;
 
 class CheckOriginSecure extends BaseCheckOriginSame
 {

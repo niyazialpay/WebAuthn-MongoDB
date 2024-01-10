@@ -11,7 +11,7 @@ Authenticate users with Passkeys: fingerprints, patterns and biometric data.
 
 ```php
 // App\Http\Controllers\LoginController.php
-use Laragear\WebAuthn\Http\Requests\AssertedRequest;
+use niyazialpay\WebAuthn\Http\Requests\AssertedRequest;
 
 public function login(AssertedRequest $request)
 {
@@ -39,7 +39,7 @@ Your support allows me to keep this package free, up-to-date and maintainable. A
 Require this package into your project using Composer:
 
 ```bash
-composer require laragear/webauthn
+composer require niyazialpay/webauthn-mongodb
 ```
 
 ## How Passkeys work?
@@ -96,7 +96,7 @@ The `password_fallback` indicates the User Provider should fall back to validate
 Create the `webauthn_credentials` table by publishing the migration file and migrating the table:
 
 ```shell
-php artisan vendor:publish --provider="Laragear\WebAuthn\WebAuthnServiceProvider" --tag="migrations"
+php artisan vendor:publish --provider="niyazialpay\WebAuthn\WebAuthnServiceProvider" --tag="migrations"
 php artisan migrate
 ```
 
@@ -112,8 +112,8 @@ Add the `WebAuthnAuthenticatable` contract and the `WebAuthnAuthentication` trai
 namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Laragear\WebAuthn\Contracts\WebAuthnAuthenticatable;
-use Laragear\WebAuthn\WebAuthnAuthentication;
+use niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable;
+use niyazialpay\WebAuthn\WebAuthnAuthentication;
 
 class User extends Authenticatable implements WebAuthnAuthenticatable
 {
@@ -132,7 +132,7 @@ WebAuthn uses exclusive routes to register and authenticate users. Creating thes
 Instead, go for a quick start and publish the controllers included in Laragear WebAuthn. These controllers will be located at `app\Http\Controllers\WebAuthn`.
 
 ```shell
-php artisan vendor:publish --provider="Laragear\WebAuthn\WebAuthnServiceProvider" --tag="controllers"
+php artisan vendor:publish --provider="niyazialpay\WebAuthn\WebAuthnServiceProvider" --tag="controllers"
 ```
 
 Next, to pick these controllers easily, go into your `web.php` routes file and register a default set of routes with the `WebAuthn::routes()` method.
@@ -140,7 +140,7 @@ Next, to pick these controllers easily, go into your `web.php` routes file and r
 ```php
 // web.php
 use Illuminate\Support\Facades\Route;
-use Laragear\WebAuthn\WebAuthn;
+use niyazialpay\WebAuthn\WebAuthn;
 
 Route::view('welcome');
 
@@ -153,7 +153,7 @@ WebAuthn::routes();
 This package includes a simple but convenient script to handle WebAuthn Attestation and Assertion. To use it, just publish the `webauthn.js` asset into your application public resources.
 
 ```shell
-php artisan vendor:publish --provider="Laragear\WebAuthn\WebAuthnServiceProvider" --tag="js"
+php artisan vendor:publish --provider="niyazialpay\WebAuthn\WebAuthnServiceProvider" --tag="js"
 ```
 
 You will receive the `resources/js/vendor/webauthn/webauthn.js` file which you can include into your authentication views and use it programmatically
@@ -278,7 +278,7 @@ For example, we can create our own `AttestationController` to create it.
 
 ```php
 // app\Http\Controllers\WebAuthn\AttestationController.php
-use Laragear\WebAuthn\Http\Requests\AttestationRequest;
+use niyazialpay\WebAuthn\Http\Requests\AttestationRequest;
 
 public function createChallenge(AttestationRequest $request)
 {
@@ -290,7 +290,7 @@ The device will receive the "instructions" to make a key, and will respond with 
 
 ```php
 // app\Http\Controllers\WebAuthn\AttestationController.php
-use Laragear\WebAuthn\Http\Requests\AttestedRequest;
+use niyazialpay\WebAuthn\Http\Requests\AttestedRequest;
 
 public function register(AttestedRequest $attestation)
 {
@@ -304,7 +304,7 @@ You may pass an array, or a callback, to the `save()`, which will allow you to m
 
 ```php
 // app\Http\Controllers\WebAuthn\AttestationController.php
-use Laragear\WebAuthn\Http\Requests\AttestedRequest;
+use niyazialpay\WebAuthn\Http\Requests\AttestedRequest;
 
 public function register(AttestedRequest $request)
 {
@@ -329,7 +329,7 @@ You can override this using `fastRegistration()` to only check for user presence
 
 ```php
 // app\Http\Controllers\WebAuthn\AttestationController.php
-use Laragear\WebAuthn\Http\Requests\AttestationRequest;
+use niyazialpay\WebAuthn\Http\Requests\AttestationRequest;
 
 public function createChallenge(AttestationRequest $request)
 {
@@ -345,7 +345,7 @@ For this to work, the device has to save the "username id" inside itself. Some a
 
 ```php
 // app\Http\Controllers\WebAuthn\AttestationController.php
-use Laragear\WebAuthn\Http\Requests\AttestationRequest;
+use niyazialpay\WebAuthn\Http\Requests\AttestationRequest;
 
 public function registerDevice(AttestationRequest $request)
 {
@@ -363,7 +363,7 @@ You can enable multiple credentials per device using `allowDuplicates()`, which 
 
 ```php
 // app\Http\Controllers\WebAuthn\AttestationController.php
-use Laragear\WebAuthn\Http\Requests\AttestationRequest;
+use niyazialpay\WebAuthn\Http\Requests\AttestationRequest;
 
 public function registerDevice(AttestationRequest $request)
 {
@@ -381,7 +381,7 @@ For example, we can use our own `AssertionController` to handle it.
 
 ```php
 // app\Http\Controllers\WebAuthn\AssertionController.php
-use Laragear\WebAuthn\Http\Requests\AssertionRequest;
+use niyazialpay\WebAuthn\Http\Requests\AssertionRequest;
 
 public function createChallenge(AssertionRequest $request)
 {
@@ -397,7 +397,7 @@ Since the authentication is pretty much straightforward, you only need to check 
 
 ```php
 // app\Http\Controllers\WebAuthn\AssertionController.php
-use Laragear\WebAuthn\Http\Requests\AssertedRequest;
+use niyazialpay\WebAuthn\Http\Requests\AssertedRequest;
 
 public function createChallenge(AssertedRequest $request)
 {
@@ -421,7 +421,7 @@ You may only require the user presence with `fastLogin()`, or actively verify th
 
 ```php
 // app\Http\Controllers\WebAuthn\AssertionController.php
-use Laragear\WebAuthn\Http\Requests\AssertionRequest;
+use niyazialpay\WebAuthn\Http\Requests\AssertionRequest;
 
 public function createChallenge(AssertionRequest $request)
 {
@@ -463,7 +463,7 @@ You can use the event to warn the user:
 
 ```php
 use Illuminate\Support\Facades\Event;
-use Laragear\WebAuthn\Events\CredentialCloned;
+use niyazialpay\WebAuthn\Events\CredentialCloned;
 use App\Notifications\SecureYourDevice;
 
 Event::listen(CredentialCloned::class, function ($cloned) {
@@ -512,8 +512,8 @@ All of these pipelines **require** the current Request to work, as is used to ge
 For example, you may manually authenticate a user with its WebAuthn Credentials `AssertionValidator` pipeline. We can just type-hint a pipeline in a Controller action argument and Laravel will automatically inject the instance to it.
 
 ```php
-use Laragear\WebAuthn\Assertion\Validator\AssertionValidation;
-use Laragear\WebAuthn\Assertion\Validator\AssertionValidator;
+use niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation;
+use niyazialpay\WebAuthn\Assertion\Validator\AssertionValidator;
 use Illuminate\Support\Facades\Auth;
 
 public function authenticate(Request $request, AssertionValidator $assertion)
@@ -532,7 +532,7 @@ public function authenticate(Request $request, AssertionValidator $assertion)
 Since these are Laravel Pipelines, you're free to push additional pipes. These pipes can be a class with `handle()`, or just a function that receives the validation procedure.
 
 ```php
-use Laragear\WebAuthn\Assertion\Validator\AssertionValidator;
+use niyazialpay\WebAuthn\Assertion\Validator\AssertionValidator;
 use Exception;
 
 public function authenticate(Request $request, AssertionValidator $assertion)
@@ -563,7 +563,7 @@ public function authenticate(Request $request, AssertionValidator $assertion)
 Laragear WebAuthn was made to work out-of-the-box, but you can override the configuration by simply publishing the config file.
 
 ```shell
-php artisan vendor:publish --provider="Laragear\WebAuthn\WebAuthnServiceProvider" --tag="config"
+php artisan vendor:publish --provider="niyazialpay\WebAuthn\WebAuthnServiceProvider" --tag="config"
 ```
 
 After that, you will receive the `config/webauthn.php` config file with an array like this:

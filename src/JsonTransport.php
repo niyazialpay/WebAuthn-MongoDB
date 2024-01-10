@@ -1,6 +1,6 @@
 <?php
 
-namespace Laragear\WebAuthn;
+namespace niyazialpay\WebAuthn;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
@@ -66,7 +66,7 @@ class JsonTransport implements Arrayable, Jsonable, JsonSerializable, Stringable
     /**
      * Get the instance as an array.
      *
-     * @return array<string, int|string|\Laragear\WebAuthn\ByteBuffer>
+     * @return array<string, int|string|\niyazialpay\WebAuthn\ByteBuffer>
      */
     public function toArray()
     {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Laragear\WebAuthn\Attestation\Validator\Pipes;
+namespace niyazialpay\WebAuthn\Attestation\Validator\Pipes;
 
-use Laragear\WebAuthn\SharedPipes\CheckRelyingPartyIdContained as BaseCheckRelyingPartyIdSame;
+use niyazialpay\WebAuthn\SharedPipes\CheckRelyingPartyIdContained as BaseCheckRelyingPartyIdSame;
 
 /**
  * 9. Verify that the value of C.origin matches the Relying Party's origin.

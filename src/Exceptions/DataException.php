@@ -1,9 +1,9 @@
 <?php
 
-namespace Laragear\WebAuthn\Exceptions;
+namespace niyazialpay\WebAuthn\Exceptions;
 
 use Exception;
-use Laragear\WebAuthn\Contracts\WebAuthnException;
+use niyazialpay\WebAuthn\Contracts\WebAuthnException;
 
 class DataException extends Exception implements WebAuthnException
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Laragear\WebAuthn\Assertion\Validator\Pipes;
+namespace niyazialpay\WebAuthn\Assertion\Validator\Pipes;
 
-use Laragear\WebAuthn\SharedPipes\CompileClientDataJson as BaseCompileClientDataJson;
+use niyazialpay\WebAuthn\SharedPipes\CompileClientDataJson as BaseCompileClientDataJson;
 
 /**
  * @internal

@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * @see \Laragear\WebAuthn\Models\WebAuthnCredential
+ * @see \niyazialpay\WebAuthn\Models\WebAuthnCredential
  */
 return new class extends Migration {
 

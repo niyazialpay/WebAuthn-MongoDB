@@ -1,8 +1,8 @@
 <?php
 
-namespace Laragear\WebAuthn\Attestation\Validator\Pipes;
+namespace niyazialpay\WebAuthn\Attestation\Validator\Pipes;
 
-use Laragear\WebAuthn\SharedPipes\RetrieveChallenge as BaseRetrieveChallenge;
+use niyazialpay\WebAuthn\SharedPipes\RetrieveChallenge as BaseRetrieveChallenge;
 
 /**
  * @internal

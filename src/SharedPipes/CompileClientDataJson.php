@@ -1,13 +1,13 @@
 <?php
 
-namespace Laragear\WebAuthn\SharedPipes;
+namespace niyazialpay\WebAuthn\SharedPipes;
 
 use Closure;
 use JsonException;
-use Laragear\WebAuthn\Assertion\Validator\AssertionValidation;
-use Laragear\WebAuthn\Attestation\Validator\AttestationValidation;
-use Laragear\WebAuthn\ByteBuffer;
-use Laragear\WebAuthn\ClientDataJson;
+use niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation;
+use niyazialpay\WebAuthn\Attestation\Validator\AttestationValidation;
+use niyazialpay\WebAuthn\ByteBuffer;
+use niyazialpay\WebAuthn\ClientDataJson;
 use function base64_decode;
 use function json_decode;
 use const JSON_THROW_ON_ERROR;
@@ -22,11 +22,11 @@ abstract class CompileClientDataJson
     /**
      * Handle the incoming WebAuthn Ceremony Validation.
      *
-     * @param  \Laragear\WebAuthn\Assertion\Validator\AssertionValidation|\Laragear\WebAuthn\Attestation\Validator\AttestationValidation  $validation
+     * @param  \niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation|\niyazialpay\WebAuthn\Attestation\Validator\AttestationValidation  $validation
      * @param  \Closure  $next
      * @return mixed
-     * @throws \Laragear\WebAuthn\Exceptions\AttestationException
-     * @throws \Laragear\WebAuthn\Exceptions\AssertionException
+     * @throws \niyazialpay\WebAuthn\Exceptions\AttestationException
+     * @throws \niyazialpay\WebAuthn\Exceptions\AssertionException
      */
     public function handle(AssertionValidation|AttestationValidation $validation, Closure $next): mixed
     {

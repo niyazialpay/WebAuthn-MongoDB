@@ -1,9 +1,9 @@
 <?php
 
-namespace Laragear\WebAuthn\Attestation\Creator\Pipes;
+namespace niyazialpay\WebAuthn\Attestation\Creator\Pipes;
 
 use Closure;
-use Laragear\WebAuthn\Attestation\Creator\AttestationCreation;
+use niyazialpay\WebAuthn\Attestation\Creator\AttestationCreation;
 
 /**
  * @internal
@@ -13,7 +13,7 @@ class AddAcceptedAlgorithms
     /**
      * Handle the Attestation creation
      *
-     * @param  \Laragear\WebAuthn\Attestation\Creator\AttestationCreation  $attestable
+     * @param  \niyazialpay\WebAuthn\Attestation\Creator\AttestationCreation  $attestable
      * @param  \Closure  $next
      * @return mixed
      */

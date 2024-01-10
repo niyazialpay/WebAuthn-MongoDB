@@ -1,10 +1,10 @@
 <?php
 
-namespace Laragear\WebAuthn\Attestation\Creator;
+namespace niyazialpay\WebAuthn\Attestation\Creator;
 
 use Illuminate\Http\Request;
-use Laragear\WebAuthn\Contracts\WebAuthnAuthenticatable;
-use Laragear\WebAuthn\JsonTransport;
+use niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable;
+use niyazialpay\WebAuthn\JsonTransport;
 
 class AttestationCreation
 {
@@ -15,14 +15,14 @@ class AttestationCreation
     /**
      * The underlying JSON representation of the Assertion Challenge.
      *
-     * @var \Laragear\WebAuthn\JsonTransport
+     * @var \niyazialpay\WebAuthn\JsonTransport
      */
     public JsonTransport $json;
 
     /**
      * Create a new Attestation Instructions instance.
      *
-     * @param  \Laragear\WebAuthn\Contracts\WebAuthnAuthenticatable  $user
+     * @param  \niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable  $user
      * @param  \Illuminate\Http\Request  $request
      * @param  string|null  $residentKey
      * @param  string|null  $userVerification

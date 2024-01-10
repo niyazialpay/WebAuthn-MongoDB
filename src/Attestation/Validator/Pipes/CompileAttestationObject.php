@@ -1,18 +1,18 @@
 <?php
 
-namespace Laragear\WebAuthn\Attestation\Validator\Pipes;
+namespace niyazialpay\WebAuthn\Attestation\Validator\Pipes;
 
 use Closure;
 use Illuminate\Http\Request;
 use JetBrains\PhpStorm\ArrayShape;
-use Laragear\WebAuthn\Attestation\AttestationObject;
-use Laragear\WebAuthn\Attestation\AuthenticatorData;
-use Laragear\WebAuthn\Attestation\Formats\None;
-use Laragear\WebAuthn\Attestation\Validator\AttestationValidation;
-use Laragear\WebAuthn\ByteBuffer;
-use Laragear\WebAuthn\CborDecoder;
-use Laragear\WebAuthn\Exceptions\AttestationException;
-use Laragear\WebAuthn\Exceptions\DataException;
+use niyazialpay\WebAuthn\Attestation\AttestationObject;
+use niyazialpay\WebAuthn\Attestation\AuthenticatorData;
+use niyazialpay\WebAuthn\Attestation\Formats\None;
+use niyazialpay\WebAuthn\Attestation\Validator\AttestationValidation;
+use niyazialpay\WebAuthn\ByteBuffer;
+use niyazialpay\WebAuthn\CborDecoder;
+use niyazialpay\WebAuthn\Exceptions\AttestationException;
+use niyazialpay\WebAuthn\Exceptions\DataException;
 use function base64_decode;
 use function is_array;
 use function is_string;
@@ -34,10 +34,10 @@ class CompileAttestationObject
     /**
      * Handle the incoming Attestation Validation.
      *
-     * @param  \Laragear\WebAuthn\Attestation\Validator\AttestationValidation  $validation
+     * @param  \niyazialpay\WebAuthn\Attestation\Validator\AttestationValidation  $validation
      * @param  \Closure  $next
      * @return mixed
-     * @throws \Laragear\WebAuthn\Exceptions\AttestationException
+     * @throws \niyazialpay\WebAuthn\Exceptions\AttestationException
      */
     public function handle(AttestationValidation $validation, Closure $next): mixed
     {
@@ -68,7 +68,7 @@ class CompileAttestationObject
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array
-     * @throws \Laragear\WebAuthn\Exceptions\AttestationException
+     * @throws \niyazialpay\WebAuthn\Exceptions\AttestationException
      */
     #[ArrayShape(["fmt" => "string", "attStmt" => "array", "authData" => ByteBuffer::class])]
     protected function decodeCborBase64(Request $request): array

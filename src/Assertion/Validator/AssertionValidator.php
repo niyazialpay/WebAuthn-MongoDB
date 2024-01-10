@@ -1,11 +1,11 @@
 <?php
 
-namespace Laragear\WebAuthn\Assertion\Validator;
+namespace niyazialpay\WebAuthn\Assertion\Validator;
 
 use Illuminate\Pipeline\Pipeline;
 
 /**
- * @method \Laragear\WebAuthn\Assertion\Validator\AssertionValidation thenReturn()
+ * @method \niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation thenReturn()
  */
 class AssertionValidator extends Pipeline
 {

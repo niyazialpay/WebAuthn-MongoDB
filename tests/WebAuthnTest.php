@@ -3,7 +3,7 @@
 namespace Tests;
 
 use Illuminate\Support\Facades\Route;
-use Laragear\WebAuthn\WebAuthn;
+use niyazialpay\WebAuthn\WebAuthn;
 
 class WebAuthnTest extends TestCase
 {

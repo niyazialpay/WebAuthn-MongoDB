@@ -1,23 +1,23 @@
 <?php
 
-namespace Laragear\WebAuthn\Http\Requests;
+namespace niyazialpay\WebAuthn\Http\Requests;
 
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Foundation\Http\FormRequest;
-use Laragear\WebAuthn\Attestation\Creator\AttestationCreation;
-use Laragear\WebAuthn\Attestation\Creator\AttestationCreator;
-use Laragear\WebAuthn\Contracts\WebAuthnAuthenticatable;
-use Laragear\WebAuthn\WebAuthn;
+use niyazialpay\WebAuthn\Attestation\Creator\AttestationCreation;
+use niyazialpay\WebAuthn\Attestation\Creator\AttestationCreator;
+use niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable;
+use niyazialpay\WebAuthn\WebAuthn;
 
 /**
- * @method \Laragear\WebAuthn\Contracts\WebAuthnAuthenticatable user($guard = null)
+ * @method \niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable user($guard = null)
  */
 class AttestationRequest extends FormRequest
 {
     /**
      * The attestation instance that would be returned.
      *
-     * @var \Laragear\WebAuthn\Attestation\Creator\AttestationCreation
+     * @var \niyazialpay\WebAuthn\Attestation\Creator\AttestationCreation
      */
     protected AttestationCreation $attestation;
 
@@ -37,7 +37,7 @@ class AttestationRequest extends FormRequest
     /**
      * Determine if the user is authorized to make this request.
      *
-     * @param  \Laragear\WebAuthn\Contracts\WebAuthnAuthenticatable|null  $user
+     * @param  \niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable|null  $user
      * @return bool
      */
     public function authorize(?WebAuthnAuthenticatable $user): bool
@@ -48,7 +48,7 @@ class AttestationRequest extends FormRequest
     /**
      * Returns the existing attestation instance.
      *
-     * @return \Laragear\WebAuthn\Attestation\Creator\AttestationCreation
+     * @return \niyazialpay\WebAuthn\Attestation\Creator\AttestationCreation
      */
     protected function attestation(): AttestationCreation
     {

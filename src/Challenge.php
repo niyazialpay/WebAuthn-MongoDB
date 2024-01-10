@@ -1,6 +1,6 @@
 <?php
 
-namespace Laragear\WebAuthn;
+namespace niyazialpay\WebAuthn;
 
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\InteractsWithTime;
@@ -12,7 +12,7 @@ class Challenge
     /**
      * Create a new Challenge instance.
      *
-     * @param  \Laragear\WebAuthn\ByteBuffer  $data
+     * @param  \niyazialpay\WebAuthn\ByteBuffer  $data
      * @param  int  $timeout
      * @param  bool  $verify
      * @param  array  $properties

@@ -1,9 +1,9 @@
 <?php
 
 
-namespace Laragear\WebAuthn\Attestation\Formats;
+namespace niyazialpay\WebAuthn\Attestation\Formats;
 
-use Laragear\WebAuthn\Attestation\AuthenticatorData;
+use niyazialpay\WebAuthn\Attestation\AuthenticatorData;
 
 /**
  * MIT License
@@ -43,8 +43,8 @@ abstract class Format
     /**
      * Create a new Attestation Format.
      *
-     * @param  array{fmt: string, attStmt: array, authData: \Laragear\WebAuthn\ByteBuffer}  $attestationObject
-     * @param  \Laragear\WebAuthn\Attestation\AuthenticatorData  $authenticatorData
+     * @param  array{fmt: string, attStmt: array, authData: \niyazialpay\WebAuthn\ByteBuffer}  $attestationObject
+     * @param  \niyazialpay\WebAuthn\Attestation\AuthenticatorData  $authenticatorData
      */
     public function __construct(public array $attestationObject, public AuthenticatorData $authenticatorData)
     {

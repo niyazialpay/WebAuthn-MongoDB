@@ -1,11 +1,11 @@
 <?php
 
-namespace Laragear\WebAuthn\Http\Requests;
+namespace niyazialpay\WebAuthn\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use JetBrains\PhpStorm\ArrayShape;
-use Laragear\WebAuthn\Contracts\WebAuthnAuthenticatable;
+use niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable;
 
 class AssertedRequest extends FormRequest
 {
@@ -49,7 +49,7 @@ class AssertedRequest extends FormRequest
      *
      * @param  string|null  $guard
      * @phpstan-ignore-next-line
-     * @return \Laragear\WebAuthn\Contracts\WebAuthnAuthenticatable|\Illuminate\Contracts\Auth\Authenticatable|null
+     * @return \niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable|\Illuminate\Contracts\Auth\Authenticatable|null
      */
     public function login(string $guard = null, bool $remember = null, bool $destroySession = false): ?WebAuthnAuthenticatable
     {

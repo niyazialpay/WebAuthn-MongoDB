@@ -1,8 +1,8 @@
 <?php
 
-namespace Laragear\WebAuthn\Attestation\Validator\Pipes;
+namespace niyazialpay\WebAuthn\Attestation\Validator\Pipes;
 
-use Laragear\WebAuthn\SharedPipes\CheckUserInteraction as BaseCheckUserInteraction;
+use niyazialpay\WebAuthn\SharedPipes\CheckUserInteraction as BaseCheckUserInteraction;
 
 /**
  * 14. Verify that the User Present bit of the flags in authData is set.

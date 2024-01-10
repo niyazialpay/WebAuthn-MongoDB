@@ -1,15 +1,15 @@
 <?php
 
-namespace Laragear\WebAuthn\Http\Requests;
+namespace niyazialpay\WebAuthn\Http\Requests;
 
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use InvalidArgumentException;
-use Laragear\WebAuthn\Assertion\Creator\AssertionCreation;
-use Laragear\WebAuthn\Assertion\Creator\AssertionCreator;
-use Laragear\WebAuthn\Contracts\WebAuthnAuthenticatable;
-use Laragear\WebAuthn\WebAuthn;
+use niyazialpay\WebAuthn\Assertion\Creator\AssertionCreation;
+use niyazialpay\WebAuthn\Assertion\Creator\AssertionCreator;
+use niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable;
+use niyazialpay\WebAuthn\WebAuthn;
 use function is_int;
 use function is_string;
 
@@ -18,7 +18,7 @@ class AssertionRequest extends FormRequest
     /**
      * The Assertion Creation instance.
      *
-     * @var \Laragear\WebAuthn\Assertion\Creator\AssertionCreation
+     * @var \niyazialpay\WebAuthn\Assertion\Creator\AssertionCreation
      */
     protected AssertionCreation $assertion;
 
@@ -49,7 +49,7 @@ class AssertionRequest extends FormRequest
     /**
      * Return or make a new Assertion Creation.
      *
-     * @return \Laragear\WebAuthn\Assertion\Creator\AssertionCreation
+     * @return \niyazialpay\WebAuthn\Assertion\Creator\AssertionCreation
      */
     protected function assertion(): AssertionCreation
     {
@@ -96,7 +96,7 @@ class AssertionRequest extends FormRequest
     /**
      * Creates an assertion challenge for a user if found.
      *
-     * @param  \Laragear\WebAuthn\Contracts\WebAuthnAuthenticatable|string|int|array|null  $credentials
+     * @param  \niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable|string|int|array|null  $credentials
      * @return \Illuminate\Contracts\Support\Responsable
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
@@ -115,8 +115,8 @@ class AssertionRequest extends FormRequest
     /**
      * Try to find a user to create an assertion procedure.
      *
-     * @param  \Laragear\WebAuthn\Contracts\WebAuthnAuthenticatable|array|int|string|null  $credentials
-     * @return \Laragear\WebAuthn\Contracts\WebAuthnAuthenticatable|null
+     * @param  \niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable|array|int|string|null  $credentials
+     * @return \niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable|null
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     protected function findUser(WebAuthnAuthenticatable|array|int|string|null $credentials): ?WebAuthnAuthenticatable

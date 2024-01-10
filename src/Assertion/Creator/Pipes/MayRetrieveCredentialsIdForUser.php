@@ -1,12 +1,12 @@
 <?php
 
-namespace Laragear\WebAuthn\Assertion\Creator\Pipes;
+namespace niyazialpay\WebAuthn\Assertion\Creator\Pipes;
 
 use Closure;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Support\Collection;
-use Laragear\WebAuthn\Assertion\Creator\AssertionCreation;
-use Laragear\WebAuthn\Models\WebAuthnCredential;
+use niyazialpay\WebAuthn\Assertion\Creator\AssertionCreation;
+use niyazialpay\WebAuthn\Models\WebAuthnCredential;
 use function array_filter;
 
 class MayRetrieveCredentialsIdForUser
@@ -14,7 +14,7 @@ class MayRetrieveCredentialsIdForUser
     /**
      * Handle the incoming Assertion.
      *
-     * @param  \Laragear\WebAuthn\Assertion\Creator\AssertionCreation  $assertion
+     * @param  \niyazialpay\WebAuthn\Assertion\Creator\AssertionCreation  $assertion
      * @param  \Closure  $next
      * @return mixed
      */
@@ -35,7 +35,7 @@ class MayRetrieveCredentialsIdForUser
     /**
      * Adapt all credentials into an `allowCredentials` digestible array.
      *
-     * @param  \Illuminate\Database\Eloquent\Collection<int, \Laragear\WebAuthn\Models\WebAuthnCredential>  $credentials
+     * @param  \Illuminate\Database\Eloquent\Collection<int, \niyazialpay\WebAuthn\Models\WebAuthnCredential>  $credentials
      * @return \Illuminate\Support\Collection<int, array{id?: mixed, type: string, transports?: non-empty-array<int, string>}>
      */
     protected function parseCredentials(EloquentCollection $credentials): Collection

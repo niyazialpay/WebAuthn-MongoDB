@@ -1,13 +1,13 @@
 <?php
 
-namespace Laragear\WebAuthn\Attestation\Validator;
+namespace niyazialpay\WebAuthn\Attestation\Validator;
 
 use Illuminate\Pipeline\Pipeline;
 
 /**
  * @see https://www.w3.org/TR/webauthn-2/#sctn-registering-a-new-credential
  *
- * @method \Laragear\WebAuthn\Attestation\Validator\AttestationValidation thenReturn()
+ * @method \niyazialpay\WebAuthn\Attestation\Validator\AttestationValidation thenReturn()
  */
 class AttestationValidator extends Pipeline
 {

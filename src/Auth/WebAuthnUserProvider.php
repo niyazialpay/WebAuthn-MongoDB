@@ -1,14 +1,14 @@
 <?php
 
-namespace Laragear\WebAuthn\Auth;
+namespace niyazialpay\WebAuthn\Auth;
 
 use Illuminate\Auth\EloquentUserProvider;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Contracts\Hashing\Hasher as HasherContract;
-use Laragear\WebAuthn\Assertion\Validator\AssertionValidation;
-use Laragear\WebAuthn\Assertion\Validator\AssertionValidator;
-use Laragear\WebAuthn\Contracts\WebAuthnAuthenticatable;
-use Laragear\WebAuthn\Exceptions\AssertionException;
+use niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation;
+use niyazialpay\WebAuthn\Assertion\Validator\AssertionValidator;
+use niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable;
+use niyazialpay\WebAuthn\Exceptions\AssertionException;
 use function class_implements;
 use function config;
 use function logger;
@@ -26,7 +26,7 @@ class WebAuthnUserProvider extends EloquentUserProvider
      *
      * @param  \Illuminate\Contracts\Hashing\Hasher  $hasher
      * @param  string  $model
-     * @param  \Laragear\WebAuthn\Assertion\Validator\AssertionValidator  $validator
+     * @param  \niyazialpay\WebAuthn\Assertion\Validator\AssertionValidator  $validator
      * @param  bool  $fallback
      */
     public function __construct(
@@ -73,7 +73,7 @@ class WebAuthnUserProvider extends EloquentUserProvider
     /**
      * Validate a user against the given credentials.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable|\Laragear\WebAuthn\Contracts\WebAuthnAuthenticatable  $user
+     * @param  \Illuminate\Contracts\Auth\Authenticatable|\niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable  $user
      * @param  array  $credentials
      *
      * @return bool

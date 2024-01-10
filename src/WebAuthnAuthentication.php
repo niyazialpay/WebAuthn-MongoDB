@@ -1,18 +1,18 @@
 <?php
 
-namespace Laragear\WebAuthn;
+namespace niyazialpay\WebAuthn;
 
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
+use MongoDB\Laravel\Relations\MorphMany;
 use Illuminate\Support\Facades\Date;
 use JetBrains\PhpStorm\ArrayShape;
-use Laragear\WebAuthn\Models\WebAuthnCredential;
+use niyazialpay\WebAuthn\Models\WebAuthnCredential;
 
 /**
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laragear\WebAuthn\Models\WebAuthnCredential> $webAuthnCredentials
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \niyazialpay\WebAuthn\Models\WebAuthnCredential> $webAuthnCredentials
  *
- * @see \Laragear\WebAuthn\Contracts\WebAuthnAuthenticatable
- * @see \Laragear\WebAuthn\Models\WebAuthnCredential
+ * @see \niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable
+ * @see \niyazialpay\WebAuthn\Models\WebAuthnCredential
  */
 trait WebAuthnAuthentication
 {
@@ -76,7 +76,7 @@ trait WebAuthnAuthentication
      * Makes an instance of a WebAuthn Credential attached to this user.
      *
      * @param  array  $properties
-     * @return \Laragear\WebAuthn\Models\WebAuthnCredential
+     * @return \niyazialpay\WebAuthn\Models\WebAuthnCredential
      */
     public function makeWebAuthnCredential(array $properties): Models\WebAuthnCredential
     {
@@ -86,7 +86,7 @@ trait WebAuthnAuthentication
     /**
      * Returns a queryable relationship for its WebAuthn Credentials.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany&\Laragear\WebAuthn\Models\WebAuthnCredential
+     * @return \MongoDB\Laravel\Relations\MorphMany&\niyazialpay\WebAuthn\Models\WebAuthnCredential
      */
     public function webAuthnCredentials(): MorphMany
     {

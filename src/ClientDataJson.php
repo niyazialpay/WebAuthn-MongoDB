@@ -1,6 +1,6 @@
 <?php
 
-namespace Laragear\WebAuthn;
+namespace niyazialpay\WebAuthn;
 
 class ClientDataJson
 {
@@ -9,7 +9,7 @@ class ClientDataJson
      *
      * @param  string  $type
      * @param  string  $origin
-     * @param  \Laragear\WebAuthn\ByteBuffer  $challenge
+     * @param  \niyazialpay\WebAuthn\ByteBuffer  $challenge
      */
     public function __construct(public string $type, public string $origin, public ByteBuffer $challenge)
     {

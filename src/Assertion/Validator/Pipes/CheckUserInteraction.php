@@ -1,8 +1,8 @@
 <?php
 
-namespace Laragear\WebAuthn\Assertion\Validator\Pipes;
+namespace niyazialpay\WebAuthn\Assertion\Validator\Pipes;
 
-use Laragear\WebAuthn\SharedPipes\CheckUserInteraction as BaseCheckUserInteraction;
+use niyazialpay\WebAuthn\SharedPipes\CheckUserInteraction as BaseCheckUserInteraction;
 
 /**
  * @internal

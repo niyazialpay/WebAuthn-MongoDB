@@ -1,11 +1,11 @@
 <?php
 
-namespace Laragear\WebAuthn\SharedPipes;
+namespace niyazialpay\WebAuthn\SharedPipes;
 
 use Closure;
 use Illuminate\Contracts\Config\Repository;
-use Laragear\WebAuthn\Assertion\Validator\AssertionValidation;
-use Laragear\WebAuthn\Attestation\Validator\AttestationValidation;
+use niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation;
+use niyazialpay\WebAuthn\Attestation\Validator\AttestationValidation;
 use function parse_url;
 
 abstract class CheckOriginSecure
@@ -25,7 +25,7 @@ abstract class CheckOriginSecure
     /**
      * Handle the incoming WebAuthn Ceremony Validation.
      *
-     * @param  \Laragear\WebAuthn\Attestation\Validator\AttestationValidation|\Laragear\WebAuthn\Assertion\Validator\AssertionValidation  $validation
+     * @param  \niyazialpay\WebAuthn\Attestation\Validator\AttestationValidation|\niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation  $validation
      * @param  \Closure  $next
      * @return mixed
      */

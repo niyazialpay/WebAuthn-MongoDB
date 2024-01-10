@@ -4,9 +4,9 @@ namespace Tests\Models;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
-use Laragear\WebAuthn\Events\CredentialDisabled;
-use Laragear\WebAuthn\Events\CredentialEnabled;
-use Laragear\WebAuthn\Models\WebAuthnCredential;
+use niyazialpay\WebAuthn\Events\CredentialDisabled;
+use niyazialpay\WebAuthn\Events\CredentialEnabled;
+use niyazialpay\WebAuthn\Models\WebAuthnCredential;
 use Ramsey\Uuid\Uuid;
 use Tests\FakeAuthenticator;
 use Tests\Stubs\WebAuthnAuthenticatableUser;

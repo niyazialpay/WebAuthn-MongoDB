@@ -7,9 +7,9 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Fluent;
 use Illuminate\Support\ServiceProvider;
-use Laragear\WebAuthn\Contracts\WebAuthnAuthenticatable;
-use Laragear\WebAuthn\WebAuthnAuthentication;
-use Laragear\WebAuthn\WebAuthnServiceProvider;
+use niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable;
+use niyazialpay\WebAuthn\WebAuthnAuthentication;
+use niyazialpay\WebAuthn\WebAuthnServiceProvider;
 
 class ServiceProviderTest extends TestCase
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace Laragear\WebAuthn\Assertion\Validator\Pipes;
+namespace niyazialpay\WebAuthn\Assertion\Validator\Pipes;
 
 use Closure;
-use Laragear\WebAuthn\Assertion\Validator\AssertionValidation;
-use Laragear\WebAuthn\Exceptions\AssertionException;
+use niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation;
+use niyazialpay\WebAuthn\Exceptions\AssertionException;
 
 /**
  * @internal
@@ -14,10 +14,10 @@ class CheckTypeIsPublicKey
     /**
      * Handle the incoming Assertion Validation.
      *
-     * @param  \Laragear\WebAuthn\Assertion\Validator\AssertionValidation  $validation
+     * @param  \niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation  $validation
      * @param  \Closure  $next
      * @return mixed
-     * @throws \Laragear\WebAuthn\Exceptions\AssertionException
+     * @throws \niyazialpay\WebAuthn\Exceptions\AssertionException
      */
     public function handle(AssertionValidation $validation, Closure $next): mixed
     {

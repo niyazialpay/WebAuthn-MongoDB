@@ -4,10 +4,10 @@ namespace Tests\Assertion;
 
 use Illuminate\Http\Request;
 use Illuminate\Testing\TestResponse;
-use Laragear\WebAuthn\Assertion\Creator\AssertionCreation;
-use Laragear\WebAuthn\Assertion\Creator\AssertionCreator;
-use Laragear\WebAuthn\Challenge;
-use Laragear\WebAuthn\WebAuthn;
+use niyazialpay\WebAuthn\Assertion\Creator\AssertionCreation;
+use niyazialpay\WebAuthn\Assertion\Creator\AssertionCreator;
+use niyazialpay\WebAuthn\Challenge;
+use niyazialpay\WebAuthn\WebAuthn;
 use Ramsey\Uuid\Uuid;
 use Tests\Stubs\WebAuthnAuthenticatableUser;
 use Tests\TestCase;

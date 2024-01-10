@@ -1,8 +1,8 @@
 <?php
 
-namespace Laragear\WebAuthn\Attestation\Validator\Pipes;
+namespace niyazialpay\WebAuthn\Attestation\Validator\Pipes;
 
-use Laragear\WebAuthn\SharedPipes\CompileClientDataJson as BaseCompileClientDataJson;
+use niyazialpay\WebAuthn\SharedPipes\CompileClientDataJson as BaseCompileClientDataJson;
 
 /**
  * 5. Let JSONtext be the result of running UTF-8 decode on the value of response.clientDataJSON.
