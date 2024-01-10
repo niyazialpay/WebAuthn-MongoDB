@@ -61,7 +61,7 @@ class WebAuthnCredential extends Model
      *
      * @var string
      */
-    protected $table = 'webauthn_credentials';
+    protected $collection = 'webauthn_credentials';
 
     /**
      * The "type" of the primary key ID.
