@@ -50,7 +50,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Laragear\\WebAuthn\\": "src"
+            "niyazialpay\\WebAuthn\\": "src"
         }
     },
     "autoload-dev": {
@@ -69,7 +69,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Laragear\\WebAuthn\\WebAuthnServiceProvider"
+                "niyazialpay\\WebAuthn\\WebAuthnServiceProvider"
             ]
         }
     },
