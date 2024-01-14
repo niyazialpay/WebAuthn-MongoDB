@@ -28,10 +28,10 @@ class CheckPublicKeyCounterCorrect
     /**
      * Handle the incoming Assertion Validation.
      *
-     * @param  \niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation  $validation
-     * @param  \Closure  $next
+     * @param AssertionValidation $validation
+     * @param Closure $next
      * @return mixed
-     * @throws \niyazialpay\WebAuthn\Exceptions\AssertionException
+     * @throws AssertionException
      */
     public function handle(AssertionValidation $validation, Closure $next): mixed
     {
@@ -49,7 +49,7 @@ class CheckPublicKeyCounterCorrect
     /**
      * Check if the incoming credential or the stored credential have a counter.
      *
-     * @param  \niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation  $validation
+     * @param AssertionValidation $validation
      * @return bool
      */
     protected function hasCounter(AssertionValidation $validation): bool
@@ -61,7 +61,7 @@ class CheckPublicKeyCounterCorrect
     /**
      * Check if the credential counter is equal or higher than what the authenticator reports.
      *
-     * @param  \niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation  $validation
+     * @param AssertionValidation $validation
      * @return bool
      */
     protected function counterBelowStoredCredential(AssertionValidation $validation): bool

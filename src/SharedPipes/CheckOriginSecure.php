@@ -15,7 +15,7 @@ abstract class CheckOriginSecure
     /**
      * Create a new pipe instance.
      *
-     * @param  \Illuminate\Contracts\Config\Repository  $config
+     * @param Repository $config
      */
     public function __construct(protected Repository $config)
     {
@@ -25,8 +25,8 @@ abstract class CheckOriginSecure
     /**
      * Handle the incoming WebAuthn Ceremony Validation.
      *
-     * @param  \niyazialpay\WebAuthn\Attestation\Validator\AttestationValidation|\niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation  $validation
-     * @param  \Closure  $next
+     * @param AttestationValidation|AssertionValidation $validation
+     * @param Closure $next
      * @return mixed
      */
     public function handle(AttestationValidation|AssertionValidation $validation, Closure $next): mixed

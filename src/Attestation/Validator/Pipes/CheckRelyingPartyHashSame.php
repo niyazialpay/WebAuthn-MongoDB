@@ -19,8 +19,8 @@ class CheckRelyingPartyHashSame extends BaseCheckRelyingPartyHashSame
     /**
      * Return the Attestation data to check the RP ID Hash.
      *
-     * @param  \niyazialpay\WebAuthn\Attestation\Validator\AttestationValidation|\niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation  $validation
-     * @return \niyazialpay\WebAuthn\Attestation\AuthenticatorData
+     * @param AttestationValidation|AssertionValidation $validation
+     * @return AuthenticatorData
      */
     protected function authenticatorData(AssertionValidation|AttestationValidation $validation): AuthenticatorData
     {
@@ -30,7 +30,7 @@ class CheckRelyingPartyHashSame extends BaseCheckRelyingPartyHashSame
     /**
      * Return the Relying Party ID from the config or credential.
      *
-     * @param  \niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation|\niyazialpay\WebAuthn\Attestation\Validator\AttestationValidation  $validation
+     * @param AssertionValidation|AttestationValidation $validation
      * @return string
      */
     protected function relyingPartyId(AssertionValidation|AttestationValidation $validation): string

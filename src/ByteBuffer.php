@@ -5,8 +5,10 @@ namespace niyazialpay\WebAuthn;
 use Illuminate\Contracts\Support\Jsonable;
 use InvalidArgumentException;
 use JetBrains\PhpStorm\ArrayShape;
+use JsonException;
 use JsonSerializable;
 use OutOfBoundsException;
+use Random\RandomException;
 use Stringable;
 use function base64_decode;
 use function base64_encode;
@@ -80,6 +82,9 @@ use function unpack;
  */
 class ByteBuffer implements JsonSerializable, Jsonable, Stringable
 {
+
+    private string $byteBufferException = 'ByteBuffer: Invalid offset';
+
     /**
      * Create a new ByteBuffer
      *
@@ -134,7 +139,7 @@ class ByteBuffer implements JsonSerializable, Jsonable, Stringable
     /**
      * Check if both Byte Buffers are equal using `hash_equals`.
      *
-     * @param  \niyazialpay\WebAuthn\ByteBuffer|string  $buffer
+     * @param ByteBuffer|string  $buffer
      * @return bool
      */
     public function hashEqual(self|string $buffer): bool
@@ -149,7 +154,7 @@ class ByteBuffer implements JsonSerializable, Jsonable, Stringable
     /**
      * Check if both Byte Buffers are not equal using `hash_equals`.
      *
-     * @param  \niyazialpay\WebAuthn\ByteBuffer|string  $buffer
+     * @param ByteBuffer|string  $buffer
      * @return bool
      */
     public function hashNotEqual(self|string $buffer): bool
@@ -184,7 +189,7 @@ class ByteBuffer implements JsonSerializable, Jsonable, Stringable
     public function getByteVal(int $offset = 0): int
     {
         if (!$byte = $this->binaryData[$offset] ?? null) {
-            throw new InvalidArgumentException('ByteBuffer: Invalid offset');
+            throw new InvalidArgumentException($this->byteBufferException);
         }
 
         return ord($byte);
@@ -199,7 +204,7 @@ class ByteBuffer implements JsonSerializable, Jsonable, Stringable
     public function getUint16Val(int $offset = 0): int
     {
         if ($offset < 0 || ($offset + 2) > $this->dataLength) {
-            throw new InvalidArgumentException('ByteBuffer: Invalid offset');
+            throw new InvalidArgumentException($this->byteBufferException);
         }
 
         return unpack('n', $this->binaryData, $offset)[1];
@@ -214,7 +219,7 @@ class ByteBuffer implements JsonSerializable, Jsonable, Stringable
     public function getUint32Val(int $offset = 0): int
     {
         if ($offset < 0 || ($offset + 4) > $this->dataLength) {
-            throw new InvalidArgumentException('ByteBuffer: Invalid offset');
+            throw new InvalidArgumentException($this->byteBufferException);
         }
 
         $val = unpack('N', $this->binaryData, $offset)[1];
@@ -240,7 +245,7 @@ class ByteBuffer implements JsonSerializable, Jsonable, Stringable
         }
 
         if ($offset < 0 || ($offset + 8) > $this->dataLength) {
-            throw new InvalidArgumentException('ByteBuffer: Invalid offset');
+            throw new InvalidArgumentException($this->byteBufferException);
         }
 
         $val = unpack('J', $this->binaryData, $offset)[1];
@@ -287,7 +292,7 @@ class ByteBuffer implements JsonSerializable, Jsonable, Stringable
     public function getFloatVal(int $offset = 0): float
     {
         if ($offset < 0 || ($offset + 4) > $this->dataLength) {
-            throw new InvalidArgumentException('ByteBuffer: Invalid offset');
+            throw new InvalidArgumentException($this->byteBufferException);
         }
 
         return unpack('G', $this->binaryData, $offset)[1];
@@ -302,7 +307,7 @@ class ByteBuffer implements JsonSerializable, Jsonable, Stringable
     public function getDoubleVal(int $offset = 0): float
     {
         if ($offset < 0 || ($offset + 8) > $this->dataLength) {
-            throw new InvalidArgumentException('ByteBuffer: Invalid offset');
+            throw new InvalidArgumentException($this->byteBufferException);
         }
         return unpack('E', $this->binaryData, $offset)[1];
     }
@@ -312,7 +317,7 @@ class ByteBuffer implements JsonSerializable, Jsonable, Stringable
      *
      * @param  int  $jsonFlags
      * @return object
-     * @throws \JsonException
+     * @throws JsonException
      */
     public function toObject(int $jsonFlags = 0): object
     {
@@ -443,8 +448,9 @@ class ByteBuffer implements JsonSerializable, Jsonable, Stringable
     /**
      * Create a random ByteBuffer
      *
-     * @param  int  $length
+     * @param int $length
      * @return static
+     * @throws RandomException
      */
     public static function makeRandom(int $length): static
     {

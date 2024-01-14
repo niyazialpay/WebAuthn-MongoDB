@@ -2,26 +2,29 @@
 
 namespace niyazialpay\WebAuthn\Models;
 
+use Illuminate\Support\Carbon;
 use MongoDB\Laravel\Eloquent\Builder;
 use MongoDB\Laravel\Eloquent\Model;
 use MongoDB\Laravel\Relations\MorphTo;
+use niyazialpay\WebAuthn\ByteBuffer;
+use niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable;
 use niyazialpay\WebAuthn\Events\CredentialDisabled;
 use niyazialpay\WebAuthn\Events\CredentialEnabled;
 
 /**
- * @mixin \MongoDB\Laravel\Eloquent\Builder
+ * @mixin Builder
  *
- * @method static \MongoDB\Laravel\Eloquent\Builder|static query()
- * @method \MongoDB\Laravel\Eloquent\Builder|static newQuery()
+ * @method static Builder|static query()
+ * @method Builder|static newQuery()
  * @method static static make(array $attributes = [])
  * @method static static create(array $attributes = [])
  * @method static static forceCreate(array $attributes)
- * @method \niyazialpay\WebAuthn\Models\WebAuthnCredential firstOrNew(array $attributes = [], array $values = [])
- * @method \niyazialpay\WebAuthn\Models\WebAuthnCredential firstOrFail($columns = ['*'])
- * @method \niyazialpay\WebAuthn\Models\WebAuthnCredential firstOrCreate(array $attributes, array $values = [])
- * @method \niyazialpay\WebAuthn\Models\WebAuthnCredential firstOr($columns = ['*'], \Closure $callback = null)
- * @method \niyazialpay\WebAuthn\Models\WebAuthnCredential firstWhere($column, $operator = null, $value = null, $boolean = 'and')
- * @method \niyazialpay\WebAuthn\Models\WebAuthnCredential updateOrCreate(array $attributes, array $values = [])
+ * @method WebAuthnCredential firstOrNew(array $attributes = [], array $values = [])
+ * @method WebAuthnCredential firstOrFail($columns = ['*'])
+ * @method WebAuthnCredential firstOrCreate(array $attributes, array $values = [])
+ * @method WebAuthnCredential firstOr($columns = ['*'], \Closure $callback = null)
+ * @method WebAuthnCredential firstWhere($column, $operator = null, $value = null, $boolean = 'and')
+ * @method WebAuthnCredential updateOrCreate(array $attributes, array $values = [])
  * @method ?static first($columns = ['*'])
  * @method static static findOrFail($id, $columns = ['*'])
  * @method static static findOrNew($id, $columns = ['*'])
@@ -42,17 +45,17 @@ use niyazialpay\WebAuthn\Events\CredentialEnabled;
  * @property-read string $attestation_format
  * @property-read array<int, string> $certificates
  *
- * @property-read \Illuminate\Support\Carbon|null $disabled_at
+ * @property-read Carbon|null $disabled_at
  *
- * @property-read \niyazialpay\WebAuthn\ByteBuffer $binary_id
+ * @property-read ByteBuffer $binary_id
  *
- * @property-read \Illuminate\Support\Carbon $updated_at
- * @property-read \Illuminate\Support\Carbon $created_at
+ * @property-read Carbon $updated_at
+ * @property-read Carbon $created_at
  *
- * @property-read \niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable $authenticatable
+ * @property-read WebAuthnAuthenticatable $authenticatable
  *
- * @method \MongoDB\Laravel\Eloquent\Builder|static whereEnabled()
- * @method \MongoDB\Laravel\Eloquent\Builder|static whereDisabled()
+ * @method Builder|static whereEnabled()
+ * @method Builder|static whereDisabled()
  */
 class WebAuthnCredential extends Model
 {
@@ -88,6 +91,7 @@ class WebAuthnCredential extends Model
         'public_key' => 'encrypted',
         'certificates' => 'array',
         'disabled_at' => 'timestamp',
+        'name' => 'encrypted'
     ];
 
     /**
@@ -95,11 +99,11 @@ class WebAuthnCredential extends Model
      *
      * @var array<int, string>
      */
-    protected $visible = ['id', 'origin', 'alias', 'aaguid', 'attestation_format', 'disabled_at'];
+    protected $visible = ['id', 'origin', 'alias', 'aaguid', 'attestation_format', 'disabled_at', 'name'];
 
     /**
      * @phpstan-ignore-next-line
-     * @return \MongoDB\Laravel\Relations\MorphTo|\niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable
+     * @return MorphTo
      */
     public function authenticatable(): MorphTo
     {
@@ -109,8 +113,8 @@ class WebAuthnCredential extends Model
     /**
      * Filter the query by enabled credentials.
      *
-     * @param  \MongoDB\Laravel\Eloquent\Builder  $query
-     * @return \MongoDB\Laravel\Eloquent\Builder
+     * @param Builder $query
+     * @return Builder
      */
     protected function scopeWhereEnabled(Builder $query): Builder
     {
@@ -120,8 +124,8 @@ class WebAuthnCredential extends Model
     /**
      * Filter the query by disabled credentials.
      *
-     * @param  \MongoDB\Laravel\Eloquent\Builder  $query
-     * @return \MongoDB\Laravel\Eloquent\Builder
+     * @param Builder $query
+     * @return Builder
      */
     protected function scopeWhereDisabled(Builder $query): Builder
     {

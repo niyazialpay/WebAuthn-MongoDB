@@ -450,6 +450,8 @@ class AuthenticatorData
             case static::$RSA_RS256:
                 static::readCredentialPublicKeyRS256($publicKey, $enc);
                 break;
+            default:
+                throw new DataException('Unsupported public key algorithm');
         }
 
         return $publicKey;

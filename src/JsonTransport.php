@@ -66,7 +66,7 @@ class JsonTransport implements Arrayable, Jsonable, JsonSerializable, Stringable
     /**
      * Get the instance as an array.
      *
-     * @return array<string, int|string|\niyazialpay\WebAuthn\ByteBuffer>
+     * @return array<string, int|string|ByteBuffer>
      */
     public function toArray()
     {

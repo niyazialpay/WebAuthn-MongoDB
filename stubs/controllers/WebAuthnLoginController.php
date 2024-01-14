@@ -13,8 +13,8 @@ class WebAuthnLoginController
     /**
      * Returns the challenge to assertion.
      *
-     * @param  \niyazialpay\WebAuthn\Http\Requests\AssertionRequest  $request
-     * @return \Illuminate\Contracts\Support\Responsable
+     * @param AssertionRequest $request
+     * @return Responsable
      */
     public function options(AssertionRequest $request): Responsable
     {
@@ -24,8 +24,8 @@ class WebAuthnLoginController
     /**
      * Log the user in.
      *
-     * @param  \niyazialpay\WebAuthn\Http\Requests\AssertedRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param AssertedRequest $request
+     * @return Response
      */
     public function login(AssertedRequest $request): Response
     {

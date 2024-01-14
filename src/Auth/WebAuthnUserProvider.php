@@ -3,6 +3,7 @@
 namespace niyazialpay\WebAuthn\Auth;
 
 use Illuminate\Auth\EloquentUserProvider;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Contracts\Hashing\Hasher as HasherContract;
 use niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation;
@@ -24,9 +25,9 @@ class WebAuthnUserProvider extends EloquentUserProvider
     /**
      * Create a new database user provider.
      *
-     * @param  \Illuminate\Contracts\Hashing\Hasher  $hasher
+     * @param HasherContract $hasher
      * @param  string  $model
-     * @param  \niyazialpay\WebAuthn\Assertion\Validator\AssertionValidator  $validator
+     * @param AssertionValidator $validator
      * @param  bool  $fallback
      */
     public function __construct(
@@ -42,9 +43,9 @@ class WebAuthnUserProvider extends EloquentUserProvider
      * Retrieve a user by the given credentials.
      *
      * @param  array  $credentials
-     * @return \Illuminate\Contracts\Auth\Authenticatable|null
+     * @return Authenticatable|null
      */
-    public function retrieveByCredentials(array $credentials)
+    public function retrieveByCredentials(array $credentials): ?Authenticatable
     {
         if (in_array(WebAuthnAuthenticatable::class, class_implements($this->model, true), true) && $this->isSignedChallenge($credentials)) {
             /** @noinspection PhpIncompatibleReturnTypeInspection */
@@ -73,7 +74,7 @@ class WebAuthnUserProvider extends EloquentUserProvider
     /**
      * Validate a user against the given credentials.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable|\niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable  $user
+     * @param  Authenticatable|\niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable  $user
      * @param  array  $credentials
      *
      * @return bool

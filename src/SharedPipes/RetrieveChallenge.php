@@ -21,7 +21,7 @@ abstract class RetrieveChallenge
     /**
      * Create a new pipe instance.
      *
-     * @param  \Illuminate\Contracts\Config\Repository  $config
+     * @param Repository $config
      */
     public function __construct(protected Repository $config)
     {
@@ -31,8 +31,8 @@ abstract class RetrieveChallenge
     /**
      * Handle the incoming Assertion Validation.
      *
-     * @param  \niyazialpay\WebAuthn\Attestation\Validator\AttestationValidation|\niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation  $validation
-     * @param  \Closure  $next
+     * @param AttestationValidation|AssertionValidation $validation
+     * @param Closure $next
      * @return mixed
      */
     public function handle(AttestationValidation|AssertionValidation $validation, Closure $next): mixed
@@ -49,12 +49,12 @@ abstract class RetrieveChallenge
     /**
      * Pulls an Attestation challenge from the Cache.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \niyazialpay\WebAuthn\Challenge|null
+     * @param Request $request
+     * @return Challenge|null
      */
     protected function retrieveChallenge(Request $request): ?Challenge
     {
-        /** @var \niyazialpay\WebAuthn\Challenge|null $challenge */
+        /** @var Challenge|null $challenge */
         $challenge = $request->session()->pull($this->config->get('webauthn.challenge.key'));
 
         if (!$challenge || $challenge->hasExpired()) {

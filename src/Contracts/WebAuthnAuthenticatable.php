@@ -34,7 +34,7 @@ interface WebAuthnAuthenticatable
      * Makes an instance of a WebAuthn Credential attached to this user.
      *
      * @param  array  $properties
-     * @return \niyazialpay\WebAuthn\Models\WebAuthnCredential
+     * @return WebAuthnCredential
      */
     public function makeWebAuthnCredential(array $properties): WebAuthnCredential;
 
@@ -42,7 +42,7 @@ interface WebAuthnAuthenticatable
      * Returns a queryable relationship for its WebAuthn Credentials.
      *
      * @phpstan-ignore-next-line
-     * @return \MongoDB\Laravel\Relations\MorphMany|\niyazialpay\WebAuthn\Models\WebAuthnCredential
+     * @return MorphMany|WebAuthnCredential
      */
     public function webAuthnCredentials(): MorphMany;
 }

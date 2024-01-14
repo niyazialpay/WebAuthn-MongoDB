@@ -26,8 +26,8 @@ class IncrementCredentialCounter
     /**
      * Handle the incoming Assertion Validation.
      *
-     * @param  \niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation  $validation
-     * @param  \Closure  $next
+     * @param AssertionValidation $validation
+     * @param Closure $next
      * @return mixed
      */
     public function handle(AssertionValidation $validation, Closure $next): mixed

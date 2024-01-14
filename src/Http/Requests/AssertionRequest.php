@@ -2,6 +2,7 @@
 
 namespace niyazialpay\WebAuthn\Http\Requests;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +19,7 @@ class AssertionRequest extends FormRequest
     /**
      * The Assertion Creation instance.
      *
-     * @var \niyazialpay\WebAuthn\Assertion\Creator\AssertionCreation
+     * @var AssertionCreation
      */
     protected AssertionCreation $assertion;
 
@@ -49,7 +50,7 @@ class AssertionRequest extends FormRequest
     /**
      * Return or make a new Assertion Creation.
      *
-     * @return \niyazialpay\WebAuthn\Assertion\Creator\AssertionCreation
+     * @return AssertionCreation
      */
     protected function assertion(): AssertionCreation
     {
@@ -96,9 +97,9 @@ class AssertionRequest extends FormRequest
     /**
      * Creates an assertion challenge for a user if found.
      *
-     * @param  \niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable|string|int|array|null  $credentials
-     * @return \Illuminate\Contracts\Support\Responsable
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @param WebAuthnAuthenticatable|string|int|array|null  $credentials
+     * @return Responsable
+     * @throws BindingResolutionException
      */
     public function toVerify(WebAuthnAuthenticatable|string|int|array|null $credentials = []): Responsable
     {
@@ -115,9 +116,9 @@ class AssertionRequest extends FormRequest
     /**
      * Try to find a user to create an assertion procedure.
      *
-     * @param  \niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable|array|int|string|null  $credentials
-     * @return \niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable|null
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @param WebAuthnAuthenticatable|array|int|string|null  $credentials
+     * @return WebAuthnAuthenticatable|null
+     * @throws BindingResolutionException
      */
     protected function findUser(WebAuthnAuthenticatable|array|int|string|null $credentials): ?WebAuthnAuthenticatable
     {

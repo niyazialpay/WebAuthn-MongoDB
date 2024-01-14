@@ -12,7 +12,7 @@ class CredentialEnabled
     /**
      * Create a new event instance.
      *
-     * @param  \niyazialpay\WebAuthn\Models\WebAuthnCredential  $credential
+     * @param WebAuthnCredential $credential
      */
     public function __construct(public WebAuthnCredential $credential)
     {

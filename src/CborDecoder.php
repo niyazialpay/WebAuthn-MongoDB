@@ -77,9 +77,9 @@ class CborDecoder
     /**
      * Decodes the binary data.
      *
-     * @param  \niyazialpay\WebAuthn\ByteBuffer|string  $encoded
-     * @return \niyazialpay\WebAuthn\ByteBuffer|array|bool|float|int|string|null
-     * @throws \niyazialpay\WebAuthn\Exceptions\DataException
+     * @param ByteBuffer|string  $encoded
+     * @return ByteBuffer|array|bool|float|int|string|null
+     * @throws DataException
      */
     public static function decode(ByteBuffer|string $encoded): ByteBuffer|array|bool|float|int|string|null
     {
@@ -104,8 +104,8 @@ class CborDecoder
      * @param  ByteBuffer|string  $bufOrBin
      * @param  int  $startOffset
      * @param  int|null  $endOffset
-     * @return \niyazialpay\WebAuthn\ByteBuffer|array|bool|float|int|string|null
-     * @throws \niyazialpay\WebAuthn\Exceptions\DataException
+     * @return ByteBuffer|array|bool|float|int|string|null
+     * @throws DataException
      */
     public static function decodePortion(ByteBuffer|string $bufOrBin, int $startOffset, ?int &$endOffset = null): ByteBuffer|array|bool|float|int|string|null
     {
@@ -123,8 +123,8 @@ class CborDecoder
      *
      * @param  ByteBuffer  $buf
      * @param  int  $offset
-     * @return \niyazialpay\WebAuthn\ByteBuffer|array|bool|float|int|string|null
-     * @throws \niyazialpay\WebAuthn\Exceptions\DataException
+     * @return ByteBuffer|array|bool|float|int|string|null
+     * @throws DataException
      */
     protected static function parseItem(ByteBuffer $buf, int &$offset): ByteBuffer|array|bool|float|int|string|null
     {
@@ -149,10 +149,10 @@ class CborDecoder
      * Parses a simple float value.
      *
      * @param  int  $val
-     * @param  \niyazialpay\WebAuthn\ByteBuffer  $buf
+     * @param ByteBuffer $buf
      * @param  int  $offset
      * @return bool|float|null
-     * @throws \niyazialpay\WebAuthn\Exceptions\DataException
+     * @throws DataException
      */
     protected static function parseFloatSimple(int $val, ByteBuffer $buf, int &$offset): bool|float|null
     {
@@ -189,7 +189,7 @@ class CborDecoder
      *
      * @param  int  $val
      * @return bool|null
-     * @throws \niyazialpay\WebAuthn\Exceptions\DataException
+     * @throws DataException
      */
     protected static function parseSimpleValue(int $val): ?bool
     {
@@ -205,10 +205,10 @@ class CborDecoder
      * Parses the CBOR extra length.
      *
      * @param  int  $val
-     * @param  \niyazialpay\WebAuthn\ByteBuffer  $buf
+     * @param ByteBuffer $buf
      * @param  int  $offset
      * @return int
-     * @throws \niyazialpay\WebAuthn\Exceptions\DataException
+     * @throws DataException
      */
     protected static function parseExtraLength(int $val, ByteBuffer $buf, int &$offset): int
     {
@@ -245,10 +245,10 @@ class CborDecoder
      *
      * @param  int  $type
      * @param  int  $val
-     * @param  \niyazialpay\WebAuthn\ByteBuffer  $buf
+     * @param ByteBuffer $buf
      * @param $offset
-     * @return \niyazialpay\WebAuthn\ByteBuffer|array|bool|float|int|string|null
-     * @throws \niyazialpay\WebAuthn\Exceptions\DataException|\InvalidArgumentException
+     * @return ByteBuffer|array|bool|float|int|string|null
+     * @throws DataException|InvalidArgumentException
      */
     protected static function parseItemData(
         int $type,
@@ -281,19 +281,19 @@ class CborDecoder
 
             case static::CBOR_MAJOR_TAG:
                 return static::parseItem($buf, $offset); // 1 embedded data item
+            default:
+                throw new DataException(sprintf('Unknown major type %d.', $type));
         }
-
-        throw new DataException(sprintf('Unknown major type %d.', $type));
     }
 
     /**
      * Parses an array with string keys.
      *
-     * @param  \niyazialpay\WebAuthn\ByteBuffer  $buffer
+     * @param ByteBuffer $buffer
      * @param  int  $offset
      * @param  int  $count
      * @return array<string, mixed>
-     * @throws \niyazialpay\WebAuthn\Exceptions\DataException
+     * @throws DataException
      */
     protected static function parseMap(ByteBuffer $buffer, int &$offset, int $count): array
     {
@@ -316,11 +316,11 @@ class CborDecoder
     /**
      * Parses an array from the byte buffer.
      *
-     * @param  \niyazialpay\WebAuthn\ByteBuffer  $buf
+     * @param ByteBuffer $buf
      * @param  int  $offset
      * @param  int  $count
      * @return array
-     * @throws \niyazialpay\WebAuthn\Exceptions\DataException
+     * @throws DataException
      */
     protected static function parseArray(ByteBuffer $buf, int &$offset, int $count): array
     {

@@ -20,10 +20,10 @@ class CheckPublicKeySignature
     /**
      * Handle the incoming Assertion Validation.
      *
-     * @param  \niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation  $validation
-     * @param  \Closure  $next
+     * @param AssertionValidation $validation
+     * @param Closure $next
      * @return mixed
-     * @throws \niyazialpay\WebAuthn\Exceptions\AssertionException
+     * @throws AssertionException
      */
     public function handle(AssertionValidation $validation, Closure $next): mixed
     {
@@ -47,11 +47,11 @@ class CheckPublicKeySignature
     /**
      * Validate the signature from the assertion.
      *
-     * @param  \niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation  $validation
+     * @param AssertionValidation $validation
      * @param  string  $signature
      * @param  \OpenSSLAsymmetricKey  $publicKey
      * @return void
-     * @throws \niyazialpay\WebAuthn\Exceptions\AssertionException
+     * @throws AssertionException
      */
     public function validateSignature(
         AssertionValidation $validation,

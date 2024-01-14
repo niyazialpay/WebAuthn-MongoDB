@@ -4,6 +4,7 @@ namespace niyazialpay\WebAuthn;
 
 use Illuminate\Auth\AuthManager;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable;
@@ -23,7 +24,7 @@ class WebAuthnServiceProvider extends ServiceProvider
      * Register the service provider.
      *
      * @return void
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @throws BindingResolutionException
      */
     public function register(): void
     {
@@ -38,7 +39,7 @@ class WebAuthnServiceProvider extends ServiceProvider
      * Boot the service provider.
      *
      * @return void
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @throws BindingResolutionException
      */
     public function boot(): void
     {
@@ -58,7 +59,7 @@ class WebAuthnServiceProvider extends ServiceProvider
      * @param  array|string  $paths
      * @param  string  $groups
      * @return void
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @throws BindingResolutionException
      */
     protected function publishesMigrations(array|string $paths, string $groups = 'migrations'): void
     {
@@ -96,7 +97,7 @@ class WebAuthnServiceProvider extends ServiceProvider
      * Extends the Authentication Factory with a WebAuthn Eloquent-Compatible User Provider.
      *
      * @return void
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @throws BindingResolutionException
      */
     protected function registerUserProvider(): void
     {

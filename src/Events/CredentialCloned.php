@@ -12,7 +12,7 @@ class CredentialCloned
     /**
      * Create a new event instance.
      *
-     * @param  \niyazialpay\WebAuthn\Models\WebAuthnCredential  $credential
+     * @param WebAuthnCredential $credential
      * @param  int  $reportedCount  The counter reported by the user authenticator.
      */
     public function __construct(public WebAuthnCredential $credential, public int $reportedCount)

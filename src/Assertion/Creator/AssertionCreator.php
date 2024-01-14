@@ -5,7 +5,7 @@ namespace niyazialpay\WebAuthn\Assertion\Creator;
 use Illuminate\Pipeline\Pipeline;
 
 /**
- * @method \niyazialpay\WebAuthn\Assertion\Creator\AssertionCreation thenReturn()
+ * @method AssertionCreation thenReturn()
  */
 class AssertionCreator extends Pipeline
 {

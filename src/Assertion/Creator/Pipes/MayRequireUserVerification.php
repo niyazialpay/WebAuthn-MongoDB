@@ -10,8 +10,8 @@ class MayRequireUserVerification
     /**
      * Handle the incoming Assertion.
      *
-     * @param  \niyazialpay\WebAuthn\Assertion\Creator\AssertionCreation  $assertion
-     * @param  \Closure  $next
+     * @param AssertionCreation $assertion
+     * @param Closure $next
      * @return mixed
      */
     public function handle(AssertionCreation $assertion, Closure $next): mixed

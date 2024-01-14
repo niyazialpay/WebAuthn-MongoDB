@@ -5,16 +5,18 @@ namespace niyazialpay\WebAuthn\Attestation;
 use Illuminate\Http\Request;
 use niyazialpay\WebAuthn\Challenge;
 use niyazialpay\WebAuthn\WebAuthn;
+use Random\RandomException;
 
 trait SessionChallenge
 {
     /**
      * Stores an Attestation challenge into the Cache.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  string|null  $verify
-     * @param  array  $options
-     * @return \niyazialpay\WebAuthn\Challenge
+     * @param Request $request
+     * @param string|null $verify
+     * @param array $options
+     * @return Challenge
+     * @throws RandomException
      */
     protected function storeChallenge(Request $request, ?string $verify, array $options = []): Challenge
     {
@@ -28,9 +30,10 @@ trait SessionChallenge
     /**
      * Creates a Challenge using the default timeout.
      *
-     * @param  string|null  $verify
-     * @param  array  $options
-     * @return \niyazialpay\WebAuthn\Challenge
+     * @param string|null $verify
+     * @param array $options
+     * @return Challenge
+     * @throws RandomException
      */
     protected function createChallenge(?string $verify, array $options = []): Challenge
     {

@@ -34,10 +34,10 @@ class CompileAttestationObject
     /**
      * Handle the incoming Attestation Validation.
      *
-     * @param  \niyazialpay\WebAuthn\Attestation\Validator\AttestationValidation  $validation
-     * @param  \Closure  $next
+     * @param AttestationValidation $validation
+     * @param Closure $next
      * @return mixed
-     * @throws \niyazialpay\WebAuthn\Exceptions\AttestationException
+     * @throws AttestationException
      */
     public function handle(AttestationValidation $validation, Closure $next): mixed
     {
@@ -66,9 +66,9 @@ class CompileAttestationObject
     /**
      * Returns an array map from a BASE64 encoded CBOR string.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return array
-     * @throws \niyazialpay\WebAuthn\Exceptions\AttestationException
+     * @throws AttestationException
      */
     #[ArrayShape(["fmt" => "string", "attStmt" => "array", "authData" => ByteBuffer::class])]
     protected function decodeCborBase64(Request $request): array

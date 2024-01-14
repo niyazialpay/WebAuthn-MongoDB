@@ -14,8 +14,8 @@ class MayRetrieveCredentialsIdForUser
     /**
      * Handle the incoming Assertion.
      *
-     * @param  \niyazialpay\WebAuthn\Assertion\Creator\AssertionCreation  $assertion
-     * @param  \Closure  $next
+     * @param AssertionCreation $assertion
+     * @param Closure $next
      * @return mixed
      */
     public function handle(AssertionCreation $assertion, Closure $next): mixed
@@ -35,8 +35,8 @@ class MayRetrieveCredentialsIdForUser
     /**
      * Adapt all credentials into an `allowCredentials` digestible array.
      *
-     * @param  \Illuminate\Database\Eloquent\Collection<int, \niyazialpay\WebAuthn\Models\WebAuthnCredential>  $credentials
-     * @return \Illuminate\Support\Collection<int, array{id?: mixed, type: string, transports?: non-empty-array<int, string>}>
+     * @param EloquentCollection<int, WebAuthnCredential> $credentials
+     * @return Collection<int, array{id?: mixed, type: string, transports?: non-empty-array<int, string>}>
      */
     protected function parseCredentials(EloquentCollection $credentials): Collection
     {

@@ -12,16 +12,16 @@ class AssertionCreation
     /**
      * The Json Transport helper to build the message.
      *
-     * @var \niyazialpay\WebAuthn\JsonTransport
+     * @var JsonTransport
      */
     public JsonTransport $json;
 
     /**
      * Create a new Assertion Creation instance.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable|null  $user
-     * @param  \Illuminate\Database\Eloquent\Collection|null  $acceptedCredentials
+     * @param Request $request
+     * @param WebAuthnAuthenticatable|null  $user
+     * @param Collection|null  $acceptedCredentials
      * @param  string|null  $userVerification
      */
     public function __construct(

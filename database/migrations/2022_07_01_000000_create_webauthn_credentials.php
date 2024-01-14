@@ -74,6 +74,7 @@ return new class extends Migration {
 
         // A way to disable the credential without deleting it.
         $table->timestamp('disabled_at')->nullable();
+        $table->string('name')->nullable();
         $table->timestamps();
     }
 };

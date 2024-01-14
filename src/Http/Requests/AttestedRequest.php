@@ -2,6 +2,7 @@
 
 namespace niyazialpay\WebAuthn\Http\Requests;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Foundation\Http\FormRequest;
 use JetBrains\PhpStorm\ArrayShape;
 use niyazialpay\WebAuthn\Attestation\Validator\AttestationValidation;
@@ -12,21 +13,21 @@ use niyazialpay\WebAuthn\Models\WebAuthnCredential;
 use function is_callable;
 
 /**
- * @method \niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable user($guard = null)
+ * @method WebAuthnAuthenticatable user($guard = null)
  */
 class AttestedRequest extends FormRequest
 {
     /**
      * The new credential instance.
      *
-     * @var \niyazialpay\WebAuthn\Models\WebAuthnCredential
+     * @var WebAuthnCredential
      */
     protected WebAuthnCredential $credential;
 
     /**
      * Determine if the user is authorized to make this request.
      *
-     * @param  \niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable|null  $user
+     * @param WebAuthnAuthenticatable|null  $user
      * @return bool
      */
     public function authorize(?WebAuthnAuthenticatable $user): bool
@@ -46,12 +47,12 @@ class AttestedRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => 'required|string',
-            'rawId' => 'required|string',
-            'response' => 'required|array',
-            'response.clientDataJSON' => 'required|string',
-            'response.attestationObject' => 'required|string',
-            'type' => 'required|string',
+            'id' => ['required','string'],
+            'rawId' => ['required','string'],
+            'response' => ['required','array'],
+            'response.clientDataJSON' => ['required','string'],
+            'response.attestationObject' => ['required','string'],
+            'type' => ['required','string'],
         ];
     }
 
@@ -59,7 +60,7 @@ class AttestedRequest extends FormRequest
      * Handle a passed validation attempt.
      *
      * @return void
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @throws BindingResolutionException
      */
     protected function passedValidation(): void
     {
@@ -84,6 +85,6 @@ class AttestedRequest extends FormRequest
 
         CredentialCreated::dispatch($this->user(), $this->credential);
 
-        return $this->credential->getKey();
+        return $this->credential->id;
     }
 }

@@ -28,10 +28,10 @@ class CheckCredentialIsForUser
     /**
      * Handle the incoming Assertion Validation.
      *
-     * @param  \niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation  $validation
-     * @param  \Closure  $next
+     * @param AssertionValidation $validation
+     * @param Closure $next
      * @return mixed
-     * @throws \niyazialpay\WebAuthn\Exceptions\AssertionException
+     * @throws AssertionException
      */
     public function handle(AssertionValidation $validation, Closure $next): mixed
     {
@@ -51,7 +51,7 @@ class CheckCredentialIsForUser
     /**
      * Validate the user owns the Credential if it already exists in the validation procedure.
      *
-     * @param  \niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation  $validation
+     * @param AssertionValidation $validation
      * @return void
      */
     protected function validateUser(AssertionValidation $validation): void
@@ -65,7 +65,7 @@ class CheckCredentialIsForUser
     /**
      * Validate the user ID of the response.
      *
-     * @param  \niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation  $validation
+     * @param AssertionValidation $validation
      * @return void
      */
     protected function validateId(AssertionValidation $validation): void

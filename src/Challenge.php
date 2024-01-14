@@ -4,6 +4,7 @@ namespace niyazialpay\WebAuthn;
 
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\InteractsWithTime;
+use Random\RandomException;
 
 class Challenge
 {
@@ -12,7 +13,7 @@ class Challenge
     /**
      * Create a new Challenge instance.
      *
-     * @param  \niyazialpay\WebAuthn\ByteBuffer  $data
+     * @param ByteBuffer $data
      * @param  int  $timeout
      * @param  bool  $verify
      * @param  array  $properties
@@ -39,11 +40,12 @@ class Challenge
     /**
      * Creates a new Challenge instance using a random ByteBuffer of the given length.
      *
-     * @param  int  $length
-     * @param  int  $timeout
-     * @param  bool  $verify
-     * @param  array  $options
+     * @param int $length
+     * @param int $timeout
+     * @param bool $verify
+     * @param array $options
      * @return static
+     * @throws RandomException
      */
     public static function random(int $length, int $timeout, bool $verify = true, array $options = []): static
     {

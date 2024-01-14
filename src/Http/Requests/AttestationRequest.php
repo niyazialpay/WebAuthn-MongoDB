@@ -2,6 +2,8 @@
 
 namespace niyazialpay\WebAuthn\Http\Requests;
 
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Foundation\Http\FormRequest;
 use niyazialpay\WebAuthn\Attestation\Creator\AttestationCreation;
@@ -10,14 +12,14 @@ use niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable;
 use niyazialpay\WebAuthn\WebAuthn;
 
 /**
- * @method \niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable user($guard = null)
+ * @method WebAuthnAuthenticatable user($guard = null)
  */
 class AttestationRequest extends FormRequest
 {
     /**
      * The attestation instance that would be returned.
      *
-     * @var \niyazialpay\WebAuthn\Attestation\Creator\AttestationCreation
+     * @var AttestationCreation
      */
     protected AttestationCreation $attestation;
 
@@ -25,7 +27,7 @@ class AttestationRequest extends FormRequest
      * Validate the class instance.
      *
      * @return void
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
     public function validateResolved(): void
     {
@@ -37,7 +39,7 @@ class AttestationRequest extends FormRequest
     /**
      * Determine if the user is authorized to make this request.
      *
-     * @param  \niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable|null  $user
+     * @param WebAuthnAuthenticatable|null  $user
      * @return bool
      */
     public function authorize(?WebAuthnAuthenticatable $user): bool
@@ -48,7 +50,7 @@ class AttestationRequest extends FormRequest
     /**
      * Returns the existing attestation instance.
      *
-     * @return \niyazialpay\WebAuthn\Attestation\Creator\AttestationCreation
+     * @return AttestationCreation
      */
     protected function attestation(): AttestationCreation
     {
@@ -106,7 +108,8 @@ class AttestationRequest extends FormRequest
     /**
      * Returns a response with the instructions to create a WebAuthn Credential.
      *
-     * @return \Illuminate\Contracts\Support\Responsable
+     * @return Responsable
+     * @throws BindingResolutionException
      */
     public function toCreate(): Responsable
     {

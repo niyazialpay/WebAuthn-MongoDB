@@ -4,6 +4,7 @@
 namespace niyazialpay\WebAuthn\Attestation\Formats;
 
 use niyazialpay\WebAuthn\Attestation\AuthenticatorData;
+use niyazialpay\WebAuthn\ByteBuffer;
 
 /**
  * MIT License
@@ -43,8 +44,8 @@ abstract class Format
     /**
      * Create a new Attestation Format.
      *
-     * @param  array{fmt: string, attStmt: array, authData: \niyazialpay\WebAuthn\ByteBuffer}  $attestationObject
-     * @param  \niyazialpay\WebAuthn\Attestation\AuthenticatorData  $authenticatorData
+     * @param  array{fmt: string, attStmt: array, authData: ByteBuffer}  $attestationObject
+     * @param AuthenticatorData $authenticatorData
      */
     public function __construct(public array $attestationObject, public AuthenticatorData $authenticatorData)
     {

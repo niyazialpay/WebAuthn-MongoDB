@@ -15,10 +15,10 @@ class CredentialIdShouldNotBeDuplicated
     /**
      * Handle the incoming Attestation Validation.
      *
-     * @param  \niyazialpay\WebAuthn\Attestation\Validator\AttestationValidation  $validation
-     * @param  \Closure  $next
+     * @param AttestationValidation $validation
+     * @param Closure $next
      * @return mixed
-     * @throws \niyazialpay\WebAuthn\Exceptions\AttestationException
+     * @throws AttestationException
      */
     public function handle(AttestationValidation $validation, Closure $next): mixed
     {
@@ -32,7 +32,7 @@ class CredentialIdShouldNotBeDuplicated
     /**
      * Finds a WebAuthn Credential by the issued ID.
      *
-     * @param  \niyazialpay\WebAuthn\Attestation\Validator\AttestationValidation  $validation
+     * @param AttestationValidation $validation
      * @return bool
      */
     protected function credentialAlreadyExists(AttestationValidation $validation): bool

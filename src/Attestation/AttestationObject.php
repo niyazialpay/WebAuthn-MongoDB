@@ -12,8 +12,8 @@ class AttestationObject
     /**
      * Create a new Attestation Object.
      *
-     * @param  \niyazialpay\WebAuthn\Attestation\AuthenticatorData  $authenticatorData
-     * @param  \niyazialpay\WebAuthn\Attestation\Formats\Format  $format
+     * @param AuthenticatorData $authenticatorData
+     * @param Format $format
      * @param  string  $formatName
      */
     public function __construct(

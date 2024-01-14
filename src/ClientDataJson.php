@@ -9,7 +9,7 @@ class ClientDataJson
      *
      * @param  string  $type
      * @param  string  $origin
-     * @param  \niyazialpay\WebAuthn\ByteBuffer  $challenge
+     * @param ByteBuffer $challenge
      */
     public function __construct(public string $type, public string $origin, public ByteBuffer $challenge)
     {

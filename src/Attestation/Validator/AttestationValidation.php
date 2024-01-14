@@ -14,12 +14,12 @@ class AttestationValidation
     /**
      * Create a new Attestation Validation procedure
      *
-     * @param  \niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable  $user
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \niyazialpay\WebAuthn\Challenge|null  $challenge
-     * @param  \niyazialpay\WebAuthn\Attestation\AttestationObject|null  $attestationObject
-     * @param  \niyazialpay\WebAuthn\ClientDataJson|null  $clientDataJson
-     * @param  \niyazialpay\WebAuthn\Models\WebAuthnCredential|null  $credential
+     * @param WebAuthnAuthenticatable $user
+     * @param Request $request
+     * @param Challenge|null  $challenge
+     * @param AttestationObject|null  $attestationObject
+     * @param ClientDataJson|null  $clientDataJson
+     * @param WebAuthnCredential|null  $credential
      */
     public function __construct(
         public WebAuthnAuthenticatable $user,

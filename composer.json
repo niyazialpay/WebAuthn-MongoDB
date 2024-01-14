@@ -14,7 +14,7 @@
         "windows hello",
         "passkeys"
     ],
-    "homepage": "https://github.com/laragear/webauthn",
+    "homepage": "https://github.com/niyazialpay/WebAuthn-MongoDB",
     "authors": [
         {
             "name": "Lukas Buchs",
@@ -32,7 +32,7 @@
         "issues": "https://github.com/Laragear/WebAuthn/issues"
     },
     "require": {
-        "php": "8.*",
+        "php": "8.2",
         "ext-openssl": "*",
         "ext-json": "*",
         "illuminate/auth": "9.*|10.*",
@@ -40,7 +40,6 @@
         "illuminate/session": "9.*|10.*",
         "illuminate/support": "9.*|10.*",
         "illuminate/config": "9.*|10.*",
-        "illuminate/database": "9.*|10.*",
         "illuminate/encryption": "9.*|10.*",
         "mongodb/laravel-mongodb": "^4.1"
     },
