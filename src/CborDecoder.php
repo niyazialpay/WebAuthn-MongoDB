@@ -1,6 +1,6 @@
 <?php
 
-namespace Laragear\WebAuthn;
+namespace niyazialpay\WebAuthn;
 
 use InvalidArgumentException;
 use niyazialpay\WebAuthn\Exceptions\DataException;

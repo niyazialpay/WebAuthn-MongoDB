@@ -1,6 +1,6 @@
 <?php
 
-namespace Laragear\WebAuthn;
+namespace niyazialpay\WebAuthn;
 
 use Illuminate\Contracts\Support\Jsonable;
 use InvalidArgumentException;

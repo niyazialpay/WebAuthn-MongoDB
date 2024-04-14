@@ -1,6 +1,6 @@
 <?php
 
-namespace Laragear\WebAuthn;
+namespace niyazialpay\WebAuthn;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\MorphMany;

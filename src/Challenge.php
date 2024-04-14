@@ -1,6 +1,6 @@
 <?php
 
-namespace Laragear\WebAuthn;
+namespace niyazialpay\WebAuthn;
 
 use Illuminate\Support\Facades\Date;
 
