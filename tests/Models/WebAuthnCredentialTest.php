@@ -1,4 +1,6 @@
-<?php /** @noinspection JsonEncodingApiUsageInspection */
+<?php
+
+/** @noinspection JsonEncodingApiUsageInspection */
 
 namespace Tests\Models;
 
@@ -8,16 +10,17 @@ use niyazialpay\WebAuthn\Events\CredentialDisabled;
 use niyazialpay\WebAuthn\Events\CredentialEnabled;
 use niyazialpay\WebAuthn\Models\WebAuthnCredential;
 use Ramsey\Uuid\Uuid;
+use Tests\DatabaseTestCase;
 use Tests\FakeAuthenticator;
 use Tests\Stubs\WebAuthnAuthenticatableUser;
-use Tests\TestCase;
+
 use function array_merge;
 use function json_encode;
 use function now;
 
-class WebAuthnCredentialTest extends TestCase
+class WebAuthnCredentialTest extends DatabaseTestCase
 {
-    protected function afterRefreshingDatabase(): void
+    protected function defineDatabaseSeeders(): void
     {
         WebAuthnAuthenticatableUser::forceCreate([
             'name' => FakeAuthenticator::ATTESTATION_USER['displayName'],
@@ -32,7 +35,7 @@ class WebAuthnCredentialTest extends TestCase
                 'authenticatable_id' => 1,
                 'user_id' => 'e8af6f703f8042aa91c30cf72289aa07',
                 'counter' => 0,
-                'rp_id' => 'http://localhost',
+                'rp_id' => 'localhost',
                 'origin' => 'http://localhost',
                 'aaguid' => Uuid::NIL,
                 'attestation_format' => 'none',
@@ -45,7 +48,7 @@ class WebAuthnCredentialTest extends TestCase
         DB::table('webauthn_credentials')->insert($base());
 
         DB::table('webauthn_credentials')->insert($base([
-            'id' => '27EdS6eTDHCTa9Y73G9gY1b81yVJuuiu1TTyorFicBf'
+            'id' => '27EdS6eTDHCTa9Y73G9gY1b81yVJuuiu1TTyorFicBf',
         ]));
 
         DB::table('webauthn_credentials')->insert($base([
@@ -152,5 +155,15 @@ class WebAuthnCredentialTest extends TestCase
             ]),
             $json
         );
+    }
+
+    public function test_parses_correct_rp_id_as_domain_if_stored_as_url(): void
+    {
+        WebAuthnCredential::query()->whereKey(FakeAuthenticator::CREDENTIAL_ID)
+            ->update(['rp_id' => 'https://my.custom.url/great?something=foo']);
+
+        $credential = WebAuthnCredential::find(FakeAuthenticator::CREDENTIAL_ID);
+
+        static::assertSame('my.custom.url', $credential->rp_id);
     }
 }

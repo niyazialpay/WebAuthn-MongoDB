@@ -14,13 +14,8 @@ trait ThrowsCeremonyException
 {
     /**
      * Throws an exception for the validation.
-     *
-     * @param AttestationValidation|AssertionValidation $validation
-     * @param  string  $message
-     * @return void&never
-     * @throws AssertionException|AttestationException
      */
-    protected static function throw(AttestationValidation|AssertionValidation $validation, string $message): void
+    protected static function throw(AttestationValidation|AssertionValidation $validation, string $message): never
     {
         throw $validation instanceof AssertionValidation
             ? AssertionException::make($message)

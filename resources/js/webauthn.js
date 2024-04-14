@@ -22,6 +22,10 @@
  * SOFTWARE.
  */
 
+/**
+ * @deprecated Use Webpass instead
+ * @see https://github.com/Laragear/webpass
+ */
 class WebAuthn {
     /**
      * Routes for WebAuthn assertion (login) and attestation (register).
@@ -64,6 +68,8 @@ class WebAuthn {
      * @param xcsrfToken {string|null} Either a csrf token (40 chars) or xsrfToken (224 chars)
      */
     constructor(routes = {}, headers = {}, includeCredentials = false, xcsrfToken = null) {
+        console.warn('This WebAuthn Helper is deprecated and will be removed in the future. Consider migrating to @laragear/webpass')
+
         Object.assign(this.#routes, routes);
         Object.assign(this.#headers, headers);
 
@@ -157,7 +163,7 @@ class WebAuthn {
      */
     #fetch(data, route, headers = {}) {
         const url = new URL(route, window.location.origin).href;
-        
+
         return fetch(url, {
             method: "POST",
             credentials: this.#includeCredentials ? "include" : "same-origin",
@@ -257,8 +263,10 @@ class WebAuthn {
             id: credentials.id,
             type: credentials.type,
             rawId: WebAuthn.#arrayToBase64String(credentials.rawId),
-            response: {}
-        };
+            authenticatorAttachment: credentials.authenticatorAttachment,
+            clientExtensionResults: credentials.getClientExtensionResults(),
+            response: {},
+        }
 
         [
             "clientDataJSON",

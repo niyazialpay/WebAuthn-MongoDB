@@ -2,24 +2,21 @@
 
 namespace niyazialpay\WebAuthn\Http\Requests;
 
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Foundation\Http\FormRequest;
 use niyazialpay\WebAuthn\Attestation\Creator\AttestationCreation;
 use niyazialpay\WebAuthn\Attestation\Creator\AttestationCreator;
 use niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable;
-use niyazialpay\WebAuthn\WebAuthn;
+use niyazialpay\WebAuthn\Enums\ResidentKey;
+use niyazialpay\WebAuthn\Enums\UserVerification;
 
 /**
- * @method WebAuthnAuthenticatable user($guard = null)
+ * @method \niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable user($guard = null)
  */
 class AttestationRequest extends FormRequest
 {
     /**
      * The attestation instance that would be returned.
-     *
-     * @var AttestationCreation
      */
     protected AttestationCreation $attestation;
 
@@ -27,20 +24,16 @@ class AttestationRequest extends FormRequest
      * Validate the class instance.
      *
      * @return void
-     * @throws AuthorizationException
      */
     public function validateResolved(): void
     {
-        if (!$this->passesAuthorization()) {
+        if (! $this->passesAuthorization()) {
             $this->failedAuthorization();
         }
     }
 
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @param WebAuthnAuthenticatable|null  $user
-     * @return bool
      */
     public function authorize(?WebAuthnAuthenticatable $user): bool
     {
@@ -49,8 +42,6 @@ class AttestationRequest extends FormRequest
 
     /**
      * Returns the existing attestation instance.
-     *
-     * @return AttestationCreation
      */
     protected function attestation(): AttestationCreation
     {
@@ -64,7 +55,7 @@ class AttestationRequest extends FormRequest
      */
     public function fastRegistration(): static
     {
-        $this->attestation()->userVerification = WebAuthn::USER_VERIFICATION_DISCOURAGED;
+        $this->attestation()->userVerification = UserVerification::DISCOURAGED;
 
         return $this;
     }
@@ -76,7 +67,7 @@ class AttestationRequest extends FormRequest
      */
     public function secureRegistration(): static
     {
-        $this->attestation()->userVerification = WebAuthn::USER_VERIFICATION_REQUIRED;
+        $this->attestation()->userVerification = UserVerification::REQUIRED;
 
         return $this;
     }
@@ -88,7 +79,7 @@ class AttestationRequest extends FormRequest
      */
     public function userless(): static
     {
-        $this->attestation()->residentKey = WebAuthn::RESIDENT_KEY_REQUIRED;
+        $this->attestation()->residentKey = ResidentKey::REQUIRED;
 
         return $this;
     }
@@ -107,9 +98,6 @@ class AttestationRequest extends FormRequest
 
     /**
      * Returns a response with the instructions to create a WebAuthn Credential.
-     *
-     * @return Responsable
-     * @throws BindingResolutionException
      */
     public function toCreate(): Responsable
     {

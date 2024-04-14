@@ -14,9 +14,6 @@ class CheckRelyingPartyHashSame extends BaseCheckRelyingPartyHashSame
 {
     /**
      * Return the Attestation data to check the RP ID Hash.
-     *
-     * @param AttestationValidation|AssertionValidation $validation
-     * @return AuthenticatorData
      */
     protected function authenticatorData(AssertionValidation|AttestationValidation $validation): AuthenticatorData
     {
@@ -25,9 +22,6 @@ class CheckRelyingPartyHashSame extends BaseCheckRelyingPartyHashSame
 
     /**
      * Return the Relying Party ID from the config or credential.
-     *
-     * @param AssertionValidation|AttestationValidation $validation
-     * @return string
      */
     protected function relyingPartyId(AssertionValidation|AttestationValidation $validation): string
     {

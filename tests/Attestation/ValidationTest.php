@@ -1,4 +1,6 @@
-<?php /** @noinspection JsonEncodingApiUsageInspection */
+<?php
+
+/** @noinspection JsonEncodingApiUsageInspection */
 
 namespace Tests\Attestation;
 
@@ -22,9 +24,10 @@ use niyazialpay\WebAuthn\Models\WebAuthnCredential;
 use Mockery;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\ParameterBag;
+use Tests\DatabaseTestCase;
 use Tests\FakeAuthenticator;
 use Tests\Stubs\WebAuthnAuthenticatableUser;
-use Tests\TestCase;
+
 use function base64_decode;
 use function base64_encode;
 use function hex2bin;
@@ -34,11 +37,11 @@ use function session;
 use function tap;
 
 /**
- * CBOR Encoded strings where done in "cbor.me"
+ * CBOR Encoded strings where done in "cbor.me".
  *
  * @see https://cbor.me
  */
-class ValidationTest extends TestCase
+class ValidationTest extends DatabaseTestCase
 {
     protected Request $request;
     protected WebAuthnAuthenticatableUser $user;
@@ -46,35 +49,43 @@ class ValidationTest extends TestCase
     protected AttestationValidator $validator;
     protected Challenge $challenge;
 
-    protected function setUp(): void
+    protected function defineDatabaseSeeders(): void
     {
-        parent::setUp();
-
-        $this->request = Request::create(
-            'https://test.app/webauthn/create', 'POST', content: json_encode(FakeAuthenticator::attestationResponse())
-        );
-
         $this->user = WebAuthnAuthenticatableUser::forceCreate([
             'name' => FakeAuthenticator::ATTESTATION_USER['displayName'],
             'email' => FakeAuthenticator::ATTESTATION_USER['name'],
             'password' => 'test_password',
         ]);
+    }
 
-        $this->validator = new AttestationValidator($this->app);
-        $this->validation = new AttestationValidation($this->user, $this->request);
-
+    protected function defineEnvironment($app)
+    {
         $this->travelTo(now()->startOfSecond());
+    }
 
-        $this->challenge = new Challenge(
-            new ByteBuffer(base64_decode(FakeAuthenticator::ATTESTATION_CHALLENGE)),
-            60,
-            false,
-            ['user_uuid' => FakeAuthenticator::ATTESTATION_USER['id']]
-        );
+    protected function setUp(): void
+    {
+        $this->afterApplicationCreated(function (): void {
+            $this->request = Request::create(
+                'https://test.app/webauthn/create', 'POST', content: json_encode(FakeAuthenticator::attestationResponse())
+            );
 
-        $this->session(['_webauthn' => $this->challenge]);
+            $this->validator = new AttestationValidator($this->app);
+            $this->validation = new AttestationValidation($this->user, $this->request);
 
-        $this->request->setLaravelSession($this->app->make('session.store'));
+            $this->challenge = new Challenge(
+                new ByteBuffer(base64_decode(FakeAuthenticator::ATTESTATION_CHALLENGE)),
+                60,
+                false,
+                ['user_uuid' => FakeAuthenticator::ATTESTATION_USER['id']]
+            );
+
+            $this->session(['_webauthn' => $this->challenge]);
+
+            $this->request->setLaravelSession($this->app->make('session.store'));
+        });
+
+        parent::setUp();
     }
 
     protected function validate(): AttestationValidation
@@ -101,7 +112,7 @@ class ValidationTest extends TestCase
             'user_id' => $validation->credential->user_id,
             'alias' => null,
             'counter' => 0,
-            'rp_id' => 'http://localhost',
+            'rp_id' => 'localhost',
             'origin' => 'http://localhost',
             'transports' => null,
             'aaguid' => Uuid::NIL,
@@ -123,7 +134,7 @@ class ValidationTest extends TestCase
             json_encode([
                 'type' => 'webauthn.create',
                 'origin' => 'https://scoped.localhost',
-                'challenge' => $this->challenge->data->toBase64Url()
+                'challenge' => $this->challenge->data->toBase64Url(),
             ])
         );
 
@@ -175,14 +186,14 @@ class ValidationTest extends TestCase
 
     public function test_compiling_client_data_json_fails_if_empty(): void
     {
-        $this->expectException(AttestationException::class);
-        $this->expectExceptionMessage('Attestation Error: Client Data JSON is empty.');
-
         $invalid = FakeAuthenticator::attestationResponse();
 
-        $invalid['response']['clientDataJSON'] = base64_encode(json_encode([]));
+        $invalid['response']['clientDataJSON'] = ByteBuffer::encodeBase64Url(json_encode([]));
 
         $this->request->setJson(new ParameterBag($invalid));
+        $this->expectException(AttestationException::class);
+
+        $this->expectExceptionMessage('Attestation Error: Client Data JSON is empty.');
 
         $this->validate();
     }
@@ -194,7 +205,9 @@ class ValidationTest extends TestCase
 
         $invalid = FakeAuthenticator::attestationResponse();
 
-        $invalid['response']['clientDataJSON'] = base64_encode(json_encode(['origin' => '', 'challenge' => '']));
+        $invalid['response']['clientDataJSON'] = ByteBuffer::encodeBase64Url(json_encode([
+            'origin' => '', 'challenge' => '',
+        ]));
 
         $this->request->setJson(new ParameterBag($invalid));
 
@@ -492,7 +505,7 @@ class ValidationTest extends TestCase
             json_encode([
                 'type' => 'webauthn.create',
                 'origin' => '',
-                'challenge' => FakeAuthenticator::ATTESTATION_CHALLENGE
+                'challenge' => FakeAuthenticator::ATTESTATION_CHALLENGE,
             ])
         );
 
@@ -512,7 +525,7 @@ class ValidationTest extends TestCase
             json_encode([
                 'type' => 'webauthn.create',
                 'origin' => 'https://otherhost.com',
-                'challenge' => FakeAuthenticator::ATTESTATION_CHALLENGE
+                'challenge' => FakeAuthenticator::ATTESTATION_CHALLENGE,
             ])
         );
 
@@ -532,7 +545,7 @@ class ValidationTest extends TestCase
             json_encode([
                 'type' => 'webauthn.create',
                 'origin' => 'https://invalidlocalhost',
-                'challenge' => FakeAuthenticator::ATTESTATION_CHALLENGE
+                'challenge' => FakeAuthenticator::ATTESTATION_CHALLENGE,
             ])
         );
 
@@ -603,7 +616,7 @@ class ValidationTest extends TestCase
                 'authenticatable_id' => 1,
                 'user_id' => 'e8af6f703f8042aa91c30cf72289aa07',
                 'counter' => 0,
-                'rp_id' => 'http://localhost',
+                'rp_id' => 'localhost',
                 'origin' => 'http://localhost',
                 'aaguid' => Uuid::NIL,
                 'attestation_format' => 'none',

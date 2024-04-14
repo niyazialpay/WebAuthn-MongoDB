@@ -8,10 +8,9 @@ use niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation;
 use niyazialpay\WebAuthn\Attestation\Validator\AttestationValidation;
 use niyazialpay\WebAuthn\ByteBuffer;
 use niyazialpay\WebAuthn\ClientDataJson;
-use niyazialpay\WebAuthn\Exceptions\AssertionException;
-use niyazialpay\WebAuthn\Exceptions\AttestationException;
-use function base64_decode;
+
 use function json_decode;
+
 use const JSON_THROW_ON_ERROR;
 
 /**
@@ -24,28 +23,28 @@ abstract class CompileClientDataJson
     /**
      * Handle the incoming WebAuthn Ceremony Validation.
      *
-     * @param AssertionValidation|AttestationValidation $validation
-     * @param Closure $next
-     * @return mixed
-     * @throws AttestationException
-     * @throws AssertionException
+     * @throws \niyazialpay\WebAuthn\Exceptions\AttestationException
+     * @throws \niyazialpay\WebAuthn\Exceptions\AssertionException
      */
     public function handle(AssertionValidation|AttestationValidation $validation, Closure $next): mixed
     {
         try {
             $object = json_decode(
-                base64_decode($validation->request->json('response.clientDataJSON', '')), false, 32, JSON_THROW_ON_ERROR
+                ByteBuffer::decodeBase64Url($validation->request->json('response.clientDataJSON', '')),
+                false, 32, JSON_THROW_ON_ERROR
             );
         } catch (JsonException) {
             static::throw($validation, 'Client Data JSON is invalid or malformed.');
         }
 
-        if (!$object) {
+        if (! $object) {
             static::throw($validation, 'Client Data JSON is empty.');
         }
 
+        $object = (object) $object;
+
         foreach (['type', 'origin', 'challenge'] as $key) {
-            if (!isset($object->{$key})) {
+            if (! isset($object->{$key})) {
                 static::throw($validation, "Client Data JSON does not contain the [$key] key.");
             }
         }

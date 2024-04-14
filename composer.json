@@ -12,7 +12,8 @@
         "faceid",
         "touchid",
         "windows hello",
-        "passkeys"
+        "passkeys",
+        "mongodb"
     ],
     "homepage": "https://github.com/niyazialpay/WebAuthn-MongoDB",
     "authors": [
@@ -32,20 +33,25 @@
         "issues": "https://github.com/Laragear/WebAuthn/issues"
     },
     "require": {
-        "php": "8.2",
-        "ext-openssl": "*",
+        "php": "^8.2",
         "ext-json": "*",
-        "illuminate/auth": "9.*|10.*",
-        "illuminate/http": "9.*|10.*",
-        "illuminate/session": "9.*|10.*",
-        "illuminate/support": "9.*|10.*",
-        "illuminate/config": "9.*|10.*",
-        "illuminate/encryption": "9.*|10.*",
-        "mongodb/laravel-mongodb": "^4.1"
+        "ext-openssl": "*",
+        "illuminate/auth": "10.*|11.*",
+        "illuminate/config": "10.*|11.*",
+        "illuminate/database": "10.*|11.*",
+        "illuminate/encryption": "10.*|11.*",
+        "illuminate/http": "10.*|11.*",
+        "illuminate/session": "10.*|11.*",
+        "illuminate/support": "10.*|11.*",
+        "laragear/meta-model": "^1.1",
+        "mongodb/laravel-mongodb": "^4.2"
     },
     "require-dev": {
-        "orchestra/testbench": "^7.22|8.*",
-        "jetbrains/phpstorm-attributes": "*"
+        "ext-sodium": "*",
+        "orchestra/testbench": "8.*|9.*"
+    },
+    "suggest": {
+        "paragonie/sodium_compat": "To enable EdDSA 25519 keys from authenticators, if `ext-sodium` is unavailable."
     },
     "autoload": {
         "psr-4": {

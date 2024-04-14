@@ -11,16 +11,12 @@ use niyazialpay\WebAuthn\Attestation\Creator\AttestationCreation;
 class MayRequireUserVerification
 {
     /**
-     * Handle the Attestation creation
-     *
-     * @param  \niyazialpay\WebAuthn\Attestation\Creator\AttestationCreation  $attestable
-     * @param  \Closure  $next
-     * @return mixed
+     * Handle the Attestation creation.
      */
     public function handle(AttestationCreation $attestable, Closure $next): mixed
     {
         if ($attestable->userVerification) {
-            $attestable->json->set('authenticatorSelection.userVerification', $attestable->userVerification);
+            $attestable->json->set('authenticatorSelection.userVerification', $attestable->userVerification->value);
         }
 
         return $next($attestable);

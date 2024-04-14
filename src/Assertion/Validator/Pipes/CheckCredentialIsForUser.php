@@ -6,6 +6,7 @@ use Closure;
 use niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation;
 use niyazialpay\WebAuthn\Exceptions\AssertionException;
 use Ramsey\Uuid\Uuid;
+
 use function hash_equals;
 
 /**
@@ -28,10 +29,7 @@ class CheckCredentialIsForUser
     /**
      * Handle the incoming Assertion Validation.
      *
-     * @param AssertionValidation $validation
-     * @param Closure $next
-     * @return mixed
-     * @throws AssertionException
+     * @throws \niyazialpay\WebAuthn\Exceptions\AssertionException
      */
     public function handle(AssertionValidation $validation, Closure $next): mixed
     {
@@ -50,9 +48,6 @@ class CheckCredentialIsForUser
 
     /**
      * Validate the user owns the Credential if it already exists in the validation procedure.
-     *
-     * @param AssertionValidation $validation
-     * @return void
      */
     protected function validateUser(AssertionValidation $validation): void
     {
@@ -64,9 +59,6 @@ class CheckCredentialIsForUser
 
     /**
      * Validate the user ID of the response.
-     *
-     * @param AssertionValidation $validation
-     * @return void
      */
     protected function validateId(AssertionValidation $validation): void
     {
@@ -76,5 +68,4 @@ class CheckCredentialIsForUser
             throw AssertionException::make('User ID is not owner of the stored credential.');
         }
     }
-
 }

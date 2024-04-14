@@ -9,6 +9,10 @@ use niyazialpay\WebAuthn\Exceptions\AttestationException;
 use niyazialpay\WebAuthn\Exceptions\DataException;
 use Ramsey\Uuid\Uuid;
 
+use function parse_url;
+
+use const PHP_URL_HOST;
+
 /**
  * @internal
  */
@@ -16,8 +20,6 @@ class MakeWebAuthnCredential
 {
     /**
      * Create a new pipe instance.
-     *
-     * @param Repository $config
      */
     public function __construct(protected Repository $config)
     {
@@ -27,10 +29,7 @@ class MakeWebAuthnCredential
     /**
      * Handle the incoming Attestation Validation.
      *
-     * @param AttestationValidation $validation
-     * @param Closure $next
-     * @return mixed
-     * @throws AttestationException
+     * @throws \niyazialpay\WebAuthn\Exceptions\AttestationException
      */
     public function handle(AttestationValidation $validation, Closure $next): mixed
     {
@@ -41,7 +40,7 @@ class MakeWebAuthnCredential
             'alias' => $validation->request->json('response.alias'),
 
             'counter' => $validation->attestationObject->authenticatorData->counter,
-            'rp_id' => $this->config->get('webauthn.relying_party.id') ?? $this->config->get('app.url'),
+            'rp_id' => $this->config->get('webauthn.relying_party.id') ?? parse_url($this->config->get('app.url'), PHP_URL_HOST),
             'origin' => $validation->clientDataJson->origin,
             'transports' => $validation->request->json('response.transports'),
             'aaguid' => Uuid::fromBytes($validation->attestationObject->authenticatorData->attestedCredentialData->aaguid),
@@ -55,9 +54,6 @@ class MakeWebAuthnCredential
 
     /**
      * Returns a public key from the credentials as a PEM string.
-     *
-     * @param AttestationValidation $validation
-     * @return string
      */
     protected function getPublicKeyAsPem(AttestationValidation $validation): string
     {

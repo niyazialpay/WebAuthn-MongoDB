@@ -14,10 +14,7 @@ class CheckCredentialIsWebAuthnGet
     /**
      * Handle the incoming Assertion Validation.
      *
-     * @param AssertionValidation $validation
-     * @param Closure $next
-     * @return mixed
-     * @throws AssertionException
+     * @throws \niyazialpay\WebAuthn\Exceptions\AssertionException
      */
     public function handle(AssertionValidation $validation, Closure $next): mixed
     {

@@ -1,4 +1,6 @@
-<?php /** @noinspection JsonEncodingApiUsageInspection */
+<?php
+
+/** @noinspection JsonEncodingApiUsageInspection */
 
 namespace Tests\Auth;
 
@@ -9,11 +11,11 @@ use niyazialpay\WebAuthn\Models\WebAuthnCredential;
 use Mockery;
 use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\Uuid;
+use Tests\DatabaseTestCase;
 use Tests\FakeAuthenticator;
 use Tests\Stubs\WebAuthnAuthenticatableUser;
-use Tests\TestCase;
 
-class EloquentWebAuthnProviderTest extends TestCase
+class EloquentWebAuthnProviderTest extends DatabaseTestCase
 {
     protected function defineEnvironment($app): void
     {
@@ -21,7 +23,7 @@ class EloquentWebAuthnProviderTest extends TestCase
         $app->make('config')->set('auth.providers.users.model', WebAuthnAuthenticatableUser::class);
     }
 
-    protected function afterRefreshingDatabase(): void
+    protected function defineDatabaseSeeders(): void
     {
         WebAuthnAuthenticatableUser::forceCreate([
             'name' => FakeAuthenticator::ATTESTATION_USER['displayName'],
@@ -35,7 +37,7 @@ class EloquentWebAuthnProviderTest extends TestCase
             'authenticatable_id' => 1,
             'user_id' => 'e8af6f703f8042aa91c30cf72289aa07',
             'counter' => 0,
-            'rp_id' => 'http://localhost',
+            'rp_id' => 'localhost',
             'origin' => 'http://localhost',
             'aaguid' => Uuid::NIL,
             'attestation_format' => 'none',

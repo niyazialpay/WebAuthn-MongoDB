@@ -1,13 +1,11 @@
 <?php
 
-
 namespace niyazialpay\WebAuthn\Attestation\Formats;
 
 use niyazialpay\WebAuthn\Attestation\AuthenticatorData;
-use niyazialpay\WebAuthn\ByteBuffer;
 
 /**
- * MIT License
+ * MIT License.
  *
  * Copyright (c) 2021 Lukas Buchs
  *
@@ -36,7 +34,9 @@ use niyazialpay\WebAuthn\ByteBuffer;
  * This file has been modernized to fit Laravel.
  *
  * @author Lukas Buchs
+ *
  * @see https://www.iana.org/assignments/webauthn/webauthn.xhtml
+ *
  * @internal
  */
 abstract class Format
@@ -44,8 +44,7 @@ abstract class Format
     /**
      * Create a new Attestation Format.
      *
-     * @param  array{fmt: string, attStmt: array, authData: ByteBuffer}  $attestationObject
-     * @param AuthenticatorData $authenticatorData
+     * @param  array{fmt: string, attStmt: array, authData: \niyazialpay\WebAuthn\ByteBuffer}  $attestationObject
      */
     public function __construct(public array $attestationObject, public AuthenticatorData $authenticatorData)
     {

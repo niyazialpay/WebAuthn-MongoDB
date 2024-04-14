@@ -2,38 +2,31 @@
 
 namespace niyazialpay\WebAuthn\Http\Requests;
 
-use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 use InvalidArgumentException;
 use niyazialpay\WebAuthn\Assertion\Creator\AssertionCreation;
 use niyazialpay\WebAuthn\Assertion\Creator\AssertionCreator;
 use niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable;
-use niyazialpay\WebAuthn\WebAuthn;
-use function is_int;
-use function is_string;
+use niyazialpay\WebAuthn\Enums\UserVerification;
+
+use function auth;
+use function is_array;
 
 class AssertionRequest extends FormRequest
 {
     /**
      * The Assertion Creation instance.
-     *
-     * @var AssertionCreation
      */
     protected AssertionCreation $assertion;
 
     /**
      * The guard to use to retrieve the user.
-     *
-     * @var string|null
      */
     protected ?string $guard = null;
 
     /**
      * If the user may or may not be verified on login.
-     *
-     * @var string|null
      */
     protected ?string $userVerification = null;
 
@@ -44,13 +37,10 @@ class AssertionRequest extends FormRequest
      */
     public function validateResolved(): void
     {
-        //
     }
 
     /**
      * Return or make a new Assertion Creation.
-     *
-     * @return AssertionCreation
      */
     protected function assertion(): AssertionCreation
     {
@@ -60,7 +50,6 @@ class AssertionRequest extends FormRequest
     /**
      * Sets the WebAuthn-compatible guard to use.
      *
-     * @param  string  $guard
      * @return $this
      */
     public function guard(string $guard): static
@@ -77,7 +66,7 @@ class AssertionRequest extends FormRequest
      */
     public function fastLogin(): static
     {
-        $this->assertion()->userVerification = WebAuthn::USER_VERIFICATION_DISCOURAGED;
+        $this->assertion()->userVerification = UserVerification::DISCOURAGED;
 
         return $this;
     }
@@ -89,7 +78,7 @@ class AssertionRequest extends FormRequest
      */
     public function secureLogin(): static
     {
-        $this->assertion()->userVerification = WebAuthn::USER_VERIFICATION_REQUIRED;
+        $this->assertion()->userVerification = UserVerification::REQUIRED;
 
         return $this;
     }
@@ -97,9 +86,7 @@ class AssertionRequest extends FormRequest
     /**
      * Creates an assertion challenge for a user if found.
      *
-     * @param WebAuthnAuthenticatable|string|int|array|null  $credentials
-     * @return Responsable
-     * @throws BindingResolutionException
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     public function toVerify(WebAuthnAuthenticatable|string|int|array|null $credentials = []): Responsable
     {
@@ -116,9 +103,7 @@ class AssertionRequest extends FormRequest
     /**
      * Try to find a user to create an assertion procedure.
      *
-     * @param WebAuthnAuthenticatable|array|int|string|null  $credentials
-     * @return WebAuthnAuthenticatable|null
-     * @throws BindingResolutionException
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     protected function findUser(WebAuthnAuthenticatable|array|int|string|null $credentials): ?WebAuthnAuthenticatable
     {
@@ -130,18 +115,19 @@ class AssertionRequest extends FormRequest
             return $credentials;
         }
 
+        $guard = $this->guard ?? $this->container->make('config')->get('auth.defaults.guard');
+
+        // @phpstan-ignore-next-line
+        $provider = auth($guard)->getProvider();
+
         // If the developer is using a string or integer, we will understand its trying to
         // retrieve by its ID, otherwise we will fall back to credentials. Once done, we
         // will check it uses WebAuthn if is not null, otherwise we'll fail miserably.
-        $user = is_string($credentials) || is_int($credentials)
-            // @phpstan-ignore-next-line
-            ? Auth::guard($this->guard)->getProvider()->retrieveById($credentials)
-            // @phpstan-ignore-next-line
-            : Auth::guard($this->guard)->getProvider()->retrieveByCredentials($credentials);
+        $user = is_array($credentials)
+            ? $provider->retrieveByCredentials($credentials)
+            : $provider->retrieveById($credentials);
 
         if ($user && ! $user instanceof WebAuthnAuthenticatable) {
-            $guard = $this->guard ?? $this->container->make('config')->get('auth.defaults.guard');
-
             throw new InvalidArgumentException(
                 "The user found for the [$guard] auth guard is not an instance of [WebAuthnAuthenticatable]."
             );

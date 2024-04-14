@@ -8,43 +8,51 @@ use Illuminate\Testing\TestResponse;
 use niyazialpay\WebAuthn\Attestation\Creator\AttestationCreation;
 use niyazialpay\WebAuthn\Attestation\Creator\AttestationCreator;
 use niyazialpay\WebAuthn\Challenge;
-use niyazialpay\WebAuthn\WebAuthn;
+use niyazialpay\WebAuthn\Enums\ResidentKey;
+use niyazialpay\WebAuthn\Enums\UserVerification;
 use Ramsey\Uuid\Uuid;
+use Tests\DatabaseTestCase;
 use Tests\Stubs\WebAuthnAuthenticatableUser;
-use Tests\TestCase;
+
 use function config;
 use function now;
 use function session;
 
-class CreatorTest extends TestCase
+class CreatorTest extends DatabaseTestCase
 {
     protected Request $request;
     protected WebAuthnAuthenticatableUser $user;
     protected AttestationCreation $creation;
     protected AttestationCreator $creator;
 
-    protected function setUp(): void
+    protected function defineDatabaseSeeders(): void
     {
-        parent::setUp();
-
-        $this->request = Request::create('https://test.app/webauthn/create', 'POST');
         $this->user = WebAuthnAuthenticatableUser::forceCreate([
             'name' => 'test',
             'email' => 'test@email.com',
             'password' => 'test_password',
         ]);
+    }
 
-        $this->creator = new AttestationCreator($this->app);
-        $this->creation = new AttestationCreation($this->user, $this->request);
+    protected function setUp(): void
+    {
+        $this->afterApplicationCreated(function (): void {
+            $this->request = Request::create('https://test.app/webauthn/create', 'POST');
 
-        $this->startSession();
-        $this->request->setLaravelSession($this->app->make('session.store'));
+            $this->creator = new AttestationCreator($this->app);
+            $this->creation = new AttestationCreation($this->user, $this->request);
+
+            $this->startSession();
+            $this->request->setLaravelSession($this->app->make('session.store'));
+        });
+
+        parent::setUp();
     }
 
     protected function response(): TestResponse
     {
         return $this->createTestResponse(
-            $this->creator->send($this->creation)->thenReturn()->json->toResponse($this->request)
+            $this->creator->send($this->creation)->thenReturn()->json->toResponse($this->request), null
         );
     }
 
@@ -63,7 +71,7 @@ class CreatorTest extends TestCase
             })
             ->assertJson([
                 'rp' => [
-                    'name' => 'Laravel'
+                    'name' => 'Laravel',
                 ],
                 'user' => [
                     'name' => 'test@email.com',
@@ -97,7 +105,7 @@ class CreatorTest extends TestCase
 
     public function test_asks_for_user_verification(): void
     {
-        $this->creation->userVerification = WebAuthn::USER_VERIFICATION_REQUIRED;
+        $this->creation->userVerification = UserVerification::REQUIRED;
 
         $this->response()
             ->assertSessionHas('_webauthn', static function (Challenge $challenge): bool {
@@ -105,14 +113,14 @@ class CreatorTest extends TestCase
             })
             ->assertJsonFragment([
                 'authenticatorSelection' => [
-                    'userVerification' => 'required'
-                ]
+                    'userVerification' => 'required',
+                ],
             ]);
     }
 
     public function test_asks_for_user_presence(): void
     {
-        $this->creation->userVerification = WebAuthn::USER_VERIFICATION_DISCOURAGED;
+        $this->creation->userVerification = UserVerification::DISCOURAGED;
 
         $this->response()
             ->assertSessionHas('_webauthn', static function (Challenge $challenge): bool {
@@ -120,14 +128,14 @@ class CreatorTest extends TestCase
             })
             ->assertJsonFragment([
                 'authenticatorSelection' => [
-                    'userVerification' => 'discouraged'
-                ]
+                    'userVerification' => 'discouraged',
+                ],
             ]);
     }
 
     public function test_asks_for_resident_key(): void
     {
-        $this->creation->residentKey = WebAuthn::RESIDENT_KEY_REQUIRED;
+        $this->creation->residentKey = ResidentKey::REQUIRED;
 
         $this->response()
             ->assertSessionHas('_webauthn', static function (Challenge $challenge): bool {
@@ -137,7 +145,7 @@ class CreatorTest extends TestCase
                 'authenticatorSelection' => [
                     'residentKey' => 'required',
                     'requireResidentKey' => true,
-                    'userVerification' => 'required'
+                    'userVerification' => 'required',
                 ],
             ]);
     }
@@ -169,8 +177,8 @@ class CreatorTest extends TestCase
         $this->response()
             ->assertJsonFragment([
                 'excludeCredentials' => [
-                    ['id'=> 'test_id', 'type' => 'public-key',]
-                ]
+                    ['id' => 'test_id', 'type' => 'public-key'],
+                ],
             ]);
     }
 

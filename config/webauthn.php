@@ -15,7 +15,7 @@ return [
 
     'relying_party' => [
         'name' => env('WEBAUTHN_NAME', config('app.name')),
-        'id'   => env('WEBAUTHN_ID'),
+        'id' => env('WEBAUTHN_ID'),
     ],
 
     /*
@@ -26,6 +26,8 @@ return [
     | When making challenges your application needs to push at least 16 bytes
     | of randomness. Since we need to later check them, we'll also store the
     | bytes for a small amount of time inside this current request session.
+    |
+    | @see https://www.w3.org/TR/webauthn-2/#sctn-cryptographic-challenges
     |
     */
 

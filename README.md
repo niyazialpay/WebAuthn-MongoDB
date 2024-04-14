@@ -1,7 +1,7 @@
 # WebAuthn
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/laragear/webauthn.svg)](https://packagist.org/packages/laragear/webauthn)
-[![Latest stable test run](https://github.com/Laragear/WebAuthn/workflows/Tests/badge.svg)](https://github.com/Laragear/WebAuthn/actions)
+[![Latest stable test run](https://github.com/Laragear/WebAuthn/actions/workflows/php.yml/badge.svg?branch=1.x)](https://github.com/Laragear/WebAuthn/actions/workflows/php.yml)
 [![Codecov coverage](https://codecov.io/gh/Laragear/WebAuthn/branch/1.x/graph/badge.svg?token=HIngrvQeOj)](https://codecov.io/gh/Laragear/WebAuthn)
 [![CodeClimate Maintainability](https://api.codeclimate.com/v1/badges/39841b40ab4b05b8f9d3/maintainability)](https://codeclimate.com/github/Laragear/WebAuthn/maintainability)
 [![Sonarcloud Status](https://sonarcloud.io/api/project_badges/measure?project=Laragear_WebAuthn&metric=alert_status)](https://sonarcloud.io/dashboard?id=Laragear_WebAuthn)
@@ -20,7 +20,8 @@ public function login(AssertedRequest $request)
     return response()->json(['message' => "Welcome back, $user->name!"]);
 }
 ```
-
+> [!TIP]
+>
 > You want to add two-factor authentication to your app? Check out [Laragear TwoFactor](https://github.com/Laragear/TwoFactor).
 
 ## Become a sponsor
@@ -31,8 +32,14 @@ Your support allows me to keep this package free, up-to-date and maintainable. A
 
 ## Requirements
 
-* PHP 8.0 or later, with `ext-openssl`.
-* Laravel 9.x or later.
+* Laravel 10.x or later.
+* PHP 8.1 or later.
+* The `ext-openssl` extension.
+* The `ext-sodium` extension (optional, for EdDSA 25519 public keys).
+
+> [!TIP]
+>
+> If you can't enable the `ext-sodium` extension for whatever reason, you may try installing [`paragonie/sodium_compat`](https://github.com/paragonie/sodium_compat).
 
 ## Installation
 
@@ -46,7 +53,7 @@ composer require niyazialpay/webauthn-mongodb
 
 Passkeys, hence WebAuthn, consists in two _ceremonies_: attestation, and assertion.
 
-Attestation is the process of asking the authenticator (a phone, laptop, USB key...) to create a private-public key pair, save the private key internally, and **store** the public key inside the server. For that to work, the browser must support WebAuthn, which is what intermediates between the authenticator (OS & device hardware) and the server.
+Attestation is the process of asking the authenticator (a phone, laptop, USB key...) to create a private-public key pair, save the private key internally, and **store** the public key inside your app. For that to work, the browser must support WebAuthn, which is what intermediates between the authenticator (OS & device hardware) and the server.
 
 Assertion is the process of pushing a cryptographic challenge to the authenticator, which will return back to the server _signed_ by the private key of the device. Upon arrival, the server checks the signature is correct with the stored public key, ready to **log in**.
 
@@ -56,22 +63,15 @@ The private key doesn't leave the authenticator, there are no shared passwords s
 
 We need to make sure your users can register their devices and authenticate with them.
 
-1. [Add the `eloquent-webauthn` driver](#1-add-the-eloquent-webauthn-driver)
-2. [Create the `webauthn_credentials` table](#2-create-the-webauthn_credentials-table)
+1. [Publish the files](#2-publish-files-and-migrate)
+2. [Add the WebAuthn driver](#1-add-the-webauthn-driver)
 3. [Implement the contract and trait](#3-implement-the-contract-and-trait)
+4. [Register the controllers](#4-register-the-routes-and-controllers) _(optional)_
+5. [Use the Javascript helper](#5-use-the-javascript-helper) _(optional)_
 
-After that, you can quickly start WebAuthn with the included controllers and helpers to make your life easier.
+### 1. Add the WebAuthn driver
 
-4. [Register the controllers](#4-register-the-routes-and-controllers)
-5. [Use the Javascript helper](#5-use-the-javascript-helper)
-
-> **Info**
->
-> While you can use Passkeys without users by invoking the _ceremonies_ manually, Laragear WebAuthn is intended to be used with already existing Users.
-
-### 1. Add the `eloquent-webauthn` driver
-
-Laragear WebAuthn works by extending the Eloquent User Provider with an additional check to find a user for the given WebAuthn Credentials (Assertion). This makes this WebAuthn package compatible with any guard you may have.
+Laragear WebAuthn works by extending the Eloquent User Provider with a simple additional check to find a user for the given WebAuthn Credentials (Assertion). This makes this WebAuthn package compatible with any guard you may have.
 
 Simply go into your `auth.php` configuration file, change the driver from `eloquent` to `eloquent-webauthn`, and add the `password_fallback` to `true`.
 
@@ -91,16 +91,23 @@ return [
 
 The `password_fallback` indicates the User Provider should fall back to validate the password when the request is not a WebAuthn Assertion. It's enabled to seamlessly use both classic (password) and WebAuthn authentication procedures.
 
-### 2. Create the `webauthn_credentials` table
+### 2. Publish files and migrate
 
-Create the `webauthn_credentials` table by publishing the migration file and migrating the table:
+With the single `webauthn:install` command, you can install the configuration, routes, and migration files.
 
 ```shell
-php artisan vendor:publish --provider="niyazialpay\WebAuthn\WebAuthnServiceProvider" --tag="migrations"
+php artisan webauthn:install
+```
+
+This will also publish a migration file needed to create a table to hold the WebAuthn Credentials (Passkeys). Once ready, migrate your application to create the table.
+
+```shell
 php artisan migrate
 ```
 
-> You may edit the migration to your liking, like adding new columns, but **not** to remove them or change their name.
+> [!TIP]
+>
+> You can [modify the migration](MIGRATIONS.md) if you need to, like [changing the table name](MIGRATIONS.md#custom-table-name).
 
 ### 3. Implement the contract and trait
 
@@ -127,148 +134,89 @@ From here you're ready to work with WebAuthn Authentication. The following steps
 
 ### 4. Register the routes and controllers
 
-WebAuthn uses exclusive routes to register and authenticate users. Creating these routes and controller may be cumbersome, specially if it's your first time in the WebAuthn realm.
+WebAuthn uses exclusive routes to register and authenticate users. Creating these routes and controller may be cumbersome, specially if it's your first time in the WebAuthn realm, so these are installed automatically at `Http\Controllers\WebAuthn` when using `webauthn:install`.
 
-Instead, go for a quick start and publish the controllers included in Laragear WebAuthn. These controllers will be located at `app\Http\Controllers\WebAuthn`.
-
-```shell
-php artisan vendor:publish --provider="niyazialpay\WebAuthn\WebAuthnServiceProvider" --tag="controllers"
-```
-
-Next, to pick these controllers easily, go into your `web.php` routes file and register a default set of routes with the `WebAuthn::routes()` method.
+Go into your `web.php` routes file and register a default set of routes with the `\niyazialpay\WebAuthn\Http\Routes::register()` method. Since WebAuthn doesn't require protection for CSRF/XSRF tokens, you may disable it for these routes.
 
 ```php
 // web.php
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Route;
-use niyazialpay\WebAuthn\WebAuthn;
+use niyazialpay\WebAuthn\Http\Routes as WebAuthnRoutes;
 
 Route::view('welcome');
 
 // WebAuthn Routes
-WebAuthn::routes();
+WebAuthnRoutes::register()->withoutMiddleware(VerifyCsrfToken::class);
 ```
+
+> [!TIP]
+>
+> The [`@laragear/webpass` javascript helper](#5-use-the-javascript-helper) supports adding CSRF/XSRF tokens.
+
+The method allows to use different attestation and assertion paths, and even each of the controllers.
+
+```php
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use niyazialpay\WebAuthn\Http\Routes as WebAuthnRoutes;
+
+WebAuthnRoutes::register(
+    attest: 'auth/register',
+    assert: 'auth/login'
+)->withoutMiddleware(VerifyCsrfToken::class);
+```
+
+> [!INFO]
+>
+> You can also delete the controllers and implement [attestation](#attestation) and [assertion](#assertion) manually.
 
 ### 5. Use the Javascript helper
 
-This package includes a simple but convenient script to handle WebAuthn Attestation and Assertion. To use it, just publish the `webauthn.js` asset into your application public resources.
+This package original Javascript helper has been moved into its own package, called `@laragear/webpass`. You may use directly in your HTML application by just using JSDelivr CDN:
+
+```html
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/@laragear/webpass@2/dist/webpass.js" defer></script>
+</head>
+
+<body>
+    <script async>
+        if (Webpass.isUnsupported()) {
+            alert("Your browser doesn't support WebAuthn.")
+        }
+        
+        const { success } = await Webpass.attest("/webauthn/register/options", "/webauthn/register")
+        
+        if (success) {
+            window.location.replace("/dashboard")
+        }
+    </script>
+</body>
+```
+
+Alternatively, you may want to include it in your project dependencies if you're using a frontend framework like Vue, React, Angular or Svelte, to name a few.
 
 ```shell
-php artisan vendor:publish --provider="niyazialpay\WebAuthn\WebAuthnServiceProvider" --tag="js"
+npm i @laragear/webpass@2
 ```
 
-You will receive the `resources/js/vendor/webauthn/webauthn.js` file which you can include into your authentication views and use it programmatically
-
-```html
-<!doctype html>
-<head>
-    {{-- ... --}}
-
-    <script src="{{ Vite::asset('resources/js/vendor/webauthn/webauthn.js') }}"></script>
-
-    @vite(['resources/js/app.js'])
-</head>
-```
-
-> **Note**
->
-> You can also edit the script file to transform it into a module so it can be bundled in your Vite frontend, exporting the class as `export default class WebAuthn { ... }`, and add it to the `@vite` assets.
->
-> ```html
-> @vite(['resources/js/vendor/webauthn/webauthn.js', 'resources/js/app.js'])
-> ```
-
-Once done, you can easily start registering an user device, and login in users that registered a device previusly.
-
-For example, let's imagine an user logs in normally, and enters its profile view. You may show a WebAuthn registration HTML with the following code:
-
-```html
-<form id="register-form">
-    <button type="submit" value="Register authenticator">
-</form>
-
-<!-- Registering authenticator -->
-<script>
-    const register = event => {
-        event.preventDefault()
-        
-        new WebAuthn().register()
-          .then(response => alert('Registration successful!'))
-          .catch(error => alert('Something went wrong, try again!'))
-    }
-
-    document.getElementById('register-form').addEventListener('submit', register)
-</script>
-```
-
-In our Login view, we can use the WebAuthn credentials to log in the user.
-
-```html
-<form id="login-form">
-    <input id="email" type="email" value="my@email.com">
-    
-    <button type="submit" value="Log in with your device">
-</form>
-
-<!-- Login users -->
-<script>
-    const login = event => {
-        event.preventDefault()
-        
-        new WebAuthn().login({
-            email: document.getElementById('email').value,
-        }, {
-            remember: document.getElementById('remember').checked ? 'on' : null,
-        }).then(response => alert('Authentication successful!'))
-          .catch(error => alert('Something went wrong, try again!'))
-    }
-
-    document.getElementById('login-form').addEventListener('submit', login)
-</script>
-```
-
-You can copy-paste this helper into your authentication routes, or import it into a bundler like [Laravel Vite](https://laravel.com/docs/9.x/vite), [Webpack](https://webpack.js.org/), [parcel](https://parceljs.org/), or many more, as long you adjust the script to the bundler needs. If the script doesn't suit your needs, you're free to modify it or create your own.
-
-### Requests and Responses parameters
-
-Both `register()` and `login()` accept different parameters for the initial request to the server, and the subsequent response to the server. For example, you can use this to _remember_ the user being authenticated.
+Once done, you may attest and assert the authenticator using the `Webpass` object:
 
 ```javascript
-new WebAuthn().login({
-    // Initial request to the server
-    email: document.getElementById('email').value,
-}, {
-    // Response from the authenticator to the server
-    remember: document.getElementById('remember').checked ? 'on' : null, 
-})
+import Webpass from "@laragear/webpass"
+
+if (Webpass.isUnsupported()) {
+    return alert("Your browser doesn't support WebAuthn.")
+}
+
+// Create new credentials for a logged in user
+const { credential, success, error } = await Webpass.attest("/webauthn/register/options", "/webauthn/register")
+
+// Check the credentials for a guest user
+const { user, success, error } = await Webpass.assert("/webauthn/login/options", "/webauthn/login")
 ```
 
-### Custom routes
-
-By default, the helper assumes you're using the [default WebAuthn routes](#4-register-the-routes-and-controllers). If you're using different routes for WebAuthn, you can set them at runtime.
-
-```javascript
-const webAuthn = new WebAuthn({
-    registerOptions: 'webauthn/register/options',
-    register: 'webauthn/register',
-    
-    loginOptions: 'webauthn/login/options',
-    login: 'webauthn/login',
-});
-```
-
-> Here is good place to use [ziggy](https://github.com/tighten/ziggy) if it's in your project.
-
-### Headers
-
-You may add headers to all WebAuthn authentication requests using the second parameter of the `WebAuthn` constructor. These headers will be present on all requests made by the instance. 
-
-```javascript
-const webAuthn = new WebAuthn({}, {
-    'X-Colors': 'red',
-});
-```
-
-> You may use a different `WebAuthn` instances with different headers for both Attestation and Assertion.
+The Webpass helper offers more flexibility than just adjusting the WebAuthn ceremony paths. For more information, check [the documentation of `@laragear/webpass`](https://github.com/Laragear/webpass).
 
 ## Attestation
 
@@ -319,7 +267,9 @@ public function register(AttestedRequest $request)
 }
 ```
 
-> Both `AttestationRequest` and `AttestedRequest` validates the authenticated user. If the user is not authenticated, an HTTP 403 status code will be returned.
+> [!IMPORTANT]
+>
+> Both `AttestationRequest` and `AttestedRequest` require the authenticated user. If the user is not authenticated, an HTTP 403 status code will be returned.
 
 ### Attestation User verification
 
@@ -339,7 +289,7 @@ public function createChallenge(AttestationRequest $request)
 
 ### Userless/One-touch/Typeless Login
 
-Userless/One-touch/Typeless login This enables one click/tap login, without the need to specify the user credentials (like the email) beforehand.
+This enables one click/tap login, without the need to specify the user credentials (like the email) beforehand.
 
 For this to work, the device has to save the "username id" inside itself. Some authenticators _may_ save it regardless, others may be not compatible. To make this mandatory when creating the WebAuthn Credential, use the `userless()` method of the `AttestationRequest` form request.
 
@@ -352,14 +302,15 @@ public function registerDevice(AttestationRequest $request)
     return $request->userless()->toCreate();
 }
 ```
-
+> [!IMPORTANT]
+>
 > The Authenticator WILL require [user verification](#attestation-user-verification) on login when using `userless()`. Its highly probable the user will also be asked for [user verification on login](#assertion-user-verification), as it will depend on the authenticator itself.
 
 ### Multiple credentials per device
 
 By default, during Attestation, the device will be informed about the existing enabled credentials already registered in the application. This way the device can avoid creating another one for the same purpose.
 
-You can enable multiple credentials per device using `allowDuplicates()`, which in turn will always return an empty list of credentials to exclude. This way the authenticator will _think_ there are no already stored credentials for your app.
+You can enable multiple credentials per device using `allowDuplicates()`, which in turn will always return an empty list of credentials to exclude. This way the authenticator will _think_ there are no already stored credentials for your app, and create a new one.
 
 ```php
 // app\Http\Controllers\WebAuthn\AttestationController.php
@@ -411,11 +362,9 @@ public function createChallenge(AssertedRequest $request)
 
 If you need greater control on the Assertion procedure, you may want to [Assert manually](#manually-attesting-and-asserting).
 
-> If you have [debugging enabled](https://laravel.com/docs/9.x/configuration#debug-mode) the assertion error during authentication will be logged in your application logs, which by default is `storage/logs/laravel.log`.
-
 ### Assertion User Verification
 
-In the same style of [attestation user verification](#attestation-user-verification), the authenticator decides if it should verify the user on login or not. 
+In the same style of [attestation user verification](#attestation-user-verification), the authenticator decides if it should verify the user on login or not.
 
 You may only require the user presence with `fastLogin()`, or actively verify the user with `secureLogin()`.
 
@@ -556,7 +505,69 @@ public function authenticate(Request $request, AssertionValidator $assertion)
 }
 ```
 
+> [!WARNING]
+>
 > The pipes list and the pipes themselves are **not** covered by API changes, and are marked as `internal`. These may change between versions without notice.
+
+## Migrations
+
+This package comes with a migration file that extends a special class that takes most of the heavy lifting for you. You only need to create additional columns if you need to.
+
+```php
+use Illuminate\Database\Schema\Blueprint;
+use niyazialpay\WebAuthn\Database\WebAuthnCredentialsMigration;
+
+return new class extends WebAuthnCredentialsMigration {
+    /**
+     * Modify the migration for the WebAuthn Credentials.
+     */
+    public function modifyMigration(Blueprint $table): void
+    {
+        // You may add here your own columns...
+        //
+        // $table->string('device_name')->nullable();
+        // $table->string('device_type')->nullable();
+        // $table->timestamp('last_login_at')->nullable();
+    }
+};
+```
+
+If you need to modify the table, or adjust the data, after is created or before is dropped, you may use the `afterUp()` and `beforeDown()` methods of the migration file, respectively.
+
+```php
+use Illuminate\Database\Schema\Blueprint;
+use niyazialpay\WebAuthn\Database\WebAuthnCredentialsMigration;
+
+return new class extends WebAuthnCredentialsMigration {
+    // ...
+    
+    public function afterUp(Blueprint $table): void
+    {
+        $table->foreignId('device_serial')->references('serial')->on('devices');
+    }
+    
+    public function beforeDown(Blueprint $table): void
+    {
+        $table->dropForeign('device_serial')
+    }
+};
+```
+
+### UUID or ULID morphs
+
+There may be some scenarios where your _authenticatable_ User is using a different type of primary ID in the database, like UUID or ULID. If this is the case, you may change the morph type accordingly with the `$morphType` property.
+
+```php
+use Illuminate\Database\Schema\Blueprint;
+use niyazialpay\WebAuthn\Database\WebAuthnCredentialsMigration;
+
+return new class extends WebAuthnCredentialsMigration {
+
+    protected ?string $morphType = 'ulid';
+    
+    // ...
+};
+```
 
 ## Advanced Configuration
 
@@ -598,15 +609,17 @@ return [
 The _Relying Party_ is just a way to uniquely identify your application in the user device:
 
 * `name`: The name of the application. Defaults to the application name.
-* `id`: An unique ID the application, like the site URL. If `null`, the device _may_ fill it internally, usually as the full domain.
+* `id`: An unique ID the application, [recommended to be the site domain](https://www.w3.org/TR/webauthn-2/#rp-id). If `null`, the device _may_ fill it internally, usually as the full domain.
 
-> WebAuthn authentication only work on the top domain it was registered. 
+> [!WARNING]
+>
+> WebAuthn authentication only work on the top domain it was registered.
 
 Instead of modifying the config file, you should use the environment variables to set the name and ID for WebAuthn.
 
 ```dotenv
 WEBAUTHN_NAME=SecureBank
-WEBAUTHN_ID=https://auth.securebank.com
+WEBAUTHN_ID=auth.securebank.com
 ```
 
 ### Challenge configuration
@@ -638,7 +651,7 @@ If you think WebAuthn is critical for these packages, [consider supporting this 
 [Yes](https://caniuse.com/#feat=webauthn). In the case of old browsers, you should have a fallback detection script. This can be asked with [the included JavaScript helper](#5-use-the-javascript-helper) in a breeze:
 
 ```javascript
-if (WebAuthn.doesntSupportWebAuthn()) {
+if (WebAuthn.isNotSupported()) {
    alert('Your device is not secure enough to use this site!');
 }
 ```
@@ -691,45 +704,53 @@ Extremely secure since it works only on HTTPS (or `localhost`). Also, no passwor
 
 * **Does this include JavaScript to handle WebAuthn in the frontend?**
 
-[Yes](#5-use-the-javascript-helper), but it's very _basic_.
+It's encouraged to [use Webpass package](#5-use-the-javascript-helper).
 
-If you need more complex WebAuthn management, consider using the [`navigator.credentials`](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/credentials) API directly.
+Alternatively, for complex WebAuthn management, consider using the [`navigator.credentials`](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/credentials) API directly.
+
+* **The attestation is fine, but assertion never logs in the user**
+
+This happens because you forgot [the first step](#1-add-the-webauthn-driver), using the WebAuthn driver to authenticate users.
 
 * **Does WebAuthn eliminate bots? Can I forget about _captchas_?**
 
-Yes and no. To register users, you still need to use [captcha](https://github.com/Laragear/ReCaptcha), honeypots, or other mechanisms to stop bots.
+Yes and no. To register users, you still need to use [captcha](https://github.com/Laragear/ReCaptcha), honeypots, or other mechanisms to stop bots from filling forms.
 
-Once a user is registered, bots won't be able to login because the real user is the only one that has the private key required for WebAuthn.
+Once a user is registered, bots won't be able to log in because the real user is the only one that has the private key required for WebAuthn.
 
 * **Does this encode/decode the WebAuthn data automatically in the frontend?**
 
-Yes, the included [WebAuthn Helper](#5-use-the-javascript-helper) does it automatically for you.
+Yes, the [Webpass helper](#5-use-the-javascript-helper) does it automatically for you.
 
 * **Does this encrypt the public keys?**
 
-Yes, public keys are encrypted when saved into the database.
+Yes, public keys are encrypted when saved into the database with your app key.
+
+* **I changed my `APP_KEY` and nobody can log in**
+
+Since public keys are encrypted with your app key, older public keys will become useless. To change that, create a console command that decrypts (with the old key) and re-encrypts the `public_key` column of the table where the authentication data is.
 
 * **Does this include WebAuthn credential recovery routes?**
 
 No. You're free to create your own flow for recovery.
 
-My recommendation is to send an email to the user, pointing to a route that registers a new device, and immediately redirect him to blacklist which credential was lost (or blacklist the only one he has).
+My recommendation is to email the user, pointing to a route that registers a new device, and immediately redirect him to blacklist which credential was lost (or blacklist the only one he has).
 
 * **Can I use my smartphone as authenticator through my PC or Mac?**
 
-It depends. 
+Usually.
 
-This is entirely up to hardware, OS and browser vendor themselves, but mostly the OS. Some OS or browsers may offer a way to sync private keys on the cloud, even letting the assertion challenge to be signed remotely instead of transmitting the private key. Please check your target platforms of choice.
+While this is entirely up to hardware, OS and browser vendor themselves, modern _platforms_ will show a QR code, push notification, or ask to bring closer your smartphone to complete the WebAuthn ceremony. Please check your target platforms of choice.
 
-* **Why my device doesn't show Windows Hello/Passkey/TouchId/FaceId/pattern/fingerprint authentication?**
+* **Why my device doesn't show Windows Hello/Passkey/TouchID/FaceID/OpticID/pattern/fingerprint authentication?**
 
-By default, this WebAuthn implementation accepts _almost_ everything. Some combinations of devices, OS and Web browsers may differ on what to make available for WebAuthn authentication. 
+By default, this WebAuthn works on _almost_ everything. Some combinations of devices, OS and Web browsers may differ on what to make available for WebAuthn authentication.
 
 You may [check this site for authenticator support](https://webauthn.me/browser-support).
 
 * **Why my device doesn't work at all with this package?**
 
-This package supports WebAuthn 2.0, which is [W3C Recommendation](https://www.w3.org/TR/webauthn-2). Your device/OS/browser may be using an unsupported version. 
+This package supports WebAuthn 2.0, which is [W3C Recommendation](https://www.w3.org/TR/webauthn-2). Your device/OS/browser may be using an unsupported version.
 
 There are no plans to support older WebAuthn specs. The new [WebAuthn 3.0 draft](https://www.w3.org/TR/webauthn-3) spec needs to be finished to be supported.
 
@@ -741,17 +762,35 @@ Use `localhost` exclusively (not `127.0.0.1` or `::1`) or use a proxy to tunnel 
 
 Because `direct`, `indirect` and `enterprise` attestations are mostly used on high-security high-risk scenarios, where an entity has total control on the devices used to authenticate. Imagine banks, medical, or military.
 
-If you deem this feature critical for you, [**consider supporting this package**](#keep-this-package-free).
+If you deem this feature critical for you, [**consider supporting this package**](#become-a-sponsor).
 
 * **Can I allow logins with only USB keys?**
 
 No. The user can use whatever to authenticate in your app. This may be enabled on future versions.
 
-* **Everytime I make attestations or assertions, it says no challenge exists!** 
+* **Everytime I make attestations or assertions, it says no challenge exists!**
 
 Remember that your WebAuthn routes **must use Sessions**, because the Challenges are stored there.
 
-More information can be retrieved in your [application logs](https://laravel.com/docs/9.x/logging).
+Session are automatically started on the `web` route group, or using the `StartSession` middleware directly. You can check this on your [HTTP Kernel Middleware](https://laravel.com/docs/9.x/middleware#middleware-groups).
+
+* **My ceremonies always fail. How I can debug this package?**
+
+If you have [debugging enabled](https://laravel.com/docs/9.x/configuration#debug-mode), like on development environments, the assertion data is logged in your [application logs](https://laravel.com/docs/9.x/logging).
+
+The rest of errors are thrown as-is. You may want to log them manually using [Laravel's Error Handler](https://laravel.com/docs/10.x/errors) depending on the case.
+
+* **Can I publish only some files?**
+
+Yes. Instead of using `webauthn:install`, use `vendor:publish` and follow the prompts.
+
+* **Why `ext-sodium` is required as optional?**
+
+Some authenticators can create EdDSA 25519 public keys, which are part of [W3C WebAuthn 3.0 draft](https://www.w3.org/TR/webauthn-3/#dom-publickeycredentialcreationoptions-pubkeycredparams). These keys are shorter and don't require too much computational power to verify, which opens the usage for low-power or "passive" authenticators (like smart-cards).
+
+If sodium or the [`paragonie/sodium-compat`](https://github.com/paragonie/sodium_compat) package are not installed, the server won't report EdDSA 25519 compatibility to the authenticator, and any EdDSA 25519 public key previously stored will fail validation.
+
+Consider also that there are no signs of EdDSA 25519 incorporation into PHP `ext-openssl` extension.
 
 ## Laravel Octane Compatibility
 
@@ -764,15 +803,16 @@ There should be no problems using this package with Laravel Octane.
 
 ## Security
 
-These are some details about this WebAuthn implementation:
+These are some details about this WebAuthn implementation you should be aware of.
 
 * Registration (attestation) and Login (assertion) challenges use the current request session.
-* Only one ceremony can be done at a time. 
+* Only one ceremony can be done at a time, because ceremonies use the same challenge key.
 * Challenges are pulled (retrieved and deleted from source) from the session on resolution, independently of their result.
-* All challenges and ceremonies expire at 60 seconds.
-* WebAuthn User Handle is UUID v4, reusable if another credential exists.
+* All challenges and ceremonies expire after 60 seconds.
+* WebAuthn User Handle is UUID v4.
+* User Handle is reused when a new credential for the same user is created.
 * Credentials can be blacklisted (enabled/disabled).
-* Public Keys are encrypted by with application key in the database automatically.
+* Public Keys are encrypted by with application key in the database automatically, using the application key.
 
 If you discover any security related issues, please email darkghosthunter@gmail.com instead of using the issue tracker.
 

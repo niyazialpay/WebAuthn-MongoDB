@@ -14,12 +14,12 @@ class AssertionValidation
     /**
      * Create a new Assertion Validation.
      *
-     * @param Request $request
-     * @param WebAuthnAuthenticatable|null  $user
-     * @param Challenge|null  $challenge
-     * @param WebAuthnCredential|null  $credential
-     * @param ClientDataJson|null  $clientDataJson
-     * @param AuthenticatorData|null  $authenticatorData
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable|null  $user
+     * @param  \niyazialpay\WebAuthn\Challenge|null  $challenge
+     * @param  \niyazialpay\WebAuthn\Models\WebAuthnCredential|null  $credential
+     * @param  \niyazialpay\WebAuthn\ClientDataJson|null  $clientDataJson
+     * @param  \niyazialpay\WebAuthn\Attestation\AuthenticatorData|null  $authenticatorData
      */
     public function __construct(
         public Request $request,
@@ -28,8 +28,7 @@ class AssertionValidation
         public ?WebAuthnCredential $credential = null,
         public ?ClientDataJson $clientDataJson = null,
         public ?AuthenticatorData $authenticatorData = null,
-    )
-    {
+    ) {
         //
     }
 }

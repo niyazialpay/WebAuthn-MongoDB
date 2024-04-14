@@ -1,6 +1,5 @@
 <?php
 
-
 namespace niyazialpay\WebAuthn\Attestation\Formats;
 
 /**
@@ -8,5 +7,5 @@ namespace niyazialpay\WebAuthn\Attestation\Formats;
  */
 class None extends Format
 {
-
+    //
 }

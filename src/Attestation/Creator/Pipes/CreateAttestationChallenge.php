@@ -17,9 +17,6 @@ class CreateAttestationChallenge
 
     /**
      * Create a new pipe instance.
-     *
-     * @param  \Illuminate\Config\Repository  $config
-     * @param  \Illuminate\Contracts\Cache\Factory  $cache
      */
     public function __construct(protected Repository $config, protected Factory $cache)
     {
@@ -27,11 +24,9 @@ class CreateAttestationChallenge
     }
 
     /**
-     * Handle the Attestation creation
+     * Handle the Attestation creation.
      *
-     * @param  \niyazialpay\WebAuthn\Attestation\Creator\AttestationCreation  $attestable
-     * @param  \Closure  $next
-     * @return mixed
+     * @throws \Random\RandomException
      */
     public function handle(AttestationCreation $attestable, Closure $next): mixed
     {

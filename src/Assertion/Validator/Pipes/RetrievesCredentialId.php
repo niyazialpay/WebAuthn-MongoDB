@@ -6,6 +6,7 @@ use Closure;
 use niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation;
 use niyazialpay\WebAuthn\Exceptions\AssertionException;
 use niyazialpay\WebAuthn\Models\WebAuthnCredential;
+
 use function in_array;
 
 /**
@@ -16,16 +17,14 @@ class RetrievesCredentialId
     /**
      * Handle the incoming Assertion Validation.
      *
-     * @param AssertionValidation $validation
-     * @param Closure $next
-     * @return mixed
-     * @throws AssertionException
+     * @throws \niyazialpay\WebAuthn\Exceptions\AssertionException
      */
     public function handle(AssertionValidation $validation, Closure $next): mixed
     {
         $id = $validation->request->json('id');
 
-        // First, always check the challenge credentials before finding the real one.
+        // First, always check if the credential is on the list of accepted credentials IDs
+        // before going to the database to retrieve the complete credential in question.
         if ($this->credentialNotInChallenge($id, $validation->challenge->properties)) {
             throw AssertionException::make('Credential is not on accepted list.');
         }
@@ -33,7 +32,7 @@ class RetrievesCredentialId
         // We can now find the credential.
         $validation->credential = WebAuthnCredential::whereKey($id)->first();
 
-        if (!$validation->credential) {
+        if (! $validation->credential) {
             throw AssertionException::make('Credential ID does not exist.');
         }
 
@@ -46,10 +45,6 @@ class RetrievesCredentialId
 
     /**
      * Check if the previous Assertion request specified a credentials list to accept.
-     *
-     * @param  string  $id
-     * @param  array  $properties
-     * @return bool
      */
     protected function credentialNotInChallenge(string $id, array $properties): bool
     {

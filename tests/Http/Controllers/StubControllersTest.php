@@ -6,8 +6,8 @@ use niyazialpay\WebAuthn\Http\Requests\AssertedRequest;
 use niyazialpay\WebAuthn\Http\Requests\AssertionRequest;
 use niyazialpay\WebAuthn\Http\Requests\AttestationRequest;
 use niyazialpay\WebAuthn\Http\Requests\AttestedRequest;
+use niyazialpay\WebAuthn\Http\Routes;
 use niyazialpay\WebAuthn\JsonTransport;
-use niyazialpay\WebAuthn\WebAuthn;
 use Tests\Stubs\WebAuthnAuthenticatableUser;
 use Tests\TestCase;
 
@@ -15,7 +15,7 @@ class StubControllersTest extends TestCase
 {
     protected function defineWebRoutes($router): void
     {
-        WebAuthn::routes();
+        Routes::register();
     }
 
     public function test_uses_attestation_request(): void

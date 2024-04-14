@@ -1,15 +1,16 @@
 <?php
 
-namespace niyazialpay\WebAuthn;
+namespace Laragear\WebAuthn;
 
 use InvalidArgumentException;
 use niyazialpay\WebAuthn\Exceptions\DataException;
+
 use function is_int;
 use function is_string;
 use function sprintf;
 
 /**
- * MIT License
+ * MIT License.
  *
  * Copyright (c) 2018 Thomas Bleeker
  *
@@ -61,6 +62,7 @@ use function sprintf;
  *
  * @author Lukas Buchs
  * @author Thomas Bleeker
+ *
  * @internal
  */
 class CborDecoder
@@ -77,9 +79,7 @@ class CborDecoder
     /**
      * Decodes the binary data.
      *
-     * @param ByteBuffer|string  $encoded
-     * @return ByteBuffer|array|bool|float|int|string|null
-     * @throws DataException
+     * @throws \niyazialpay\WebAuthn\Exceptions\DataException
      */
     public static function decode(ByteBuffer|string $encoded): ByteBuffer|array|bool|float|int|string|null
     {
@@ -101,11 +101,7 @@ class CborDecoder
     /**
      * Decodes a portion of the Byte Buffer.
      *
-     * @param  ByteBuffer|string  $bufOrBin
-     * @param  int  $startOffset
-     * @param  int|null  $endOffset
-     * @return ByteBuffer|array|bool|float|int|string|null
-     * @throws DataException
+     * @throws \niyazialpay\WebAuthn\Exceptions\DataException
      */
     public static function decodePortion(ByteBuffer|string $bufOrBin, int $startOffset, ?int &$endOffset = null): ByteBuffer|array|bool|float|int|string|null
     {
@@ -121,10 +117,7 @@ class CborDecoder
     /**
      * Parses a single item of the Byte Buffer.
      *
-     * @param  ByteBuffer  $buf
-     * @param  int  $offset
-     * @return ByteBuffer|array|bool|float|int|string|null
-     * @throws DataException
+     * @throws \niyazialpay\WebAuthn\Exceptions\DataException
      */
     protected static function parseItem(ByteBuffer $buf, int &$offset): ByteBuffer|array|bool|float|int|string|null
     {
@@ -148,11 +141,7 @@ class CborDecoder
     /**
      * Parses a simple float value.
      *
-     * @param  int  $val
-     * @param ByteBuffer $buf
-     * @param  int  $offset
-     * @return bool|float|null
-     * @throws DataException
+     * @throws \niyazialpay\WebAuthn\Exceptions\DataException
      */
     protected static function parseFloatSimple(int $val, ByteBuffer $buf, int &$offset): bool|float|null
     {
@@ -160,18 +149,22 @@ class CborDecoder
             case 24:
                 $val = $buf->getByteVal($offset);
                 $offset++;
+
                 return static::parseSimpleValue($val);
             case 25:
                 $floatValue = $buf->getHalfFloatVal($offset);
                 $offset += 2;
+
                 return $floatValue;
             case 26:
                 $floatValue = $buf->getFloatVal($offset);
                 $offset += 4;
+
                 return $floatValue;
             case 27:
                 $floatValue = $buf->getDoubleVal($offset);
                 $offset += 8;
+
                 return $floatValue;
             case 28:
             case 29:
@@ -187,9 +180,7 @@ class CborDecoder
     /**
      * Parses a simple value from CBOR.
      *
-     * @param  int  $val
-     * @return bool|null
-     * @throws DataException
+     * @throws \niyazialpay\WebAuthn\Exceptions\DataException
      */
     protected static function parseSimpleValue(int $val): ?bool
     {
@@ -204,11 +195,7 @@ class CborDecoder
     /**
      * Parses the CBOR extra length.
      *
-     * @param  int  $val
-     * @param ByteBuffer $buf
-     * @param  int  $offset
-     * @return int
-     * @throws DataException
+     * @throws \niyazialpay\WebAuthn\Exceptions\DataException
      */
     protected static function parseExtraLength(int $val, ByteBuffer $buf, int &$offset): int
     {
@@ -216,18 +203,22 @@ class CborDecoder
             case 24:
                 $val = $buf->getByteVal($offset);
                 $offset++;
+
                 return $val;
             case 25:
                 $val = $buf->getUint16Val($offset);
                 $offset += 2;
+
                 return $val;
             case 26:
                 $val = $buf->getUint32Val($offset);
                 $offset += 4;
+
                 return $val;
             case 27:
                 $val = $buf->getUint64Val($offset);
                 $offset += 8;
+
                 return $val;
             case 28:
             case 29:
@@ -243,12 +234,7 @@ class CborDecoder
     /**
      * Parses the data inside a Byte Buffer.
      *
-     * @param  int  $type
-     * @param  int  $val
-     * @param ByteBuffer $buf
-     * @param $offset
-     * @return ByteBuffer|array|bool|float|int|string|null
-     * @throws DataException|InvalidArgumentException
+     * @throws \niyazialpay\WebAuthn\Exceptions\DataException|\InvalidArgumentException
      */
     protected static function parseItemData(
         int $type,
@@ -266,11 +252,13 @@ class CborDecoder
             case static::CBOR_MAJOR_BYTE_STRING:
                 $data = $buf->getBytes($offset, $val);
                 $offset += $val;
+
                 return new ByteBuffer($data); // bytes
 
             case static::CBOR_MAJOR_TEXT_STRING:
                 $data = $buf->getBytes($offset, $val);
                 $offset += $val;
+
                 return $data; // UTF-8
 
             case static::CBOR_MAJOR_ARRAY:
@@ -281,19 +269,15 @@ class CborDecoder
 
             case static::CBOR_MAJOR_TAG:
                 return static::parseItem($buf, $offset); // 1 embedded data item
-            default:
-                throw new DataException(sprintf('Unknown major type %d.', $type));
         }
+
+        throw new DataException(sprintf('Unknown major type %d.', $type));
     }
 
     /**
      * Parses an array with string keys.
      *
-     * @param ByteBuffer $buffer
-     * @param  int  $offset
-     * @param  int  $count
-     * @return array<string, mixed>
-     * @throws DataException
+     * @throws \niyazialpay\WebAuthn\Exceptions\DataException
      */
     protected static function parseMap(ByteBuffer $buffer, int &$offset, int $count): array
     {
@@ -303,7 +287,7 @@ class CborDecoder
             $mapKey = static::parseItem($buffer, $offset);
             $mapVal = static::parseItem($buffer, $offset);
 
-            if (!is_int($mapKey) && !is_string($mapKey)) {
+            if (! is_int($mapKey) && ! is_string($mapKey)) {
                 throw new DataException('Can only use strings or integers as map keys');
             }
 
@@ -316,11 +300,7 @@ class CborDecoder
     /**
      * Parses an array from the byte buffer.
      *
-     * @param ByteBuffer $buf
-     * @param  int  $offset
-     * @param  int  $count
-     * @return array
-     * @throws DataException
+     * @throws \niyazialpay\WebAuthn\Exceptions\DataException
      */
     protected static function parseArray(ByteBuffer $buf, int &$offset, int $count): array
     {

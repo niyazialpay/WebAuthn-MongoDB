@@ -5,9 +5,9 @@ namespace niyazialpay\WebAuthn\Assertion\Validator\Pipes;
 use Closure;
 use niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation;
 use niyazialpay\WebAuthn\Attestation\AuthenticatorData;
+use niyazialpay\WebAuthn\ByteBuffer;
 use niyazialpay\WebAuthn\Exceptions\AssertionException;
 use niyazialpay\WebAuthn\Exceptions\DataException;
-use function base64_decode;
 
 /**
  * @internal
@@ -17,16 +17,13 @@ class CompileAuthenticatorData
     /**
      * Handle the incoming Assertion Validation.
      *
-     * @param AssertionValidation $validation
-     * @param Closure $next
-     * @return mixed
-     * @throws AssertionException
+     * @throws \niyazialpay\WebAuthn\Exceptions\AssertionException
      */
     public function handle(AssertionValidation $validation, Closure $next): mixed
     {
-        $data = base64_decode($validation->request->json('response.authenticatorData', ''));
+        $data = ByteBuffer::decodeBase64Url($validation->request->json('response.authenticatorData', ''));
 
-        if (!$data) {
+        if (! $data) {
             throw AssertionException::make('Authenticator Data does not exist or is empty.');
         }
 

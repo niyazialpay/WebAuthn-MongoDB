@@ -13,8 +13,6 @@ class AddRelyingParty
 {
     /**
      * Create a new pipe instance.
-     *
-     * @param  \Illuminate\Config\Repository  $config
      */
     public function __construct(protected Repository $config)
     {
@@ -22,11 +20,7 @@ class AddRelyingParty
     }
 
     /**
-     * Handle the Attestation creation
-     *
-     * @param  \niyazialpay\WebAuthn\Attestation\Creator\AttestationCreation  $attestable
-     * @param  \Closure  $next
-     * @return mixed
+     * Handle the Attestation creation.
      */
     public function handle(AttestationCreation $attestable, Closure $next): mixed
     {

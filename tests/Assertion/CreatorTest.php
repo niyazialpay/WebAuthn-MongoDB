@@ -7,44 +7,51 @@ use Illuminate\Testing\TestResponse;
 use niyazialpay\WebAuthn\Assertion\Creator\AssertionCreation;
 use niyazialpay\WebAuthn\Assertion\Creator\AssertionCreator;
 use niyazialpay\WebAuthn\Challenge;
-use niyazialpay\WebAuthn\WebAuthn;
+use niyazialpay\WebAuthn\Enums\UserVerification;
 use Ramsey\Uuid\Uuid;
+use Tests\DatabaseTestCase;
 use Tests\Stubs\WebAuthnAuthenticatableUser;
-use Tests\TestCase;
+
 use function config;
 use function in_array;
 use function now;
 use function session;
 
-class CreatorTest extends TestCase
+class CreatorTest extends DatabaseTestCase
 {
     protected Request $request;
     protected WebAuthnAuthenticatableUser $user;
     protected AssertionCreation $creation;
     protected AssertionCreator $creator;
 
-    protected function setUp(): void
+    protected function defineDatabaseSeeders(): void
     {
-        parent::setUp();
-
-        $this->request = Request::create('https://test.app/webauthn/create', 'POST');
         $this->user = WebAuthnAuthenticatableUser::forceCreate([
             'name' => 'test',
             'email' => 'test@email.com',
             'password' => 'test_password',
         ]);
+    }
 
-        $this->creator = new AssertionCreator($this->app);
-        $this->creation = new AssertionCreation($this->request);
+    protected function setUp(): void
+    {
+        $this->afterApplicationCreated(function (): void {
+            $this->request = Request::create('https://test.app/webauthn/create', 'POST');
 
-        $this->startSession();
-        $this->request->setLaravelSession($this->app->make('session.store'));
+            $this->creator = new AssertionCreator($this->app);
+            $this->creation = new AssertionCreation($this->request);
+
+            $this->startSession();
+            $this->request->setLaravelSession($this->app->make('session.store'));
+        });
+
+        parent::setUp();
     }
 
     protected function response(): TestResponse
     {
         return $this->createTestResponse(
-            $this->creator->send($this->creation)->thenReturn()->json->toResponse($this->request)
+            $this->creator->send($this->creation)->thenReturn()->json->toResponse($this->request), null
         );
     }
 
@@ -70,7 +77,7 @@ class CreatorTest extends TestCase
             'id' => 'test_id',
             'user_id' => Uuid::NIL,
             'counter' => 0,
-            'rp_id' => 'http://localhost',
+            'rp_id' => 'localhost',
             'origin' => 'http://localhost:8000',
             'aaguid' => Uuid::NIL,
             'public_key' => 'test_key',
@@ -109,7 +116,7 @@ class CreatorTest extends TestCase
             'id' => 'test_id',
             'user_id' => Uuid::NIL,
             'counter' => 0,
-            'rp_id' => 'http://localhost',
+            'rp_id' => 'localhost',
             'origin' => 'http://localhost:8000',
             'aaguid' => Uuid::NIL,
             'public_key' => 'test_key',
@@ -121,8 +128,8 @@ class CreatorTest extends TestCase
                 'timeout' => 60000,
                 'challenge' => session('_webauthn')->data->toBase64Url(),
                 'allowCredentials' => [
-                    ['id' => 'test_id', 'type' => 'public-key']
-                ]
+                    ['id' => 'test_id', 'type' => 'public-key'],
+                ],
             ]);
     }
 
@@ -134,7 +141,7 @@ class CreatorTest extends TestCase
             'id' => 'test_id',
             'user_id' => Uuid::NIL,
             'counter' => 0,
-            'rp_id' => 'http://localhost',
+            'rp_id' => 'localhost',
             'origin' => 'http://localhost:8000',
             'aaguid' => Uuid::NIL,
             'public_key' => 'test_key',
@@ -151,7 +158,7 @@ class CreatorTest extends TestCase
 
     public function test_forces_user_verification(): void
     {
-        $this->creation->userVerification = WebAuthn::USER_VERIFICATION_REQUIRED;
+        $this->creation->userVerification = UserVerification::REQUIRED;
 
         $this->response()
             ->assertSessionHas('_webauthn', function (Challenge $challenge): bool {
@@ -160,7 +167,7 @@ class CreatorTest extends TestCase
             ->assertJson([
                 'timeout' => 60000,
                 'challenge' => session('_webauthn')->data->toBase64Url(),
-                'userVerification' => WebAuthn::USER_VERIFICATION_REQUIRED,
+                'userVerification' => UserVerification::REQUIRED->value,
             ]);
     }
 
@@ -172,7 +179,7 @@ class CreatorTest extends TestCase
             'id' => 'test_id',
             'user_id' => Uuid::NIL,
             'counter' => 0,
-            'rp_id' => 'http://localhost',
+            'rp_id' => 'localhost',
             'origin' => 'http://localhost:8000',
             'aaguid' => Uuid::NIL,
             'public_key' => 'test_key',

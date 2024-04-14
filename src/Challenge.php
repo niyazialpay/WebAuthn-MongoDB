@@ -1,22 +1,13 @@
 <?php
 
-namespace niyazialpay\WebAuthn;
+namespace Laragear\WebAuthn;
 
 use Illuminate\Support\Facades\Date;
-use Illuminate\Support\InteractsWithTime;
-use Random\RandomException;
 
 class Challenge
 {
-    use InteractsWithTime;
-
     /**
      * Create a new Challenge instance.
-     *
-     * @param ByteBuffer $data
-     * @param  int  $timeout
-     * @param  bool  $verify
-     * @param  array  $properties
      */
     final public function __construct(
         public ByteBuffer $data,
@@ -29,8 +20,6 @@ class Challenge
 
     /**
      * Check if the current challenge has expired in time and no longer valid.
-     *
-     * @return bool
      */
     public function hasExpired(): bool
     {
@@ -40,12 +29,7 @@ class Challenge
     /**
      * Creates a new Challenge instance using a random ByteBuffer of the given length.
      *
-     * @param int $length
-     * @param int $timeout
-     * @param bool $verify
-     * @param array $options
-     * @return static
-     * @throws RandomException
+     * @throws \Random\RandomException
      */
     public static function random(int $length, int $timeout, bool $verify = true, array $options = []): static
     {

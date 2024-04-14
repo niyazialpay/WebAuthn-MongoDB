@@ -12,9 +12,6 @@ class CredentialCreated
 
     /**
      * Create a new event instance.
-     *
-     * @param WebAuthnAuthenticatable $user
-     * @param WebAuthnCredential $credential
      */
     public function __construct(public WebAuthnAuthenticatable $user, public WebAuthnCredential $credential)
     {

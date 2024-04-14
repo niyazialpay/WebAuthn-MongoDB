@@ -11,8 +11,6 @@ class CredentialDisabled
 
     /**
      * Create a new event instance.
-     *
-     * @param WebAuthnCredential $credential
      */
     public function __construct(public WebAuthnCredential $credential)
     {

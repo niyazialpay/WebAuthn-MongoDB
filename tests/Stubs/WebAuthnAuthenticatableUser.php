@@ -2,8 +2,7 @@
 
 namespace Tests\Stubs;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use MongoDB\Laravel\Auth\User;
+use Illuminate\Foundation\Auth\User;
 use niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable;
 use niyazialpay\WebAuthn\WebAuthnAuthentication;
 
@@ -12,8 +11,7 @@ use niyazialpay\WebAuthn\WebAuthnAuthentication;
  */
 class WebAuthnAuthenticatableUser extends User implements WebAuthnAuthenticatable
 {
-    use HasFactory;
     use WebAuthnAuthentication;
 
-    protected $collection = 'users';
+    protected $table = 'users';
 }

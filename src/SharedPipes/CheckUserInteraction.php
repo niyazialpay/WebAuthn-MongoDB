@@ -5,8 +5,6 @@ namespace niyazialpay\WebAuthn\SharedPipes;
 use Closure;
 use niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation;
 use niyazialpay\WebAuthn\Attestation\Validator\AttestationValidation;
-use niyazialpay\WebAuthn\Exceptions\AssertionException;
-use niyazialpay\WebAuthn\Exceptions\AttestationException;
 
 /**
  * @internal
@@ -18,11 +16,8 @@ abstract class CheckUserInteraction
     /**
      * Handle the incoming WebAuthn Ceremony Validation.
      *
-     * @param AttestationValidation|AssertionValidation $validation
-     * @param Closure $next
-     * @return mixed
-     * @throws AssertionException
-     * @throws AttestationException
+     * @throws \niyazialpay\WebAuthn\Exceptions\AssertionException
+     * @throws \niyazialpay\WebAuthn\Exceptions\AttestationException
      */
     public function handle(AttestationValidation|AssertionValidation $validation, Closure $next): mixed
     {

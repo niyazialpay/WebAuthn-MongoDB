@@ -1,18 +1,19 @@
 <?php
 
-namespace niyazialpay\WebAuthn;
+namespace Laragear\WebAuthn;
 
 use Illuminate\Database\Eloquent\Collection;
-use MongoDB\Laravel\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Date;
-use JetBrains\PhpStorm\ArrayShape;
+use Illuminate\Support\Str;
 use niyazialpay\WebAuthn\Models\WebAuthnCredential;
+use Ramsey\Uuid\UuidInterface;
 
 /**
- * @property-read Collection<int, WebAuthnCredential> $webAuthnCredentials
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \niyazialpay\WebAuthn\Models\WebAuthnCredential> $webAuthnCredentials
  *
  * @see \niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable
- * @see WebAuthnCredential
+ * @see \niyazialpay\WebAuthn\Models\WebAuthnCredential
  */
 trait WebAuthnAuthentication
 {
@@ -21,7 +22,6 @@ trait WebAuthnAuthentication
      *
      * @return array{name: string, displayName: string}
      */
-    #[ArrayShape(['name' => "string", 'displayName' => "string"])]
     public function webAuthnData(): array
     {
         return [
@@ -31,10 +31,17 @@ trait WebAuthnAuthentication
     }
 
     /**
-     * Removes all credentials previously registered.
+     * An anonymized user identity string, as a UUID.
      *
-     * @param  string  ...$except
-     * @return void
+     * @see https://www.w3.org/TR/webauthn-2/#dom-publickeycredentialuserentity-id
+     */
+    public function webAuthnId(): UuidInterface
+    {
+        return Str::uuid();
+    }
+
+    /**
+     * Removes all credentials previously registered.
      */
     public function flushCredentials(string ...$except): void
     {
@@ -53,9 +60,6 @@ trait WebAuthnAuthentication
 
     /**
      * Disables all credentials for the user.
-     *
-     * @param  string  ...$except
-     * @return void
      */
     public function disableAllCredentials(string ...$except): void
     {
@@ -74,9 +78,6 @@ trait WebAuthnAuthentication
 
     /**
      * Makes an instance of a WebAuthn Credential attached to this user.
-     *
-     * @param  array  $properties
-     * @return WebAuthnCredential
      */
     public function makeWebAuthnCredential(array $properties): Models\WebAuthnCredential
     {
@@ -86,7 +87,9 @@ trait WebAuthnAuthentication
     /**
      * Returns a queryable relationship for its WebAuthn Credentials.
      *
-     * @return \MongoDB\Laravel\Relations\MorphMany&WebAuthnCredential
+     * @phpstan-ignore-next-line
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany|\niyazialpay\WebAuthn\Models\WebAuthnCredential
      */
     public function webAuthnCredentials(): MorphMany
     {

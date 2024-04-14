@@ -4,7 +4,8 @@ namespace niyazialpay\WebAuthn\Attestation\Creator\Pipes;
 
 use Closure;
 use niyazialpay\WebAuthn\Attestation\Creator\AttestationCreation;
-use niyazialpay\WebAuthn\WebAuthn;
+use niyazialpay\WebAuthn\Enums\ResidentKey;
+use niyazialpay\WebAuthn\Enums\UserVerification;
 
 /**
  * @internal
@@ -12,26 +13,21 @@ use niyazialpay\WebAuthn\WebAuthn;
 class SetResidentKeyConfiguration
 {
     /**
-     * Handle the Attestation creation
-     *
-     * @param  \niyazialpay\WebAuthn\Attestation\Creator\AttestationCreation  $attestable
-     * @param  \Closure  $next
-     * @return mixed
+     * Handle the Attestation creation.
      */
     public function handle(AttestationCreation $attestable, Closure $next): mixed
     {
         if ($attestable->residentKey) {
-            $attestable->json->set('authenticatorSelection.residentKey', $attestable->residentKey);
+            $attestable->json->set('authenticatorSelection.residentKey', $attestable->residentKey->value);
 
-            $verifiesUser = $attestable->residentKey === WebAuthn::RESIDENT_KEY_REQUIRED;
+            $verifiesUser = $attestable->residentKey === ResidentKey::REQUIRED;
 
             $attestable->json->set('authenticatorSelection.requireResidentKey', $verifiesUser);
 
             if ($verifiesUser) {
-                $attestable->userVerification = WebAuthn::USER_VERIFICATION_REQUIRED;
+                $attestable->userVerification = UserVerification::REQUIRED;
             }
         }
-
 
         return $next($attestable);
     }

@@ -7,7 +7,7 @@ use Illuminate\Pipeline\Pipeline;
 /**
  * @see https://www.w3.org/TR/webauthn-2/#sctn-registering-a-new-credential
  *
- * @method AttestationValidation thenReturn()
+ * @method \niyazialpay\WebAuthn\Attestation\Validator\AttestationValidation thenReturn()
  */
 class AttestationValidator extends Pipeline
 {

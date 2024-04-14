@@ -18,10 +18,7 @@ class AttestationIsForCreation
     /**
      * Handle the incoming Attestation Validation.
      *
-     * @param AttestationValidation $validation
-     * @param Closure $next
-     * @return mixed
-     * @throws AttestationException
+     * @throws \niyazialpay\WebAuthn\Exceptions\AttestationException
      */
     public function handle(AttestationValidation $validation, Closure $next): mixed
     {

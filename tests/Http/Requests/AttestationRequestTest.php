@@ -9,14 +9,15 @@ use niyazialpay\WebAuthn\Challenge;
 use niyazialpay\WebAuthn\Http\Requests\AttestationRequest;
 use niyazialpay\WebAuthn\Models\WebAuthnCredential;
 use Ramsey\Uuid\Uuid;
+use Tests\DatabaseTestCase;
 use Tests\FakeAuthenticator;
 use Tests\Stubs\WebAuthnAuthenticatableUser;
-use Tests\TestCase;
+
 use function config;
 
-class AttestationRequestTest extends TestCase
+class AttestationRequestTest extends DatabaseTestCase
 {
-    protected function afterRefreshingDatabase(): void
+    protected function defineDatabaseSeeders(): void
     {
         $this->be(
             WebAuthnAuthenticatableUser::forceCreate([
@@ -120,7 +121,7 @@ class AttestationRequestTest extends TestCase
                 'authenticatorSelection' => [
                     'residentKey' => 'required',
                     'requireResidentKey' => true,
-                    'userVerification' => 'required'
+                    'userVerification' => 'required',
                 ],
             ]);
     }
@@ -137,7 +138,7 @@ class AttestationRequestTest extends TestCase
             'authenticatable_id' => 1,
             'user_id' => 'e8af6f703f8042aa91c30cf72289aa07',
             'counter' => 0,
-            'rp_id' => 'http://localhost',
+            'rp_id' => 'localhost',
             'origin' => 'http://localhost',
             'aaguid' => Uuid::NIL,
             'attestation_format' => 'none',

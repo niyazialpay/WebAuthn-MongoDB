@@ -6,7 +6,6 @@ use Closure;
 use Illuminate\Contracts\Config\Repository;
 use niyazialpay\WebAuthn\Assertion\Creator\AssertionCreation;
 use niyazialpay\WebAuthn\Attestation\SessionChallenge;
-use Random\RandomException;
 
 class CreateAssertionChallenge
 {
@@ -14,8 +13,6 @@ class CreateAssertionChallenge
 
     /**
      * Create a new pipe instance.
-     *
-     * @param Repository $config
      */
     public function __construct(protected Repository $config)
     {
@@ -25,10 +22,7 @@ class CreateAssertionChallenge
     /**
      * Handle the incoming Assertion.
      *
-     * @param AssertionCreation $assertion
-     * @param Closure $next
-     * @return mixed
-     * @throws RandomException
+     * @throws \Random\RandomException
      */
     public function handle(AssertionCreation $assertion, Closure $next): mixed
     {

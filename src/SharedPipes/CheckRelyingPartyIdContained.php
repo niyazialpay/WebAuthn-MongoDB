@@ -7,10 +7,10 @@ use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Str;
 use niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation;
 use niyazialpay\WebAuthn\Attestation\Validator\AttestationValidation;
-use niyazialpay\WebAuthn\Exceptions\AssertionException;
-use niyazialpay\WebAuthn\Exceptions\AttestationException;
+
 use function hash_equals;
 use function parse_url;
+
 use const PHP_URL_HOST;
 
 /**
@@ -22,8 +22,6 @@ abstract class CheckRelyingPartyIdContained
 
     /**
      * Create a new pipe instance.
-     *
-     * @param Repository $config
      */
     public function __construct(protected Repository $config)
     {
@@ -33,23 +31,21 @@ abstract class CheckRelyingPartyIdContained
     /**
      * Handle the incoming WebAuthn Ceremony Validation.
      *
-     * @param AttestationValidation|AssertionValidation $validation
-     * @param Closure $next
-     * @return mixed
-     * @throws AssertionException
-     * @throws AttestationException
+     * @throws \niyazialpay\WebAuthn\Exceptions\AssertionException
+     * @throws \niyazialpay\WebAuthn\Exceptions\AttestationException
      */
     public function handle(AttestationValidation|AssertionValidation $validation, Closure $next): mixed
     {
-        if (!$host = parse_url($validation->clientDataJson->origin, PHP_URL_HOST)) {
+        if (! $host = parse_url($validation->clientDataJson->origin, PHP_URL_HOST)) {
             static::throw($validation, 'Relying Party ID is invalid.');
         }
 
-        $current = parse_url(
-            $this->config->get('webauthn.relying_party.id') ?? $this->config->get('app.url'), PHP_URL_HOST
-        );
+        // Get the current Relying Party ID for this server request. If is not set,
+        // fall back to extract the domain name from the application default URL.
+        $current = $this->config->get('webauthn.relying_party.id')
+            ?? parse_url($this->config->get('app.url'), PHP_URL_HOST);
 
-        // Check the host is the same or is a subdomain of the current config domain.
+        // Check the host is the same or is a subdomain of the current domain.
         if (hash_equals($current, $host) || Str::is("*.$current", $host)) {
             return $next($validation);
         }

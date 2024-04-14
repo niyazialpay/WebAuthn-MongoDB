@@ -4,7 +4,6 @@ namespace niyazialpay\WebAuthn\Attestation\Validator\Pipes;
 
 use Closure;
 use Illuminate\Http\Request;
-use JetBrains\PhpStorm\ArrayShape;
 use niyazialpay\WebAuthn\Attestation\AttestationObject;
 use niyazialpay\WebAuthn\Attestation\AuthenticatorData;
 use niyazialpay\WebAuthn\Attestation\Formats\None;
@@ -13,7 +12,7 @@ use niyazialpay\WebAuthn\ByteBuffer;
 use niyazialpay\WebAuthn\CborDecoder;
 use niyazialpay\WebAuthn\Exceptions\AttestationException;
 use niyazialpay\WebAuthn\Exceptions\DataException;
-use function base64_decode;
+
 use function is_array;
 use function is_string;
 
@@ -34,18 +33,15 @@ class CompileAttestationObject
     /**
      * Handle the incoming Attestation Validation.
      *
-     * @param AttestationValidation $validation
-     * @param Closure $next
-     * @return mixed
-     * @throws AttestationException
+     * @throws \niyazialpay\WebAuthn\Exceptions\AttestationException
      */
     public function handle(AttestationValidation $validation, Closure $next): mixed
     {
         $data = $this->decodeCborBase64($validation->request);
 
-        // Here we would receive the attestation formats and decode them. Since we're
-        // only support the universal "none" we can just check if it's equal or not.
-        // Later we may support multiple authenticator formats through a PHP match.
+        // Here we would receive the attestation formats and decode them. Since we are only
+        // supporting the universal "none" format, we can just check if it's equal or not.
+        // Who knows if later we may support multiple formats through a simple PHP match.
         if ($data['fmt'] !== 'none') {
             throw AttestationException::make("Format name [{$data['fmt']}] is invalid.");
         }
@@ -66,32 +62,31 @@ class CompileAttestationObject
     /**
      * Returns an array map from a BASE64 encoded CBOR string.
      *
-     * @param Request $request
-     * @return array
-     * @throws AttestationException
+     * @return array{fmt: string, attStmt: array, authData: \niyazialpay\WebAuthn\ByteBuffer}
+     *
+     * @throws \niyazialpay\WebAuthn\Exceptions\AttestationException
      */
-    #[ArrayShape(["fmt" => "string", "attStmt" => "array", "authData" => ByteBuffer::class])]
     protected function decodeCborBase64(Request $request): array
     {
         try {
-            $data = CborDecoder::decode(base64_decode($request->json('response.attestationObject', '')));
+            $data = CborDecoder::decode(ByteBuffer::decodeBase64Url($request->json('response.attestationObject', '')));
         } catch (DataException $e) {
             throw AttestationException::make($e->getMessage());
         }
 
-        if (!is_array($data)) {
+        if (! is_array($data)) {
             throw AttestationException::make('CBOR Object is anything but an array.');
         }
 
-        if (!isset($data['fmt']) || !is_string($data['fmt'])) {
+        if (! isset($data['fmt']) || ! is_string($data['fmt'])) {
             throw AttestationException::make('Format is missing or invalid.');
         }
 
-        if (!isset($data['attStmt']) || !is_array($data['attStmt'])) {
+        if (! isset($data['attStmt']) || ! is_array($data['attStmt'])) {
             throw AttestationException::make('Statement is missing or invalid.');
         }
 
-        if (!isset($data['authData']) || !$data['authData'] instanceof ByteBuffer) {
+        if (! isset($data['authData']) || ! $data['authData'] instanceof ByteBuffer) {
             throw AttestationException::make('Authenticator Data is missing or invalid.');
         }
 

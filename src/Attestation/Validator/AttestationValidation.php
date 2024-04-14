@@ -12,14 +12,7 @@ use niyazialpay\WebAuthn\Models\WebAuthnCredential;
 class AttestationValidation
 {
     /**
-     * Create a new Attestation Validation procedure
-     *
-     * @param WebAuthnAuthenticatable $user
-     * @param Request $request
-     * @param Challenge|null  $challenge
-     * @param AttestationObject|null  $attestationObject
-     * @param ClientDataJson|null  $clientDataJson
-     * @param WebAuthnCredential|null  $credential
+     * Create a new Attestation Validation procedure.
      */
     public function __construct(
         public WebAuthnAuthenticatable $user,
@@ -28,8 +21,7 @@ class AttestationValidation
         public ?AttestationObject $attestationObject = null,
         public ?ClientDataJson $clientDataJson = null,
         public ?WebAuthnCredential $credential = null,
-    )
-    {
+    ) {
         //
     }
 }
