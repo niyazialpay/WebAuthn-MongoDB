@@ -79,7 +79,7 @@ class CborDecoder
     /**
      * Decodes the binary data.
      *
-     * @throws \niyazialpay\WebAuthn\Exceptions\DataException
+     * @throws DataException
      */
     public static function decode(ByteBuffer|string $encoded): ByteBuffer|array|bool|float|int|string|null
     {
@@ -101,7 +101,7 @@ class CborDecoder
     /**
      * Decodes a portion of the Byte Buffer.
      *
-     * @throws \niyazialpay\WebAuthn\Exceptions\DataException
+     * @throws DataException
      */
     public static function decodePortion(ByteBuffer|string $bufOrBin, int $startOffset, ?int &$endOffset = null): ByteBuffer|array|bool|float|int|string|null
     {
@@ -117,7 +117,7 @@ class CborDecoder
     /**
      * Parses a single item of the Byte Buffer.
      *
-     * @throws \niyazialpay\WebAuthn\Exceptions\DataException
+     * @throws DataException
      */
     protected static function parseItem(ByteBuffer $buf, int &$offset): ByteBuffer|array|bool|float|int|string|null
     {
@@ -141,7 +141,7 @@ class CborDecoder
     /**
      * Parses a simple float value.
      *
-     * @throws \niyazialpay\WebAuthn\Exceptions\DataException
+     * @throws DataException
      */
     protected static function parseFloatSimple(int $val, ByteBuffer $buf, int &$offset): bool|float|null
     {
@@ -180,7 +180,7 @@ class CborDecoder
     /**
      * Parses a simple value from CBOR.
      *
-     * @throws \niyazialpay\WebAuthn\Exceptions\DataException
+     * @throws DataException
      */
     protected static function parseSimpleValue(int $val): ?bool
     {
@@ -195,7 +195,7 @@ class CborDecoder
     /**
      * Parses the CBOR extra length.
      *
-     * @throws \niyazialpay\WebAuthn\Exceptions\DataException
+     * @throws DataException
      */
     protected static function parseExtraLength(int $val, ByteBuffer $buf, int &$offset): int
     {
@@ -234,7 +234,7 @@ class CborDecoder
     /**
      * Parses the data inside a Byte Buffer.
      *
-     * @throws \niyazialpay\WebAuthn\Exceptions\DataException|\InvalidArgumentException
+     * @throws DataException|InvalidArgumentException
      */
     protected static function parseItemData(
         int $type,
@@ -277,7 +277,7 @@ class CborDecoder
     /**
      * Parses an array with string keys.
      *
-     * @throws \niyazialpay\WebAuthn\Exceptions\DataException
+     * @throws DataException
      */
     protected static function parseMap(ByteBuffer $buffer, int &$offset, int $count): array
     {
@@ -300,7 +300,7 @@ class CborDecoder
     /**
      * Parses an array from the byte buffer.
      *
-     * @throws \niyazialpay\WebAuthn\Exceptions\DataException
+     * @throws DataException
      */
     protected static function parseArray(ByteBuffer $buf, int &$offset, int $count): array
     {

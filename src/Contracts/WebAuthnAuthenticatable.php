@@ -2,7 +2,8 @@
 
 namespace niyazialpay\WebAuthn\Contracts;
 
-use Illuminate\Database\Eloquent\Relations\MorphMany;
+
+use MongoDB\Laravel\Relations\MorphMany;
 use niyazialpay\WebAuthn\Models\WebAuthnCredential;
 use Ramsey\Uuid\UuidInterface;
 
@@ -42,7 +43,7 @@ interface WebAuthnAuthenticatable
      *
      * @phpstan-ignore-next-line
      *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany|\niyazialpay\WebAuthn\Models\WebAuthnCredential
+     * @return MorphMany
      */
     public function webAuthnCredentials(): MorphMany;
 }

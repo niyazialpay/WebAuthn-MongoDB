@@ -7,6 +7,8 @@ use Illuminate\Contracts\Config\Repository;
 use niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation;
 use niyazialpay\WebAuthn\Attestation\AuthenticatorData;
 use niyazialpay\WebAuthn\Attestation\Validator\AttestationValidation;
+use niyazialpay\WebAuthn\Exceptions\AssertionException;
+use niyazialpay\WebAuthn\Exceptions\AttestationException;
 
 /**
  * @internal
@@ -26,8 +28,8 @@ abstract class CheckRelyingPartyHashSame
     /**
      * Handle the incoming WebAuthn Ceremony Validation.
      *
-     * @throws \niyazialpay\WebAuthn\Exceptions\AssertionException
-     * @throws \niyazialpay\WebAuthn\Exceptions\AttestationException
+     * @throws AssertionException
+     * @throws AttestationException
      */
     public function handle(AttestationValidation|AssertionValidation $validation, Closure $next): mixed
     {

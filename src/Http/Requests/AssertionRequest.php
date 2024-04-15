@@ -2,6 +2,7 @@
 
 namespace niyazialpay\WebAuthn\Http\Requests;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Foundation\Http\FormRequest;
 use InvalidArgumentException;
@@ -86,7 +87,7 @@ class AssertionRequest extends FormRequest
     /**
      * Creates an assertion challenge for a user if found.
      *
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @throws BindingResolutionException
      */
     public function toVerify(WebAuthnAuthenticatable|string|int|array|null $credentials = []): Responsable
     {
@@ -103,7 +104,7 @@ class AssertionRequest extends FormRequest
     /**
      * Try to find a user to create an assertion procedure.
      *
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @throws BindingResolutionException
      */
     protected function findUser(WebAuthnAuthenticatable|array|int|string|null $credentials): ?WebAuthnAuthenticatable
     {

@@ -2,18 +2,19 @@
 
 namespace niyazialpay\WebAuthn;
 
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
+
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Str;
+use MongoDB\Laravel\Collection;
+use MongoDB\Laravel\Relations\MorphMany;
 use niyazialpay\WebAuthn\Models\WebAuthnCredential;
 use Ramsey\Uuid\UuidInterface;
 
 /**
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \niyazialpay\WebAuthn\Models\WebAuthnCredential> $webAuthnCredentials
+ * @property-read Collection<int, WebAuthnCredential> $webAuthnCredentials
  *
  * @see \niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable
- * @see \niyazialpay\WebAuthn\Models\WebAuthnCredential
+ * @see WebAuthnCredential
  */
 trait WebAuthnAuthentication
 {
@@ -89,7 +90,7 @@ trait WebAuthnAuthentication
      *
      * @phpstan-ignore-next-line
      *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany|\niyazialpay\WebAuthn\Models\WebAuthnCredential
+     * @return MorphMany
      */
     public function webAuthnCredentials(): MorphMany
     {

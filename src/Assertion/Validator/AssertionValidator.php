@@ -5,7 +5,7 @@ namespace niyazialpay\WebAuthn\Assertion\Validator;
 use Illuminate\Pipeline\Pipeline;
 
 /**
- * @method \niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation thenReturn()
+ * @method AssertionValidation thenReturn()
  */
 class AssertionValidator extends Pipeline
 {

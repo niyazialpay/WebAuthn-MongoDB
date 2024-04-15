@@ -2,6 +2,7 @@
 
 namespace niyazialpay\WebAuthn\Http\Requests;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Foundation\Http\FormRequest;
 use niyazialpay\WebAuthn\Attestation\Validator\AttestationValidation;
 use niyazialpay\WebAuthn\Attestation\Validator\AttestationValidator;
@@ -12,7 +13,7 @@ use niyazialpay\WebAuthn\Models\WebAuthnCredential;
 use function is_callable;
 
 /**
- * @method \niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable user($guard = null)
+ * @method WebAuthnAuthenticatable user($guard = null)
  */
 class AttestedRequest extends FormRequest
 {
@@ -49,7 +50,7 @@ class AttestedRequest extends FormRequest
     /**
      * Handle a passed validation attempt.
      *
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @throws BindingResolutionException
      */
     protected function passedValidation(): void
     {

@@ -5,6 +5,7 @@ namespace niyazialpay\WebAuthn\Attestation;
 use Illuminate\Http\Request;
 use niyazialpay\WebAuthn\Challenge;
 use niyazialpay\WebAuthn\Enums\UserVerification;
+use Random\RandomException;
 
 trait SessionChallenge
 {
@@ -13,7 +14,7 @@ trait SessionChallenge
      *
      * @param  array{credentials?: string[]}|array{user_uuid: string, user_handle: string}  $options
      *
-     * @throws \Random\RandomException
+     * @throws RandomException
      */
     protected function storeChallenge(Request $request, ?UserVerification $verify, array $options = []): Challenge
     {
@@ -29,7 +30,7 @@ trait SessionChallenge
      *
      * @param  array{credentials?: string[]}|array{user_uuid: string, user_handle: string}  $options
      *
-     * @throws \Random\RandomException
+     * @throws RandomException
      */
     protected function createChallenge(?UserVerification $verify, array $options = []): Challenge
     {

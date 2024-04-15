@@ -5,6 +5,8 @@ namespace niyazialpay\WebAuthn\SharedPipes;
 use Closure;
 use niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation;
 use niyazialpay\WebAuthn\Attestation\Validator\AttestationValidation;
+use niyazialpay\WebAuthn\Exceptions\AssertionException;
+use niyazialpay\WebAuthn\Exceptions\AttestationException;
 
 /**
  * @internal
@@ -16,8 +18,8 @@ abstract class CheckChallengeSame
     /**
      * Handle the incoming WebAuthn Ceremony Validation.
      *
-     * @throws \niyazialpay\WebAuthn\Exceptions\AssertionException
-     * @throws \niyazialpay\WebAuthn\Exceptions\AttestationException
+     * @throws AssertionException
+     * @throws AttestationException
      */
     public function handle(AttestationValidation|AssertionValidation $validation, Closure $next): mixed
     {

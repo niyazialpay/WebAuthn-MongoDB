@@ -2,7 +2,7 @@
 
 namespace Tests\Console;
 
-use Illuminate\Support\Collection;
+use MongoDB\Laravel\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use SplFileInfo;

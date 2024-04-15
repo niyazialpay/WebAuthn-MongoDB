@@ -17,7 +17,7 @@ class CompileAuthenticatorData
     /**
      * Handle the incoming Assertion Validation.
      *
-     * @throws \niyazialpay\WebAuthn\Exceptions\AssertionException
+     * @throws AssertionException
      */
     public function handle(AssertionValidation $validation, Closure $next): mixed
     {

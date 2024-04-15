@@ -9,6 +9,8 @@ use niyazialpay\WebAuthn\Attestation\Validator\AttestationValidation;
 use niyazialpay\WebAuthn\ByteBuffer;
 use niyazialpay\WebAuthn\ClientDataJson;
 
+use niyazialpay\WebAuthn\Exceptions\AssertionException;
+use niyazialpay\WebAuthn\Exceptions\AttestationException;
 use function json_decode;
 
 use const JSON_THROW_ON_ERROR;
@@ -23,8 +25,8 @@ abstract class CompileClientDataJson
     /**
      * Handle the incoming WebAuthn Ceremony Validation.
      *
-     * @throws \niyazialpay\WebAuthn\Exceptions\AttestationException
-     * @throws \niyazialpay\WebAuthn\Exceptions\AssertionException
+     * @throws AttestationException
+     * @throws AssertionException
      */
     public function handle(AssertionValidation|AttestationValidation $validation, Closure $next): mixed
     {

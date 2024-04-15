@@ -118,7 +118,7 @@ Add the `WebAuthnAuthenticatable` contract and the `WebAuthnAuthentication` trai
 
 namespace App;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use MongoDB\Laravel\Auth\User as Authenticatable;
 use niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable;
 use niyazialpay\WebAuthn\WebAuthnAuthentication;
 

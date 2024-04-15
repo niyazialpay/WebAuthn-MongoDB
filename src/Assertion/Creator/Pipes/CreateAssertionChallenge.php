@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Contracts\Config\Repository;
 use niyazialpay\WebAuthn\Assertion\Creator\AssertionCreation;
 use niyazialpay\WebAuthn\Attestation\SessionChallenge;
+use Random\RandomException;
 
 class CreateAssertionChallenge
 {
@@ -22,7 +23,7 @@ class CreateAssertionChallenge
     /**
      * Handle the incoming Assertion.
      *
-     * @throws \Random\RandomException
+     * @throws RandomException
      */
     public function handle(AssertionCreation $assertion, Closure $next): mixed
     {

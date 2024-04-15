@@ -39,9 +39,9 @@ class WebAuthnUserProvider extends EloquentUserProvider
     /**
      * Retrieve a user by the given credentials.
      *
-     * @return \Illuminate\Contracts\Auth\Authenticatable|null
+     * @return UserContract|null
      */
-    public function retrieveByCredentials(array $credentials)
+    public function retrieveByCredentials(array $credentials): ?UserContract
     {
         // If the user is WebAuthnAuthenticatable and the credentials are a signed Assertion
         // Challenge response, we wil find the user that has this Credential ID. Otherwise,
@@ -80,7 +80,7 @@ class WebAuthnUserProvider extends EloquentUserProvider
     /**
      * Validate a user against the given credentials.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable|\niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable  $user
+     * @param UserContract|WebAuthnAuthenticatable $user
      */
     public function validateCredentials($user, array $credentials): bool
     {

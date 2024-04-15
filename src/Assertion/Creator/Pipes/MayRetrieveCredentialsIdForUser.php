@@ -3,8 +3,8 @@
 namespace niyazialpay\WebAuthn\Assertion\Creator\Pipes;
 
 use Closure;
-use Illuminate\Database\Eloquent\Collection as EloquentCollection;
-use Illuminate\Support\Collection;
+use MongoDB\Laravel\Collection as EloquentCollection;
+use MongoDB\Laravel\Collection;
 use niyazialpay\WebAuthn\Assertion\Creator\AssertionCreation;
 use niyazialpay\WebAuthn\Models\WebAuthnCredential;
 
@@ -32,8 +32,8 @@ class MayRetrieveCredentialsIdForUser
     /**
      * Adapt all credentials into an `allowCredentials` digestible array.
      *
-     * @param  \Illuminate\Database\Eloquent\Collection<int, \niyazialpay\WebAuthn\Models\WebAuthnCredential>  $credentials
-     * @return \Illuminate\Support\Collection<int, array{id?: mixed, type: string, transports?: non-empty-array<int, string>}>
+     * @param EloquentCollection $credentials
+     * @return Collection<int, array{id?: mixed, type: string, transports?: non-empty-array<int, string>}>
      */
     protected function parseCredentials(EloquentCollection $credentials): Collection
     {

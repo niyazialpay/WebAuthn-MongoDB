@@ -14,8 +14,8 @@ class WebAuthnRegisterController
     /**
      * Returns a challenge to be verified by the user device.
      *
-     * @param  \niyazialpay\WebAuthn\Http\Requests\AttestationRequest  $request
-     * @return \Illuminate\Contracts\Support\Responsable
+     * @param AttestationRequest $request
+     * @return Responsable
      */
     public function options(AttestationRequest $request): Responsable
     {
@@ -29,8 +29,8 @@ class WebAuthnRegisterController
     /**
      * Registers a device for further WebAuthn authentication.
      *
-     * @param  \niyazialpay\WebAuthn\Http\Requests\AttestedRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param AttestedRequest $request
+     * @return Response
      */
     public function register(AttestedRequest $request): Response
     {

@@ -11,7 +11,7 @@ use niyazialpay\WebAuthn\Enums\ResidentKey;
 use niyazialpay\WebAuthn\Enums\UserVerification;
 
 /**
- * @method \niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable user($guard = null)
+ * @method WebAuthnAuthenticatable user($guard = null)
  */
 class AttestationRequest extends FormRequest
 {

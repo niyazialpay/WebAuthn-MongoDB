@@ -45,7 +45,7 @@ abstract class RetrieveChallenge
      */
     protected function retrieveChallenge(Request $request): ?Challenge
     {
-        /** @var \niyazialpay\WebAuthn\Challenge|null $challenge */
+        /** @var Challenge|null $challenge */
         $challenge = $request->session()->pull($this->config->get('webauthn.challenge.key'));
 
         if (! $challenge || $challenge->hasExpired()) {

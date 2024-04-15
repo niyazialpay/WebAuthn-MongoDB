@@ -2,10 +2,15 @@
 
 namespace niyazialpay\WebAuthn\Models;
 
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\LazyCollection;
+use MongoDB\Laravel\Collection;
+use MongoDB\Laravel\Eloquent\Builder;
 use MongoDB\Laravel\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Laragear\MetaModel\CustomizableModel;
+use MongoDB\Laravel\Relations\MorphTo;
+use niyazialpay\WebAuthn\ByteBuffer;
+use niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable;
 use niyazialpay\WebAuthn\Events\CredentialDisabled;
 use niyazialpay\WebAuthn\Events\CredentialEnabled;
 use niyazialpay\WebAuthn\Migrations\WebAuthnAuthenticationMigration;
@@ -15,10 +20,10 @@ use function parse_url;
 use const PHP_URL_HOST;
 
 /**
- * @mixin \Illuminate\Database\Eloquent\Builder
+ * @mixin Builder
  *
- * @method \Illuminate\Database\Eloquent\Builder|\static newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\static query()
+ * @method Builder|\static newQuery()
+ * @method static Builder|\static query()
  * @method static \static make(array $attributes = [])
  * @method static \static create(array $attributes = [])
  * @method static \static forceCreate(array $attributes)
@@ -33,14 +38,14 @@ use const PHP_URL_HOST;
  * @method \static createOrFirst(array $attributes, array $values = [])
  * @method \static sole($columns = ['*'])
  * @method \static findOrNew($id, $columns = ['*'])
- * @method \Illuminate\Database\Eloquent\Collection<int, \static>|\static[]|\static|null find($id, $columns = ['*'])
- * @method \Illuminate\Database\Eloquent\Collection<int, \static>|\static[]|\static findOrFail($id, $columns = ['*'])
- * @method \Illuminate\Database\Eloquent\Collection<int, \static>|\static[]|\static findOr($id, $columns = ['*'], \Closure $callback = null)
- * @method \Illuminate\Database\Eloquent\Collection<int, \static>|\static[] findMany($id, $columns = ['*'])
- * @method \Illuminate\Database\Eloquent\Collection<int, \static>|\static[] fromQuery($query, $bindings = [])
- * @method \Illuminate\Support\LazyCollection<int, \static>|\static[] lazy(int $chunkSize = 1000)
- * @method \Illuminate\Support\LazyCollection<int, \static>|\static[] lazyById(int $chunkSize = 1000, string|null $column = null, string|null $alias = null)
- * @method \Illuminate\Support\LazyCollection<int, \static>|\static[] lazyByIdDesc(int $chunkSize = 1000, string|null $column = null, string|null $alias = null)
+ * @method Collection<int, \static>|\static[]|\static|null find($id, $columns = ['*'])
+ * @method Collection<int, \static>|\static[]|\static findOrFail($id, $columns = ['*'])
+ * @method Collection<int, \static>|\static[]|\static findOr($id, $columns = ['*'], \Closure $callback = null)
+ * @method Collection<int, \static>|\static[] findMany($id, $columns = ['*'])
+ * @method Collection<int, \static>|\static[] fromQuery($query, $bindings = [])
+ * @method LazyCollection<int, \static>|\static[] lazy(int $chunkSize = 1000)
+ * @method LazyCollection<int, \static>|\static[] lazyById(int $chunkSize = 1000, string|null $column = null, string|null $alias = null)
+ * @method LazyCollection<int, \static>|\static[] lazyByIdDesc(int $chunkSize = 1000, string|null $column = null, string|null $alias = null)
  *
  * @property-read string $id
  * @property-read string $user_id
@@ -53,18 +58,20 @@ use const PHP_URL_HOST;
  * @property-read string $public_key
  * @property-read string $attestation_format
  * @property-read array<int, string> $certificates
- * @property-read \Illuminate\Support\Carbon|null $disabled_at
- * @property-read \niyazialpay\WebAuthn\ByteBuffer $binary_id
- * @property-read \Illuminate\Support\Carbon $updated_at
- * @property-read \Illuminate\Support\Carbon $created_at
- * @property-read \niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable $authenticatable
+ * @property-read Carbon|null $disabled_at
+ * @property-read ByteBuffer $binary_id
+ * @property-read Carbon $updated_at
+ * @property-read Carbon $created_at
+ * @property-read WebAuthnAuthenticatable $authenticatable
  *
- * @method \Illuminate\Database\Eloquent\Builder|\static whereEnabled()
- * @method \Illuminate\Database\Eloquent\Builder|\static whereDisabled()
+ * @method Builder|\static whereEnabled()
+ * @method Builder|\static whereDisabled()
  */
 class WebAuthnCredential extends Model
 {
     use CustomizableModel;
+
+    protected $collection = 'webauthn_credentials';
 
     /**
      * The "type" of the primary key ID.
@@ -103,7 +110,7 @@ class WebAuthnCredential extends Model
     /**
      * @phpstan-ignore-next-line
      *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphTo|\niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable
+     * @return MorphTo
      */
     public function authenticatable(): MorphTo
     {

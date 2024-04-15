@@ -2,8 +2,10 @@
 
 namespace niyazialpay\WebAuthn\Assertion\Creator;
 
-use Illuminate\Database\Eloquent\Collection;
+
 use Illuminate\Http\Request;
+
+use MongoDB\Laravel\Collection;
 use niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable;
 use niyazialpay\WebAuthn\Enums\UserVerification;
 use niyazialpay\WebAuthn\JsonTransport;
