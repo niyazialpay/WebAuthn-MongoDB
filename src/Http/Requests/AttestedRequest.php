@@ -74,6 +74,6 @@ class AttestedRequest extends FormRequest
 
         CredentialCreated::dispatch($this->user(), $this->credential);
 
-        return $this->credential->getKey();
+        return $this->credential->_id;
     }
 }
