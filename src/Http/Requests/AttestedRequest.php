@@ -66,7 +66,7 @@ class AttestedRequest extends FormRequest
      *
      * @param  array<string, mixed>|callable  $saving
      */
-    public function save(array|callable $saving = []): string
+    public function save(array|callable $saving = []): mixed
     {
         is_callable($saving) ? $saving($this->credential) : $this->credential->forceFill($saving);
 
@@ -74,6 +74,6 @@ class AttestedRequest extends FormRequest
 
         CredentialCreated::dispatch($this->user(), $this->credential);
 
-        return $this->credential->_id;
+        return $this->credential->getKey();
     }
 }
