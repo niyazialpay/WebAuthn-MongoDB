@@ -43,10 +43,11 @@ class MakeWebAuthnCredential
             'rp_id' => $this->config->get('webauthn.relying_party.id') ?? parse_url($this->config->get('app.url'), PHP_URL_HOST),
             'origin' => $validation->clientDataJson->origin,
             'transports' => $validation->request->json('response.transports'),
-            'aaguid' => Uuid::fromBytes($validation->attestationObject->authenticatorData->attestedCredentialData->aaguid),
+            'aaguid' => Uuid::fromBytes($validation->attestationObject->authenticatorData->attestedCredentialData->aaguid)->toString(),
 
             'public_key' => $this->getPublicKeyAsPem($validation),
             'attestation_format' => $validation->attestationObject->formatName,
+            'disabled_at' => null,
         ]);
 
         return $next($validation);

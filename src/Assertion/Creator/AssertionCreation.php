@@ -5,7 +5,7 @@ namespace niyazialpay\WebAuthn\Assertion\Creator;
 
 use Illuminate\Http\Request;
 
-use MongoDB\Laravel\Collection;
+use Illuminate\Support\Collection;
 use niyazialpay\WebAuthn\Contracts\WebAuthnAuthenticatable;
 use niyazialpay\WebAuthn\Enums\UserVerification;
 use niyazialpay\WebAuthn\JsonTransport;
