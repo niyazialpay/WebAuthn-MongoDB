@@ -3,7 +3,7 @@
 namespace niyazialpay\WebAuthn;
 
 use Illuminate\Auth\AuthManager;
-use MongoDB\Laravel\Auth\User as AuthenticatableContract;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;

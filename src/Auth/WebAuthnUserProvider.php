@@ -4,7 +4,7 @@ namespace niyazialpay\WebAuthn\Auth;
 
 use Illuminate\Auth\EloquentUserProvider;
 use Illuminate\Contracts\Auth\Authenticatable as UserContract;
-use Illuminate\Contracts\Database\Eloquent\Builder;
+use MongoDB\Laravel\Eloquent\Builder;
 use Illuminate\Contracts\Hashing\Hasher as HasherContract;
 use niyazialpay\WebAuthn\Assertion\Validator\AssertionValidation;
 use niyazialpay\WebAuthn\Assertion\Validator\AssertionValidator;
