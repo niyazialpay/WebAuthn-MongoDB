@@ -39,6 +39,7 @@ class WebAuthnUserProvider extends EloquentUserProvider
     /**
      * Retrieve a user by the given credentials.
      *
+     * @param array $credentials
      * @return UserContract|null
      */
     public function retrieveByCredentials(array $credentials): ?UserContract
